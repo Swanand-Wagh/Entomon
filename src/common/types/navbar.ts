@@ -1,7 +1,7 @@
 export interface NavbarOption {
   name: string;
   url: string;
-  description: string;
+  description?: string;
 }
 
 export interface NavbarProps {
