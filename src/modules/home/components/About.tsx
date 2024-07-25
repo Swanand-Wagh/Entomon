@@ -8,7 +8,7 @@ export const About = () => {
           width="550"
           height="310"
           alt="Invertebrates"
-          src="/placeholder.svg"
+          src="https://bijlmakers.com/wp-content/uploads/2018/10/potato-beetle-2766872_1920-700x554.jpg"
           className="mx-auto aspect-video overflow-hidden rounded-xl object-cover object-center sm:w-full"
         />
 

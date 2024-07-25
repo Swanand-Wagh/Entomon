@@ -7,21 +7,21 @@ export const UPCOMING_EVENTS = [
     title: 'Invertebrate Biodiversity Conference',
     description:
       'Join us for a two-day conference exploring the latest research and trends in invertebrate biodiversity.',
-    image: '/placeholder.svg',
+    image: 'https://bijlmakers.com/wp-content/uploads/2018/10/potato-beetle-2766872_1920-700x554.jpg',
     link: '#',
   },
   {
     id: 2,
     title: 'Entomology Workshop',
     description: 'Explore the fascinating world of insects through our hands-on entomology workshop.',
-    image: '/placeholder.svg',
+    image: 'https://bijlmakers.com/wp-content/uploads/2018/10/potato-beetle-2766872_1920-700x554.jpg',
     link: '#',
   },
   {
     id: 3,
     title: 'Marine Biology Symposium',
     description: 'Join us for a symposium on the latest advancements in marine invertebrate research.',
-    image: '/placeholder.svg',
+    image: 'https://bijlmakers.com/wp-content/uploads/2018/10/potato-beetle-2766872_1920-700x554.jpg',
     link: '#',
   },
 ];
