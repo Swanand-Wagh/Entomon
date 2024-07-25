@@ -3,16 +3,16 @@ import Link from 'next/link';
 import { BugIcon } from './BugIcon';
 
 export const FOOTER_LINKS = [
-  { href: '/about', label: 'About' },
-  { href: '/events', label: 'Events' },
-  { href: '/resources', label: 'Resources' },
-  { href: '/contact', label: 'Contact' },
+  { id: 1, href: '/about', label: 'About' },
+  { id: 2, href: '/events', label: 'Events' },
+  { id: 3, href: '/resources', label: 'Resources' },
+  { id: 4, href: '/contact', label: 'Contact' },
 ];
 
 export const SOCIAL_LINKS = [
-  { href: '#', icon: <TwitterLogoIcon className="w-5 h-5" /> },
-  { href: '#', icon: <InstagramLogoIcon className="w-5 h-5" /> },
-  { href: '#', icon: <LinkedInLogoIcon className="w-5 h-5" /> },
+  { id: 1, href: '#', icon: <TwitterLogoIcon className="w-5 h-5" /> },
+  { id: 2, href: '#', icon: <InstagramLogoIcon className="w-5 h-5" /> },
+  { id: 3, href: '#', icon: <LinkedInLogoIcon className="w-5 h-5" /> },
 ];
 
 export const Footer = () => (
@@ -21,8 +21,8 @@ export const Footer = () => (
       <div className="flex items-center gap-4">
         <BugIcon className="w-6 h-6 text-primary" />
         <nav className="flex gap-4 sm:gap-6">
-          {FOOTER_LINKS.map(({ href, label }) => (
-            <Link key={href} href={href} className="text-sm hover:underline underline-offset-4" prefetch={false}>
+          {FOOTER_LINKS.map(({ id, href, label }) => (
+            <Link key={id} href={href} className="text-sm hover:underline underline-offset-4" prefetch={false}>
               {label}
             </Link>
           ))}
@@ -30,8 +30,8 @@ export const Footer = () => (
       </div>
 
       <div className="flex gap-4">
-        {SOCIAL_LINKS.map(({ href, icon }) => (
-          <Link key={href} href={href} className="text-muted-foreground hover:text-foreground" prefetch={false}>
+        {SOCIAL_LINKS.map(({ id, href, icon }) => (
+          <Link key={id} href={href} className="text-muted-foreground hover:text-foreground" prefetch={false}>
             {icon}
           </Link>
         ))}
