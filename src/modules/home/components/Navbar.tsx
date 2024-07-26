@@ -14,8 +14,9 @@ import {
   DropdownMenuTrigger,
 } from '@/common/components/ui/dropdown-menu';
 import { Button } from '@/common/components/ui/button';
-import { Sheet, SheetContent, SheetTrigger } from '@/common/components/ui/sheet';
+import { Sheet, SheetContent, SheetDescription, SheetTitle, SheetTrigger } from '@/common/components/ui/sheet';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/common/components/ui/collapsible';
+import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
 
 const DropdownLink = ({ url, name, description }: NavbarOption) => (
   <Link
@@ -91,6 +92,13 @@ export const Navbar = () => {
           </SheetTrigger>
 
           <SheetContent side="left" className="bg-background">
+            <SheetTitle>
+              <VisuallyHidden.Root>Menu</VisuallyHidden.Root>
+            </SheetTitle>
+            <SheetDescription>
+              <VisuallyHidden.Root>Mobile Menu</VisuallyHidden.Root>
+            </SheetDescription>
+
             <div className="flex h-full flex-col justify-between">
               <nav className="grid gap-4 px-4 py-6">
                 {NAVBAR.map((item) =>
