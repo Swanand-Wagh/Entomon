@@ -7,7 +7,7 @@ import { Button } from '@/common/components/ui/button';
 import { Input } from '@/common/components/ui/input';
 import { Label } from '@/common/components/ui/label';
 
-export const SignupForm = () => {
+export const RegisterForm = () => {
   return (
     <div className="flex items-center justify-center py-12">
       <div className="mx-auto grid w-[350px] gap-6">
@@ -43,9 +43,10 @@ export const SignupForm = () => {
             Sign up with Google
           </Button>
         </div>
+
         <div className="mt-4 text-center text-sm">
           Already have an account?{' '}
-          <Link href="#" className="underline">
+          <Link href="/login" className="underline">
             Sign in
           </Link>
         </div>

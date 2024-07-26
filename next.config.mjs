@@ -3,7 +3,13 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   images: {
-    domains: ['bijlmakers.com'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'bijlmakers.com',
+        port: '',
+      },
+    ],
   },
 };
 

@@ -1,3 +1,4 @@
-import { Auth } from './components/Auth';
+import { LoginForm } from './components/LoginForm';
+import { RegisterForm } from './components/RegisterForm';
 
-export default Auth;
+export { LoginForm, RegisterForm };

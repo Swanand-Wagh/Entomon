@@ -1,13 +1,9 @@
 import Image from 'next/image';
 
-import { LoginForm } from './LoginForm';
-import { SignupForm } from './SignupForm';
-
-export const Auth = () => {
+export default function AuthLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="w-full lg:grid lg:min-h-[600px] lg:grid-cols-2 xl:min-h-[800px]">
-      <SignupForm />
-      {/* <LoginForm /> */}
+      {children}
 
       <div className="hidden bg-muted lg:block">
         <Image
@@ -20,4 +16,4 @@ export const Auth = () => {
       </div>
     </div>
   );
-};
+}
