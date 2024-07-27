@@ -1,11 +1,11 @@
 import React from 'react';
 
-import { LoginForm } from '@/modules/auth';
+import { Login } from '@/modules/auth';
 
 const LoginPage = () => {
   return (
     <>
-      <LoginForm />
+      <Login />
     </>
   );
 };

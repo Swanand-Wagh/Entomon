@@ -1,11 +1,11 @@
 import React from 'react';
 
-import { RegisterForm } from '@/modules/auth';
+import { Register } from '@/modules/auth';
 
 const RegisterPage = () => {
   return (
     <>
-      <RegisterForm />
+      <Register />
     </>
   );
 };

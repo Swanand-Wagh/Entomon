@@ -1,4 +1,4 @@
-import { LoginForm } from './components/LoginForm';
-import { RegisterForm } from './components/RegisterForm';
+import { Login } from './components/Login';
+import { Register } from './components/Register';
 
-export { LoginForm, RegisterForm };
+export { Login, Register };
