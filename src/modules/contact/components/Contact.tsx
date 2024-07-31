@@ -18,11 +18,11 @@ export const Contact = () => {
         <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-8">
           <div>
             <Image
-              src="https://bijlmakers.com/wp-content/uploads/2018/10/potato-beetle-2766872_1920-700x554.jpg"
-              alt="Contact Us"
               width={600}
               height={400}
+              alt="Contact Us"
               className="rounded-lg shadow-lg"
+              src="https://bijlmakers.com/wp-content/uploads/2018/10/potato-beetle-2766872_1920-700x554.jpg"
             />
           </div>
 
