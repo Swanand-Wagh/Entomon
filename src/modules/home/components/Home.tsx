@@ -17,7 +17,6 @@ export const Home = () => {
       <Services />
       <UpcomingEvents />
       <Newsletter />
-      <Footer />
     </>
   );
 };

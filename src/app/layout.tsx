@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 
 import { Plus_Jakarta_Sans } from 'next/font/google';
 import '@/common/styles/globals.css';
+import { Footer } from '@/modules/home/components/Footer';
 
 const plus_jakarta_sans = Plus_Jakarta_Sans({ subsets: ['latin'], preload: true });
 
@@ -19,6 +20,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={plus_jakarta_sans.className} suppressHydrationWarning={true}>
         {children}
+        <Footer />
       </body>
     </html>
   );
