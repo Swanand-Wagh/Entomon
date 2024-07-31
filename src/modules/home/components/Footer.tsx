@@ -1,4 +1,4 @@
-import { InstagramLogoIcon, LinkedInLogoIcon, TwitterLogoIcon } from '@radix-ui/react-icons';
+import { InstagramLogoIcon, LinkedInLogoIcon, EnvelopeClosedIcon } from '@radix-ui/react-icons';
 import Link from 'next/link';
 import { BugIcon } from './BugIcon';
 
@@ -10,9 +10,9 @@ export const FOOTER_LINKS = [
 ];
 
 export const SOCIAL_LINKS = [
-  { id: 1, href: '#', icon: <TwitterLogoIcon className="w-5 h-5" /> },
+  { id: 1, href: 'mailto:entomoninstitute@gmail.com', icon: <EnvelopeClosedIcon className="w-5 h-5" /> },
   { id: 2, href: '#', icon: <InstagramLogoIcon className="w-5 h-5" /> },
-  { id: 3, href: '#', icon: <LinkedInLogoIcon className="w-5 h-5" /> },
+  { id: 3, href: 'https://www.linkedin.com/company/entomon-institute', icon: <LinkedInLogoIcon className="w-5 h-5" /> },
 ];
 
 export const Footer = () => (
@@ -22,7 +22,13 @@ export const Footer = () => (
         <BugIcon className="w-6 h-6 text-primary" />
         <nav className="flex gap-4 sm:gap-6">
           {FOOTER_LINKS.map(({ id, href, label }) => (
-            <Link key={id} href={href} className="text-sm hover:underline underline-offset-4" prefetch={false}>
+            <Link
+              key={id}
+              href={href}
+              prefetch={false}
+              rel="noopener noreferrer"
+              className="text-sm hover:underline underline-offset-4"
+            >
               {label}
             </Link>
           ))}
@@ -31,7 +37,14 @@ export const Footer = () => (
 
       <div className="flex gap-4">
         {SOCIAL_LINKS.map(({ id, href, icon }) => (
-          <Link key={id} href={href} className="text-muted-foreground hover:text-foreground" prefetch={false}>
+          <Link
+            key={id}
+            href={href}
+            target="_blank"
+            prefetch={false}
+            rel="noopener noreferrer"
+            className="text-muted-foreground hover:text-foreground"
+          >
             {icon}
           </Link>
         ))}

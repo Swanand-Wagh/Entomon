@@ -17,10 +17,9 @@ export const About = () => {
             About Entomon Institute of <br /> Invertebrates Zoology
           </h2>
           <p className="text-muted-foreground">
-            The Entomon Institute of Invertebrates Zoology is a leading research and educational institution dedicated
-            to the study of invertebrate organisms. Established in 1985, the institute has been at the forefront of
-            invertebrate research, offering cutting-edge programs and fostering a deep appreciation for the diverse and
-            fascinating world of invertebrates.
+            At Entomon Institute, we believe that the key to a profound understanding of the natural world lies in
+            immersive experiences. Our zoology excursions and documentary screenings are carefully curated to inspire
+            students, foster a love for wildlife, and provide unparalleled learning opportunities.
           </p>
           <p className="text-muted-foreground">
             Our mission is to advance the understanding of invertebrate biology, ecology, and evolution through rigorous
