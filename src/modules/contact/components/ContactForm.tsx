@@ -33,7 +33,7 @@ export function ContactForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
         <FormField
           name="name"
           control={form.control}
@@ -90,6 +90,7 @@ export function ContactForm() {
               <FormControl>
                 <Textarea
                   {...field}
+                  rows={4}
                   placeholder="Your message"
                   className={fieldState.invalid ? 'border-red-500' : ''}
                 />
@@ -98,7 +99,7 @@ export function ContactForm() {
           )}
         />
 
-        <Button type="submit" className="w-full bg-black text-white hover:bg-gray-800">
+        <Button type="submit" className="w-full bg-black text-white hover:bg-gray-800 ">
           Send Message
         </Button>
       </form>
