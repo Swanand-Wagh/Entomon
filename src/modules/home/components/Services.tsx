@@ -1,4 +1,4 @@
-import { ArchiveIcon, BackpackIcon, CalendarIcon } from '@radix-ui/react-icons';
+import { Icon } from '@/common/constants/icons';
 
 export const SERVICES = [
   {
@@ -6,28 +6,28 @@ export const SERVICES = [
     title: 'Excursions that Transcend the Classroom',
     description:
       'Embark on a journey beyond textbooks as our expert-led excursions take you into the heart of nature. Witness fascinating ecosystems, observe wildlife in their natural habitats, and gain insights that go far beyond traditional classroom learning.',
-    Icon: ArchiveIcon,
+    icon: 'calendar',
   },
   {
     id: 2,
     title: 'Connecting Students with Leading Scientists and Industry Experts',
     description:
       'We understand the importance of mentorship in shaping budding minds. At Entomon Institute, we bridge the gap between students and experts. Our excursions provide unique networking opportunities, allowing students to interact with and learn from seasoned scientists and industry professionals.',
-    Icon: BackpackIcon,
+    icon: 'calendar',
   },
   {
     id: 3,
     title: 'Guiding Masters Students to Success',
     description:
       "Elevate your academic journey with our comprehensive guidance for Masters students. Whether you're navigating the world of dissertations, crafting project proposals, or delving into the realm of scientific writing, we're here to support you every step of the way.",
-    Icon: CalendarIcon,
+    icon: 'calendar',
   },
   {
     id: 4,
     title: 'Dissertations, Project Proposals, Articles, and Blogs',
     description:
       'Our team of experienced mentors will assist you in honing your writing skills. From structuring your dissertation to crafting compelling articles and blogs, we provide the guidance needed to excel in the world of scientific communication.',
-    Icon: CalendarIcon,
+    icon: 'calendar',
   },
 ];
 
@@ -42,9 +42,9 @@ export const Services = () => (
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6">
-        {SERVICES.map(({ id, title, description, Icon }) => (
+        {SERVICES.map(({ id, title, description, icon }) => (
           <div key={id} className="bg-background rounded-lg p-6 shadow-sm">
-            <Icon className="w-8 h-8 text-primary" />
+            <Icon name={icon} className="w-8 h-8 text-primary" />
             <h3 className="mt-4 text-lg font-semibold">{title}</h3>
             <p className="mt-2 text-muted-foreground">{description}</p>
           </div>

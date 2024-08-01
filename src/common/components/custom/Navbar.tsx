@@ -5,7 +5,7 @@ import { BugIcon } from './BugIcon';
 import { SearchInput } from './SearchInput';
 import { NAVBAR } from '@/common/constants/navbar';
 import { NavbarOption } from '@/common/types/navbar';
-import { ChevronDownIcon, HamburgerMenuIcon } from '@radix-ui/react-icons';
+import { Icon } from '@/common/constants/icons';
 
 import {
   DropdownMenu,
@@ -65,7 +65,7 @@ export const Navbar = () => {
                 <DropdownMenuTrigger asChild>
                   <div className="flex items-center gap-1 text-sm font-medium transition-colors hover:text-primary cursor-pointer">
                     {item.name}
-                    <ChevronDownIcon className="h-4 w-4 transition-all" />
+                    <Icon name="chevronDown" className="w-4 h-4 transition-all" />
                   </div>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="start">
@@ -86,7 +86,7 @@ export const Navbar = () => {
         <Sheet>
           <SheetTrigger asChild>
             <Button variant="outline" size="icon" className="lg:hidden">
-              <HamburgerMenuIcon className="h-6 w-6" />
+              <Icon name="hamburger" className="w-6 h-6" />
               <span className="sr-only">Toggle navigation menu</span>
             </Button>
           </SheetTrigger>
@@ -115,7 +115,7 @@ export const Navbar = () => {
                     <Collapsible key={item.name} className="grid gap-2">
                       <CollapsibleTrigger className="flex items-center justify-between text-lg font-medium [&[data-state=open]>svg]:rotate-90">
                         {item.name}
-                        <ChevronDownIcon className="h-5 w-5 transition-all" />
+                        <Icon name="chevronDown" className="w-4 h-4 transition-all" />
                       </CollapsibleTrigger>
                       <CollapsibleContent>
                         <div className="-mx-4 grid gap-2 bg-muted p-4">

@@ -1,6 +1,6 @@
-import { InstagramLogoIcon, LinkedInLogoIcon, EnvelopeClosedIcon } from '@radix-ui/react-icons';
 import Link from 'next/link';
 import { BugIcon } from './BugIcon';
+import { Icon } from '@/common/constants/icons';
 
 export const FOOTER_LINKS = [
   { id: 1, href: '/about', label: 'About' },
@@ -10,9 +10,13 @@ export const FOOTER_LINKS = [
 ];
 
 export const SOCIAL_LINKS = [
-  { id: 1, href: 'mailto:entomoninstitute@gmail.com', icon: <EnvelopeClosedIcon className="w-5 h-5" /> },
-  { id: 2, href: '#', icon: <InstagramLogoIcon className="w-5 h-5" /> },
-  { id: 3, href: 'https://www.linkedin.com/company/entomon-institute', icon: <LinkedInLogoIcon className="w-5 h-5" /> },
+  { id: 1, href: 'mailto:entomoninstitute@gmail.com', icon: <Icon name="gmail" className="w-5 h-5" /> },
+  { id: 2, href: '#', icon: <Icon name="facebook" className="w-5 h-5" /> },
+  {
+    id: 3,
+    href: 'https://www.linkedin.com/company/entomon-institute',
+    icon: <Icon name="linkedin" className="w-5 h-5" />,
+  },
 ];
 
 export const Footer = () => (
