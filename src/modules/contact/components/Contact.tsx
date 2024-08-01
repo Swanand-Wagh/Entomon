@@ -1,28 +1,28 @@
 import React from 'react';
-import Image from 'next/image';
-
 import { ContactForm } from './ContactForm';
 
 export const Contact = () => {
   return (
     <div className="min-h-screen bg-gray-100 p-4">
-      <div className="container mx-auto py-12 px-4 sm:px-6 lg:px-8">
-        <div className="text-center">
-          <h1 className="text-4xl font-bold text-gray-800">Contact Us</h1>
-          <p className="mt-4 text-lg text-gray-600">
-            Wed love to hear from you! Whether you have a question about features, trials, pricing, need a demo, or
-            anything else, our team is ready to answer all your questions.
+      <div className="container py-12 px-4 sm:px-6 lg:px-8">
+        <div className="mb-12">
+          <h1 className="text-5xl font-extrabold text-gray-800">Get in Touch</h1>
+          <p className="mt-6 text-lg text-gray-600 max-w-2xl">
+            We&apos;re here to help! Whether you have questions about our services, pricing, or anything else, feel free
+            to reach out. Our team is ready to assist you.
           </p>
         </div>
 
-        <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div>
-            <Image
-              width={600}
-              height={400}
-              alt="Contact Us"
-              className="rounded-lg shadow-lg"
-              src="https://bijlmakers.com/wp-content/uploads/2018/10/potato-beetle-2766872_1920-700x554.jpg"
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="rounded-lg shadow-lg overflow-hidden">
+            <iframe
+              width="100%"
+              tabIndex={0}
+              height="100%"
+              allowFullScreen
+              aria-hidden="false"
+              style={{ border: 0 }}
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.363215481274!2d-122.42200398468276!3d37.778521179757224!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8085808c9f8d2b37%3A0x4d132fa733d8b31a!2sThe%20Innovation%20Hangar!5e0!3m2!1sen!2sus!4v1618259724149!5m2!1sen!2sus"
             />
           </div>
 
