@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-export const UPCOMING_EVENTS = [
+export const EVENTS = [
   {
     id: 1,
     title: 'Invertebrate Biodiversity Conference',
@@ -26,18 +26,18 @@ export const UPCOMING_EVENTS = [
   },
 ];
 
-export const UpcomingEvents = () => (
+export const Events = () => (
   <section className="w-full py-12 md:py-24 lg:py-32">
     <div className="container px-4 md:px-6 space-y-8">
       <div className="text-center space-y-4">
-        <h2 className="text-3xl font-bold tracking-tight">Upcoming Events</h2>
+        <h2 className="text-3xl font-bold tracking-tight">Past Events</h2>
         <p className="max-w-xl mx-auto text-muted-foreground">
           Stay up-to-date with our upcoming events, workshops, and conferences.
         </p>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {UPCOMING_EVENTS.map(({ id, title, description, image, link }) => (
+        {EVENTS.map(({ id, title, description, image, link }) => (
           <div key={id} className="bg-background rounded-lg p-6 shadow-sm">
             <Image
               src={image}
