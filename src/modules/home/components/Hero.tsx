@@ -8,7 +8,7 @@ export const Hero = () => {
           <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl">
             Discover the Wonders of the Invertebrate World
           </h1>
-          <p className="text-lg  md:text-xl">
+          <p className="text-lg md:text-xl">
             Explore the fascinating diversity of insects, arachnids, and other invertebrates at the Entomon Institute.
           </p>
           <div className="flex flex-col gap-2 sm:flex-row">

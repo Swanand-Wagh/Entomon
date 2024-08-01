@@ -28,17 +28,17 @@ export const EVENTS = [
 
 export const Events = () => (
   <section className="w-full py-12 md:py-24 lg:py-32">
-    <div className="container px-4 md:px-6 space-y-8">
-      <div className="text-center space-y-4">
+    <div className="container space-y-8 px-4 md:px-6">
+      <div className="space-y-4 text-center">
         <h2 className="text-3xl font-bold tracking-tight">Past Events</h2>
-        <p className="max-w-xl mx-auto text-muted-foreground">
+        <p className="mx-auto max-w-xl text-muted-foreground">
           Stay up-to-date with our upcoming events, workshops, and conferences.
         </p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {EVENTS.map(({ id, title, description, image, link }) => (
-          <div key={id} className="bg-background rounded-lg p-6 shadow-sm">
+          <div key={id} className="rounded-lg bg-background p-6 shadow-sm">
             <Image
               src={image}
               alt={title}

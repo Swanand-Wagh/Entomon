@@ -4,17 +4,17 @@ import { ContactForm } from './ContactForm';
 export const Contact = () => {
   return (
     <div className="min-h-screen bg-gray-100 p-4">
-      <div className="container py-12 px-4 sm:px-6 lg:px-8">
+      <div className="container px-4 py-12 sm:px-6 lg:px-8">
         <div className="mb-12">
           <h1 className="text-5xl font-extrabold text-gray-800">Get in Touch</h1>
-          <p className="mt-6 text-lg text-gray-600 max-w-2xl">
+          <p className="mt-6 max-w-2xl text-lg text-gray-600">
             We&apos;re here to help! Whether you have questions about our services, pricing, or anything else, feel free
             to reach out. Our team is ready to assist you.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div className="rounded-lg shadow-lg overflow-hidden">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+          <div className="overflow-hidden rounded-lg shadow-lg">
             <iframe
               width="100%"
               tabIndex={0}
@@ -26,7 +26,7 @@ export const Contact = () => {
             />
           </div>
 
-          <div className="bg-white p-8 rounded-lg shadow-lg">
+          <div className="rounded-lg bg-white p-8 shadow-lg">
             <ContactForm />
           </div>
         </div>

@@ -63,9 +63,9 @@ export const Navbar = () => {
             ) : item.type === 'Dropdown' ? (
               <DropdownMenu key={item.name}>
                 <DropdownMenuTrigger asChild>
-                  <div className="flex items-center gap-1 text-sm font-medium transition-colors hover:text-primary cursor-pointer">
+                  <div className="flex cursor-pointer items-center gap-1 text-sm font-medium transition-colors hover:text-primary">
                     {item.name}
-                    <Icon name="chevronDown" className="w-4 h-4 transition-all" />
+                    <Icon name="chevronDown" className="h-4 w-4 transition-all" />
                   </div>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="start">
@@ -86,7 +86,7 @@ export const Navbar = () => {
         <Sheet>
           <SheetTrigger asChild>
             <Button variant="outline" size="icon" className="lg:hidden">
-              <Icon name="hamburger" className="w-6 h-6" />
+              <Icon name="hamburger" className="h-6 w-6" />
               <span className="sr-only">Toggle navigation menu</span>
             </Button>
           </SheetTrigger>
@@ -115,7 +115,7 @@ export const Navbar = () => {
                     <Collapsible key={item.name} className="grid gap-2">
                       <CollapsibleTrigger className="flex items-center justify-between text-lg font-medium [&[data-state=open]>svg]:rotate-90">
                         {item.name}
-                        <Icon name="chevronDown" className="w-4 h-4 transition-all" />
+                        <Icon name="chevronDown" className="h-4 w-4 transition-all" />
                       </CollapsibleTrigger>
                       <CollapsibleContent>
                         <div className="-mx-4 grid gap-2 bg-muted p-4">

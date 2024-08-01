@@ -110,7 +110,7 @@ export function RegisterForm() {
           Create an account
         </Button>
         <Button variant="outline" className="w-full">
-          <Icon name="google" className="w-5 h-5 mr-3" />
+          <Icon name="google" className="mr-3 h-5 w-5" />
           Sign up with Google
         </Button>
       </form>

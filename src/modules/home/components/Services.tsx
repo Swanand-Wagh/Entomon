@@ -33,18 +33,18 @@ export const SERVICES = [
 
 export const Services = () => (
   <section className="w-full bg-muted py-12 md:py-24 lg:py-32">
-    <div className="container px-4 md:px-6 space-y-8">
-      <div className="text-center space-y-4">
+    <div className="container space-y-8 px-4 md:px-6">
+      <div className="space-y-4 text-center">
         <h2 className="text-3xl font-bold tracking-tight">What We Offer</h2>
-        <p className="max-w-xl mx-auto text-muted-foreground">
+        <p className="mx-auto max-w-xl text-muted-foreground">
           Explore our diverse range of programs, courses, and research opportunities at the Entomon Institute.
         </p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-2">
         {SERVICES.map(({ id, title, description, icon }) => (
-          <div key={id} className="bg-background rounded-lg p-6 shadow-sm">
-            <Icon name={icon} className="w-8 h-8 text-primary" />
+          <div key={id} className="rounded-lg bg-background p-6 shadow-sm">
+            <Icon name={icon} className="h-8 w-8 text-primary" />
             <h3 className="mt-4 text-lg font-semibold">{title}</h3>
             <p className="mt-2 text-muted-foreground">{description}</p>
           </div>

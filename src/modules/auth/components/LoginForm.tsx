@@ -58,7 +58,7 @@ export function LoginForm() {
             <FormItem>
               <div className="flex items-center">
                 <FormLabel>Password</FormLabel>
-                <Link href="/forgot-password" className="ml-auto inline-block text-sm underline">
+                <Link href="/forgot-password" className="m-0 ml-auto inline-block text-sm underline">
                   Forgot your password?
                 </Link>
               </div>
@@ -74,7 +74,7 @@ export function LoginForm() {
           Login
         </Button>
         <Button variant="outline" className="w-full">
-          <Icon name="google" className="w-5 h-5 mr-3" /> Login with Google
+          <Icon name="google" className="mr-3 h-5 w-5" /> Login with Google
         </Button>
       </form>
     </Form>
