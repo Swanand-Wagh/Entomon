@@ -1,7 +1,7 @@
 import React from 'react';
 import { SiGmail, SiLinkedin } from 'react-icons/si';
 import { FaFacebookSquare } from 'react-icons/fa';
-import { IoMenu, IoChevronDown, IoSearch, IoCalendar } from 'react-icons/io5';
+import { IoMenu, IoChevronDown, IoSearch, IoCalendar, IoLogoGoogle } from 'react-icons/io5';
 
 interface IconProps {
   name: string;
@@ -16,6 +16,7 @@ const ICONS: Record<string, React.ComponentType<{ className?: string }>> = {
   chevronDown: IoChevronDown,
   search: IoSearch,
   calendar: IoCalendar,
+  google: IoLogoGoogle,
 };
 
 export const Icon: React.FC<IconProps> = ({ name, className }) => {
