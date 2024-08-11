@@ -3,12 +3,12 @@
 import React from 'react';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
-import { Icon } from '@/common/constants/icons';
 import { registerSchema } from '@/common/schemas';
 import { zodResolver } from '@hookform/resolvers/zod';
 
-import { Button } from '@/common/components/ui/button';
+import { GoogleButton } from './GoogleButton';
 import { Input } from '@/common/components/ui/input';
+import { Button } from '@/common/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/common/components/ui/form';
 
 export function RegisterForm() {
@@ -85,7 +85,12 @@ export function RegisterForm() {
             <FormItem>
               <FormLabel>Password</FormLabel>
               <FormControl>
-                <Input type="password" {...field} className={fieldState.invalid ? 'border-red-500' : ''} />
+                <Input
+                  {...field}
+                  type="password"
+                  placeholder="******"
+                  className={fieldState.invalid ? 'border-red-500' : ''}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -95,11 +100,9 @@ export function RegisterForm() {
         <Button type="submit" className="w-full">
           Create an account
         </Button>
-        <Button variant="outline" className="w-full">
-          <Icon name="google" className="mr-3 h-5 w-5" />
-          Sign up with Google
-        </Button>
       </form>
+
+      <GoogleButton message="Signup with Google" />
     </Form>
   );
 }
