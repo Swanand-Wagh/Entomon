@@ -4,26 +4,12 @@ import React from 'react';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { Icon } from '@/common/constants/icons';
+import { registerSchema } from '@/common/schemas';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import { Button } from '@/common/components/ui/button';
 import { Input } from '@/common/components/ui/input';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/common/components/ui/form';
-
-const registerSchema = z.object({
-  firstName: z.string().min(1, {
-    message: 'First name is required.',
-  }),
-  lastName: z.string().min(1, {
-    message: 'Last name is required.',
-  }),
-  email: z.string().email({
-    message: 'Invalid email address.',
-  }),
-  password: z.string().min(1, {
-    message: 'Password is required.',
-  }),
-});
 
 export function RegisterForm() {
   const form = useForm<z.infer<typeof registerSchema>>({
@@ -81,9 +67,9 @@ export function RegisterForm() {
               <FormLabel>Email</FormLabel>
               <FormControl>
                 <Input
+                  {...field}
                   type="email"
                   placeholder="m@example.com"
-                  {...field}
                   className={fieldState.invalid ? 'border-red-500' : ''}
                 />
               </FormControl>

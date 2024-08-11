@@ -5,21 +5,13 @@ import Link from 'next/link';
 
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
+import { loginSchema } from '@/common/schemas';
 import { Icon } from '@/common/constants/icons';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import { Button } from '@/common/components/ui/button';
 import { Input } from '@/common/components/ui/input';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/common/components/ui/form';
-
-const loginSchema = z.object({
-  email: z.string().email({
-    message: 'Invalid email address.',
-  }),
-  password: z.string().min(1, {
-    message: 'Password is required.',
-  }),
-});
 
 export function LoginForm() {
   const form = useForm<z.infer<typeof loginSchema>>({
@@ -44,7 +36,12 @@ export function LoginForm() {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input placeholder="m@example.com" {...field} className={fieldState.invalid ? 'border-red-500' : ''} />
+                <Input
+                  {...field}
+                  type="email"
+                  placeholder="m@example.com"
+                  className={fieldState.invalid ? 'border-red-500' : ''}
+                />
               </FormControl>
               <FormMessage>{fieldState.error?.message}</FormMessage>
             </FormItem>

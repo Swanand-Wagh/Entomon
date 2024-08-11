@@ -8,7 +8,7 @@ interface IconProps {
   className?: string;
 }
 
-const ICONS: Record<string, React.ComponentType<{ className?: string }>> = {
+export const ICONS: Record<string, React.ComponentType<{ className?: string }>> = {
   gmail: SiGmail,
   linkedin: SiLinkedin,
   facebook: FaFacebookSquare,
