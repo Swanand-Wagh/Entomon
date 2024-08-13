@@ -1,17 +1,26 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useTransition } from 'react';
+
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { registerSchema } from '@/common/schemas';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { registerAction } from '@/actions/registerAction';
 
 import { GoogleButton } from './GoogleButton';
+import { FormError } from '@/common/components/custom/FormError';
+import { FormSuccess } from '@/common/components/custom/FormSuccess';
+
 import { Input } from '@/common/components/ui/input';
 import { Button } from '@/common/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/common/components/ui/form';
 
 export function RegisterForm() {
+  const [isPending, startTransition] = useTransition();
+  const [error, setError] = useState<string | undefined>('');
+  const [success, setSuccess] = useState<string | undefined>('');
+
   const form = useForm<z.infer<typeof registerSchema>>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
@@ -23,7 +32,15 @@ export function RegisterForm() {
   });
 
   const onSubmit = (data: z.infer<typeof registerSchema>) => {
-    console.log(data);
+    setError('');
+    setSuccess('');
+
+    startTransition(() => {
+      registerAction(data).then((response) => {
+        setError(response.error);
+        setSuccess(response.success);
+      });
+    });
   };
 
   return (
@@ -97,7 +114,9 @@ export function RegisterForm() {
           )}
         />
 
-        <Button type="submit" className="w-full">
+        <FormError message={error} />
+        <FormSuccess message={success} />
+        <Button type="submit" disabled={isPending} className="w-full">
           Create an account
         </Button>
       </form>

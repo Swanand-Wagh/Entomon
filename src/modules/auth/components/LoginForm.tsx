@@ -1,21 +1,27 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useTransition } from 'react';
 import Link from 'next/link';
 
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { loginSchema } from '@/common/schemas';
+import { loginAction } from '@/actions/loginAction';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import { GoogleButton } from './GoogleButton';
-import { Input } from '@/common/components/ui/input';
-import { Button } from '@/common/components/ui/button';
 import { FormError } from '@/common/components/custom/FormError';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/common/components/ui/form';
 import { FormSuccess } from '@/common/components/custom/FormSuccess';
 
+import { Input } from '@/common/components/ui/input';
+import { Button } from '@/common/components/ui/button';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/common/components/ui/form';
+
 export function LoginForm() {
+  const [isPending, startTransition] = useTransition();
+  const [error, setError] = useState<string | undefined>('');
+  const [success, setSuccess] = useState<string | undefined>('');
+
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -25,7 +31,15 @@ export function LoginForm() {
   });
 
   const onSubmit = (data: z.infer<typeof loginSchema>) => {
-    console.log(data);
+    setError('');
+    setSuccess('');
+
+    startTransition(() => {
+      loginAction(data).then((response) => {
+        setError(response.error);
+        setSuccess(response.success);
+      });
+    });
   };
 
   return (
@@ -74,9 +88,9 @@ export function LoginForm() {
           )}
         />
 
-        <FormError />
-        <FormSuccess />
-        <Button type="submit" className="w-full">
+        <FormError message={error} />
+        <FormSuccess message={success} />
+        <Button type="submit" disabled={isPending} className="w-full">
           Login
         </Button>
       </form>
