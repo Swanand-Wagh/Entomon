@@ -7,7 +7,6 @@
     "noEmit": true,
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
-    "declaration": true,
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
     "noImplicitReturns": true,
@@ -20,6 +19,8 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
+    "declaration": false,
+    "declarationMap": false,
     "plugins": [
       {
         "name": "next"
