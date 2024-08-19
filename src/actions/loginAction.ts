@@ -1,14 +1,37 @@
 'use server';
 
 import { z } from 'zod';
+import { AuthError } from 'next-auth';
+import { signIn } from '@/common/lib/auth';
 import { loginSchema } from '@/common/schemas';
+import { getUserByEmail } from '@/common/data/user';
+import { DEFAULT_LOGIN_REDIRECT } from '@/common/lib/routes';
 
 export const loginAction = async (values: z.infer<typeof loginSchema>) => {
   const validatedFields = loginSchema.safeParse(values);
 
-  if (!validatedFields.success) {
-    return { error: 'Invalid Credentials!' };
-  }
+  if (!validatedFields.success) return { error: 'Invalid Fields!' };
 
-  return { success: 'Logged in successfully!' };
+  const { email, password } = validatedFields.data;
+
+  const existingUser = await getUserByEmail(email);
+  if (!existingUser) return { error: "User doesn't exist!" };
+
+  try {
+    await signIn('credentials', { email, password, redirectTo: DEFAULT_LOGIN_REDIRECT });
+    return { success: 'Logged in successfully!' };
+  } catch (error) {
+    if (error instanceof AuthError) {
+      switch (error.type) {
+        case 'CredentialsSignin':
+          return { error: 'Invalid credentials!' };
+        case 'Verification':
+          return { error: 'Email not verified!' };
+        default:
+          return { error: 'Something went wrong!' };
+      }
+    }
+
+    throw error;
+  }
 };
