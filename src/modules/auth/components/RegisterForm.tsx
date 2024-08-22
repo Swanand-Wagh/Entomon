@@ -37,6 +37,7 @@ export function RegisterForm() {
 
     startTransition(() => {
       registerAction(data).then((response) => {
+        form.reset();
         setError(response?.error);
         setSuccess(response?.success);
       });

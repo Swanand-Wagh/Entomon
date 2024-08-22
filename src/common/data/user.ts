@@ -1,8 +1,11 @@
-import { IUser, UserModel } from '@/common/models/user';
+import { User } from '@prisma/client';
+import { prisma } from '@/common/lib/prisma';
 
-const getUserByEmail = async (email: string): Promise<IUser | null> => {
+const getUserByEmail = async (email: string): Promise<User | null> => {
   try {
-    const user = await UserModel.findOne({ email: email }).exec();
+    const user = await prisma.user.findUnique({
+      where: { email },
+    });
     return user;
   } catch (error) {
     console.error(`Error fetching user by email: ${email}`, error);
@@ -10,9 +13,11 @@ const getUserByEmail = async (email: string): Promise<IUser | null> => {
   }
 };
 
-const getUserById = async (id: string): Promise<IUser | null> => {
+const getUserById = async (id: string): Promise<User | null> => {
   try {
-    const user = await UserModel.findById(id).exec();
+    const user = await prisma.user.findUnique({
+      where: { id },
+    });
     return user;
   } catch (error) {
     console.error(`Error fetching user by ID: ${id}`, error);

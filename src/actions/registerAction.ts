@@ -2,7 +2,7 @@
 
 import { z } from 'zod';
 import bcrypt from 'bcryptjs';
-import { UserModel } from '@/common/models/user';
+import { prisma } from '@/common/lib/prisma';
 import { registerSchema } from '@/common/schemas';
 import { getUserByEmail } from '@/common/data/user';
 
@@ -17,17 +17,18 @@ export const registerAction = async (values: z.infer<typeof registerSchema>) => 
   const existingUser = await getUserByEmail(email);
   if (existingUser) return { error: 'Email already in use!' };
 
-  const newUser = new UserModel({
-    firstName,
-    lastName,
-    email,
-    password: hashedPassword,
-  });
-
   try {
-    await newUser.save();
+    await prisma.user.create({
+      data: {
+        name: `${firstName} ${lastName}`,
+        email,
+        password: hashedPassword,
+      },
+    });
+
     return { success: 'Registration Successful!' };
   } catch (error) {
+    console.error('Error during user registration:', error);
     return { error: 'Something went wrong!' };
   }
 };

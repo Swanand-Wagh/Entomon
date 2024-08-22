@@ -36,6 +36,7 @@ export function LoginForm() {
 
     startTransition(() => {
       loginAction(data).then((response) => {
+        form.reset();
         setError(response?.error);
         setSuccess(response?.success);
       });
