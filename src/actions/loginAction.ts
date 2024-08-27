@@ -3,8 +3,8 @@
 import { z } from 'zod';
 import { AuthError } from 'next-auth';
 import { signIn } from '@/common/lib/auth';
-import { loginSchema } from '@/common/schemas';
-import { getUserByEmail } from '@/common/data/user';
+import { loginSchema } from '@/common/schemas/authSchema';
+import { getUserByEmail } from '@/common/data/auth/user';
 import { DEFAULT_LOGIN_REDIRECT } from '@/common/lib/routes';
 
 export const loginAction = async (values: z.infer<typeof loginSchema>) => {
@@ -15,7 +15,9 @@ export const loginAction = async (values: z.infer<typeof loginSchema>) => {
   const { email, password } = validatedFields.data;
 
   const existingUser = await getUserByEmail(email);
-  if (!existingUser) return { error: "User doesn't exist!" };
+  if (!existingUser || !existingUser.email || !existingUser.password) {
+    return { error: "User doesn't exist!" };
+  }
 
   try {
     await signIn('credentials', { email, password, redirectTo: DEFAULT_LOGIN_REDIRECT });

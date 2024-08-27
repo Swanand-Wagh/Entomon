@@ -7,14 +7,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Input } from '@/common/components/ui/input';
 import { Button } from '@/common/components/ui/button';
 import { Textarea } from '@/common/components/ui/textarea';
+import { contactSchema } from '@/common/schemas/contactSchema';
 import { Form, FormControl, FormField, FormItem, FormLabel } from '@/common/components/ui/form';
-
-const contactSchema = z.object({
-  name: z.string().min(1),
-  email: z.string().email(),
-  phone: z.string().optional(),
-  message: z.string().min(1),
-});
 
 export function ContactForm() {
   const form = useForm<z.infer<typeof contactSchema>>({
