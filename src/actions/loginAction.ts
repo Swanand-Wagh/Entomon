@@ -3,8 +3,8 @@
 import { z } from 'zod';
 import { AuthError } from 'next-auth';
 import { signIn } from '@/common/lib/auth';
-import { loginSchema } from '@/common/schemas/authSchema';
 import { getUserByEmail } from '@/common/data/auth/user';
+import { loginSchema } from '@/common/schemas/authSchema';
 import { DEFAULT_LOGIN_REDIRECT } from '@/common/lib/routes';
 
 export const loginAction = async (values: z.infer<typeof loginSchema>) => {

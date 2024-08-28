@@ -5,9 +5,9 @@ import Link from 'next/link';
 
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
-import { loginSchema } from '@/common/schemas/authSchema';
 import { loginAction } from '@/actions/loginAction';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { loginSchema } from '@/common/schemas/authSchema';
 
 import { GoogleButton } from './GoogleButton';
 import { FormError } from '@/common/components/custom/FormError';

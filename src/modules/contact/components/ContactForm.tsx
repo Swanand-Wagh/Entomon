@@ -1,16 +1,25 @@
 'use client';
 
+import { useState, useTransition } from 'react';
+
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { contactAction } from '@/actions/contactAction';
+import { contactSchema } from '@/common/schemas/contactSchema';
 
 import { Input } from '@/common/components/ui/input';
 import { Button } from '@/common/components/ui/button';
 import { Textarea } from '@/common/components/ui/textarea';
-import { contactSchema } from '@/common/schemas/contactSchema';
+import { FormError } from '@/common/components/custom/FormError';
+import { FormSuccess } from '@/common/components/custom/FormSuccess';
 import { Form, FormControl, FormField, FormItem, FormLabel } from '@/common/components/ui/form';
 
 export function ContactForm() {
+  const [isPending, startTransition] = useTransition();
+  const [error, setError] = useState<string | undefined>('');
+  const [success, setSuccess] = useState<string | undefined>('');
+
   const form = useForm<z.infer<typeof contactSchema>>({
     resolver: zodResolver(contactSchema),
     defaultValues: {
@@ -22,7 +31,16 @@ export function ContactForm() {
   });
 
   const onSubmit = (data: z.infer<typeof contactSchema>) => {
-    console.log(data);
+    setError('');
+    setSuccess('');
+
+    startTransition(() => {
+      contactAction(data).then((response) => {
+        form.reset();
+        setError(response?.error);
+        setSuccess(response?.success);
+      });
+    });
   };
 
   return (
@@ -50,6 +68,7 @@ export function ContactForm() {
               <FormControl>
                 <Input
                   {...field}
+                  type="email"
                   placeholder="you@example.com"
                   className={fieldState.invalid ? 'border-red-500' : ''}
                 />
@@ -67,6 +86,7 @@ export function ContactForm() {
               <FormControl>
                 <Input
                   {...field}
+                  type="tel"
                   placeholder="Your phone number"
                   className={fieldState.invalid ? 'border-red-500' : ''}
                 />
@@ -93,7 +113,9 @@ export function ContactForm() {
           )}
         />
 
-        <Button type="submit" className="w-full bg-black text-white hover:bg-gray-800">
+        <FormError message={error} />
+        <FormSuccess message={success} />
+        <Button type="submit" className="w-full bg-black text-white hover:bg-gray-800" disabled={isPending}>
           Send Message
         </Button>
       </form>
