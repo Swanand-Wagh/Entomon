@@ -36,7 +36,7 @@ export const NAVBAR: NavbarProps[] = [
   },
   {
     name: 'Login/Register',
-    url: '/login',
+    url: '/auth/login',
     type: 'Button',
   },
 ];

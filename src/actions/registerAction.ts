@@ -12,11 +12,11 @@ export const registerAction = async (values: z.infer<typeof registerSchema>) => 
   if (!validatedFields.success) return { error: 'Something went wrong!' };
 
   const { firstName, lastName, email, password } = validatedFields.data;
-  const hashedPassword = await bcrypt.hash(password, 10);
 
   const existingUser = await getUserByEmail(email);
   if (existingUser) return { error: 'Email already in use!' };
 
+  const hashedPassword = await bcrypt.hash(password, 10);
   try {
     await prisma.user.create({
       data: {
