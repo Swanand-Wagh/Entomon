@@ -1,9 +1,10 @@
 'use server';
 
 import { z } from 'zod';
+import { signIn } from '@/auth';
 import { AuthError } from 'next-auth';
-import { signIn } from '@/common/lib/auth';
-import { getUserByEmail } from '@/common/data/auth/user';
+
+import { getUserByEmail } from '@/common/data/auth';
 import { loginSchema } from '@/common/schemas/authSchema';
 import { DEFAULT_LOGIN_REDIRECT } from '@/common/lib/routes';
 

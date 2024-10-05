@@ -3,9 +3,9 @@
 import { useState, useTransition } from 'react';
 
 import { z } from 'zod';
+import { contactAction } from '@/actions';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { contactAction } from '@/actions/contactAction';
 import { contactSchema } from '@/common/schemas/contactSchema';
 
 import { Input } from '@/common/components/ui/input';
@@ -15,7 +15,7 @@ import { FormError } from '@/common/components/custom/FormError';
 import { FormSuccess } from '@/common/components/custom/FormSuccess';
 import { Form, FormControl, FormField, FormItem, FormLabel } from '@/common/components/ui/form';
 
-export function ContactForm() {
+export const ContactForm = () => {
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | undefined>('');
   const [success, setSuccess] = useState<string | undefined>('');
@@ -121,4 +121,4 @@ export function ContactForm() {
       </form>
     </Form>
   );
-}
+};

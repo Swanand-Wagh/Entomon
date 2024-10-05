@@ -1,7 +1,13 @@
 import React from 'react';
 
+import { NewVerification } from '@/modules/auth';
+
 const NewVerificationPage = () => {
-  return <div>NewVerificationPage</div>;
+  return (
+    <>
+      <NewVerification />
+    </>
+  );
 };
 
 export default NewVerificationPage;

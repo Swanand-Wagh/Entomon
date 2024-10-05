@@ -1,4 +1,4 @@
-import { NavbarProps } from '../types/navbar';
+import { NavbarProps } from '@/common/types/navbar';
 
 export const NAVBAR: NavbarProps[] = [
   {

@@ -10,6 +10,7 @@ import {
   IoWarningOutline,
   IoCheckmarkCircleOutline,
 } from 'react-icons/io5';
+import { MdErrorOutline } from 'react-icons/md';
 
 interface IconProps {
   name: string;
@@ -26,6 +27,7 @@ export const ICONS: Record<string, React.ComponentType<{ className?: string }>> 
   calendar: IoCalendar,
   google: IoLogoGoogle,
   warning: IoWarningOutline,
+  error: MdErrorOutline,
   check: IoCheckmarkCircleOutline,
 };
 

@@ -1,6 +1,6 @@
-const PUBLIC_ROUTES = ['/', '/about', '/contact'];
+const PUBLIC_ROUTES = ['/', '/about', '/contact', '/auth/new-verification'];
 
-const AUTH_ROUTES = ['/auth/login', '/auth/register'];
+const AUTH_ROUTES = ['/auth/login', '/auth/register', '/auth/error', '/auth/reset', '/auth/new-password'];
 
 const apiAuthPrefix = '/api/auth';
 

@@ -1,7 +1,13 @@
 import React from 'react';
 
+import { Reset } from '@/modules/auth';
+
 const ResetPage = () => {
-  return <div>ResetPage</div>;
+  return (
+    <>
+      <Reset />
+    </>
+  );
 };
 
 export default ResetPage;

@@ -3,7 +3,7 @@
 import { z } from 'zod';
 import bcrypt from 'bcryptjs';
 import { prisma } from '@/common/lib/prisma';
-import { getUserByEmail } from '@/common/data/auth/user';
+import { getUserByEmail } from '@/common/data/auth';
 import { registerSchema } from '@/common/schemas/authSchema';
 
 export const registerAction = async (values: z.infer<typeof registerSchema>) => {

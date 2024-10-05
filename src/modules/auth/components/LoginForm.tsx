@@ -4,8 +4,8 @@ import React, { useState, useTransition } from 'react';
 import Link from 'next/link';
 
 import { z } from 'zod';
+import { loginAction } from '@/actions';
 import { useForm } from 'react-hook-form';
-import { loginAction } from '@/actions/loginAction';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { loginSchema } from '@/common/schemas/authSchema';
 
@@ -17,7 +17,7 @@ import { Input } from '@/common/components/ui/input';
 import { Button } from '@/common/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/common/components/ui/form';
 
-export function LoginForm() {
+export const LoginForm = () => {
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | undefined>('');
   const [success, setSuccess] = useState<string | undefined>('');
@@ -99,4 +99,4 @@ export function LoginForm() {
       <GoogleButton message="Login with Google" />
     </Form>
   );
-}
+};

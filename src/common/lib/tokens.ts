@@ -13,7 +13,6 @@ export async function generateTwoFactorToken(email: string) {
   const expires = new Date(new Date().getTime() + 5 * 60 * 1000);
 
   const existingToken = await getTwoFactorTokenByEmail(email);
-
   if (existingToken) {
     await prisma.twoFactorToken.delete({
       where: { id: existingToken.id },
@@ -36,7 +35,6 @@ export async function generatePasswordResetToken(email: string) {
   const expires = new Date(new Date().getTime() + 3600 * 1000);
 
   const existingToken = await getPasswordResetTokenByEmail(email);
-
   if (existingToken) {
     await prisma.passwordResetToken.delete({ where: { id: existingToken.id } });
   }
@@ -57,7 +55,6 @@ export async function generateVerificationToken(email: string) {
   const expires = new Date(new Date().getTime() + 3600 * 1000);
 
   const existingToken = await getVerificationTokenByEmail(email);
-
   if (existingToken) {
     await prisma.verificationToken.delete({ where: { id: existingToken.id } });
   }

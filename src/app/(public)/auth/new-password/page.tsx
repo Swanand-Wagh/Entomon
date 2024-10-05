@@ -1,7 +1,13 @@
 import React from 'react';
 
+import { NewPassword } from '@/modules/auth';
+
 const NewPasswordPage = () => {
-  return <div>NewPasswordPage</div>;
+  return (
+    <>
+      <NewPassword />
+    </>
+  );
 };
 
 export default NewPasswordPage;
