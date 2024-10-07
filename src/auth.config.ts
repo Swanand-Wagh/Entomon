@@ -5,7 +5,7 @@ import Google from 'next-auth/providers/google';
 import Credentials from 'next-auth/providers/credentials';
 
 import { loginSchema } from '@/common/schemas/authSchema';
-import { getUserByEmail } from '@/common/data/auth/user';
+import { getUserByEmail } from '@/common/data/auth';
 
 export default {
   providers: [

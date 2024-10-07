@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 
 import { Login } from '@/modules/auth';
 
 const LoginPage = () => {
   return (
     <>
-      <Login />
+      <Suspense>
+        <Login />
+      </Suspense>
     </>
   );
 };
