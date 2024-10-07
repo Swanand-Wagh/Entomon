@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 
 import { Register } from '@/modules/auth';
 
 const RegisterPage = () => {
   return (
     <>
-      <Register />
+      <Suspense>
+        <Register />
+      </Suspense>
     </>
   );
 };
