@@ -70,7 +70,7 @@ export const loginAction = async (values: z.infer<typeof loginSchema>, callbackU
   }
 
   try {
-    await signIn('credentials', { email, password, redirectTo: DEFAULT_LOGIN_REDIRECT });
+    await signIn('credentials', { email, password, redirectTo: callbackUrl || DEFAULT_LOGIN_REDIRECT });
     return { success: 'Logged in successfully!' };
   } catch (error) {
     if (error instanceof AuthError) {
