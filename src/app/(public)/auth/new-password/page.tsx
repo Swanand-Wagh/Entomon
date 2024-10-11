@@ -1,13 +1,11 @@
-import React, { Suspense } from 'react';
+import React from 'react';
 
 import { NewPassword } from '@/modules/auth';
 
 const NewPasswordPage = () => {
   return (
     <>
-      <Suspense>
-        <NewPassword />
-      </Suspense>
+      <NewPassword />
     </>
   );
 };

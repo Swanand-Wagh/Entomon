@@ -1,13 +1,11 @@
-import React, { Suspense } from 'react';
+import React from 'react';
 
 import { NewVerification } from '@/modules/auth';
 
 const NewVerificationPage = () => {
   return (
     <>
-      <Suspense>
-        <NewVerification />
-      </Suspense>
+      <NewVerification />
     </>
   );
 };
