@@ -8,7 +8,11 @@ const { auth } = NextAuth(authConfig);
 const secret = process.env.AUTH_SECRET as string;
 
 export default auth(async (req) => {
-  const token = await getToken({ req, secret, cookieName: '__Secure-authjs.session-token' } as any);
+  const token = await getToken({
+    req,
+    secret,
+    cookieName: process.env.NODE_ENV === 'production' ? '__Secure-next-auth.session-token' : 'next-auth.session-token',
+  } as any);
 
   const isLoggedIn = !!req.auth;
   const role = token?.role;
