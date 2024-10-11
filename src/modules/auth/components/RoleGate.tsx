@@ -7,12 +7,17 @@ import { FormError } from '@/common/components/custom/FormError';
 interface RoleGateProps {
   children: React.ReactNode;
   allowedRole: UserRole;
+  fallbackComponent?: React.ReactNode;
 }
 
-export const RoleGate = ({ children, allowedRole }: RoleGateProps) => {
+export const RoleGate = ({ children, allowedRole, fallbackComponent }: RoleGateProps) => {
   const role = useCurrentRole();
   if (role !== allowedRole) {
-    return <FormError message="You don't have permission to view this content!" />;
+    return fallbackComponent ? (
+      <>{fallbackComponent}</>
+    ) : (
+      <FormError message="You don't have permission to view this content!" />
+    );
   }
 
   return <>{children}</>;
