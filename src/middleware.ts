@@ -8,7 +8,7 @@ const { auth } = NextAuth(authConfig);
 const secret = process.env.AUTH_SECRET as string;
 
 export default auth(async (req) => {
-  const token = await getToken({ req, secret } as any);
+  const token = await getToken({ req, secret, cookieName: '__Secure-authjs.session-token' } as any);
 
   const isLoggedIn = !!req.auth;
   const role = token?.role;
