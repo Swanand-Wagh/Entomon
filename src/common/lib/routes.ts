@@ -1,4 +1,4 @@
-const ADMIN_ROUTES = ['/admin'];
+const ADMIN_ROUTES = /^\/admin(\/.*)?$/;
 
 const PUBLIC_ROUTES = ['/', '/about', '/contact', '/auth/new-verification'];
 

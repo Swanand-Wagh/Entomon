@@ -14,19 +14,21 @@ export default auth(async (req) => {
     cookieName: process.env.NODE_ENV === 'production' ? '__Secure-next-auth.session-token' : 'next-auth.session-token',
   } as any);
 
-  const isLoggedIn = !!req.auth;
   const role = token?.role;
+  const isLoggedIn = !!req.auth;
+  const pathname = req.nextUrl.pathname;
 
-  const isAdminRoute = ADMIN_ROUTES.includes(req.nextUrl.pathname);
-  const isPublicRoute = PUBLIC_ROUTES.includes(req.nextUrl.pathname);
-  const isAuthRoute = AUTH_ROUTES.includes(req.nextUrl.pathname);
-  const isApiAuthRoute = req.nextUrl.pathname.startsWith(apiAuthPrefix);
+  const isAdminRoute = ADMIN_ROUTES.test(pathname);
+  const isAuthRoute = AUTH_ROUTES.includes(pathname);
+  const isPublicRoute = PUBLIC_ROUTES.includes(pathname);
+  const isApiAuthRoute = pathname.startsWith(apiAuthPrefix);
 
   if (isApiAuthRoute) {
     return;
   }
 
   if (role === 'USER' && isAdminRoute) {
+    console.log('Redirecting user to login');
     return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, req.nextUrl));
   }
 

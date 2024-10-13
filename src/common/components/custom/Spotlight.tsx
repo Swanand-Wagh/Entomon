@@ -24,14 +24,14 @@ interface CommandOption {
 }
 
 export const Spotlight = () => {
-  const [open, setOpen] = useState<boolean>(false);
+  const [open, setOpen] = useState<boolean>(true);
 
   const commands: CommandOption[] = [
     { name: 'blogs', label: 'Blogs', group: 'Suggestions', link: '/blogs' },
     { name: 'events', label: 'Events', group: 'Suggestions', link: '/events' },
     { name: 'courses', label: 'Calendar', group: 'Suggestions', link: '/courses' },
-    { name: 'user', label: 'Profile', shortcut: '⌘P', group: 'Settings', link: '/user/dashboard' },
-    { name: 'settings', label: 'Settings', shortcut: '⌘S', group: 'Settings', link: '/user/settings' },
+    { name: 'user', label: 'Profile', group: 'Settings', link: '/user/dashboard' },
+    { name: 'settings', label: 'Settings', group: 'Settings', link: '/user/settings' },
   ];
 
   const groupedCommands = commands.reduce<Record<string, CommandOption[]>>((acc, command) => {
