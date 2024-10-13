@@ -1,4 +1,4 @@
-import { Icon } from '@/common/constants/icons';
+import { Icon, ICONS } from '@/common/constants/icons';
 
 export const SERVICES = [
   {
@@ -44,7 +44,7 @@ export const Services = () => (
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-2">
         {SERVICES.map(({ id, title, description, icon }) => (
           <div key={id} className="rounded-lg bg-background p-6 shadow-sm">
-            <Icon name={icon} className="h-8 w-8 text-primary" />
+            <Icon name={icon as keyof typeof ICONS} className="h-8 w-8 text-primary" />
             <h3 className="mt-4 text-lg font-semibold">{title}</h3>
             <p className="mt-2 text-muted-foreground">{description}</p>
           </div>
