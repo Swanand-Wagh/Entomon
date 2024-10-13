@@ -26,8 +26,6 @@ export default auth(async (req) => {
     return;
   }
 
-  console.log('User Role:', role);
-  console.log('Token:', token);
   if (role === 'USER' && isAdminRoute) {
     return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, req.nextUrl));
   }
