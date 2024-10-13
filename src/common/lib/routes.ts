@@ -6,6 +6,6 @@ const AUTH_ROUTES = ['/auth/login', '/auth/register', '/auth/error', '/auth/rese
 
 const apiAuthPrefix = '/api/auth';
 
-const DEFAULT_LOGIN_REDIRECT = '/dashboard';
+const DEFAULT_LOGIN_REDIRECT = '/user/dashboard';
 
 export { ADMIN_ROUTES, AUTH_ROUTES, DEFAULT_LOGIN_REDIRECT, PUBLIC_ROUTES, apiAuthPrefix };
