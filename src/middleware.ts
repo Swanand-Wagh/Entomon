@@ -1,5 +1,6 @@
 import NextAuth from 'next-auth';
 import { getToken } from 'next-auth/jwt';
+import { NextResponse } from 'next/server';
 
 import authConfig from '@/auth.config';
 import { apiAuthPrefix, AUTH_ROUTES, DEFAULT_LOGIN_REDIRECT, PUBLIC_ROUTES, ADMIN_ROUTES } from '@/common/lib/routes';
@@ -8,13 +9,10 @@ const { auth } = NextAuth(authConfig);
 const secret = process.env.AUTH_SECRET as string;
 
 export default auth(async (req) => {
-  const token = await getToken({
-    req,
-    secret,
-    cookieName: process.env.NODE_ENV === 'production' ? '__Secure-next-auth.session-token' : 'next-auth.session-token',
-  } as any);
+  const token = await getToken({ req, secret } as any);
 
   const role = token?.role;
+  console.log('Role:', token?.role);
   const isLoggedIn = !!req.auth;
   const pathname = req.nextUrl.pathname;
 
@@ -24,17 +22,16 @@ export default auth(async (req) => {
   const isApiAuthRoute = pathname.startsWith(apiAuthPrefix);
 
   if (isApiAuthRoute) {
-    return;
+    return NextResponse.next();
   }
 
   if (role === 'USER' && isAdminRoute) {
-    console.log('Redirecting user to login');
-    return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, req.nextUrl));
+    return NextResponse.redirect(new URL(DEFAULT_LOGIN_REDIRECT, req.nextUrl));
   }
 
   if (isAuthRoute) {
     if (isLoggedIn) {
-      return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, req.nextUrl));
+      return NextResponse.redirect(new URL(DEFAULT_LOGIN_REDIRECT, req.nextUrl));
     }
     return;
   }
@@ -46,10 +43,10 @@ export default auth(async (req) => {
     }
 
     const encodedCallbackUrl = encodeURIComponent(callbackUrl);
-    return Response.redirect(new URL(`/auth/login?callbackUrl=${encodedCallbackUrl}`, req.nextUrl));
+    return NextResponse.redirect(new URL(`/auth/login?callbackUrl=${encodedCallbackUrl}`, req.nextUrl));
   }
 
-  return;
+  return NextResponse.next();
 });
 
 export const config = {
