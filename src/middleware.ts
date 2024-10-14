@@ -9,12 +9,16 @@ const { auth } = NextAuth(authConfig);
 const secret = process.env.AUTH_SECRET as string;
 
 export default auth(async (req) => {
-  const token = await getToken({ req, secret } as any);
+  const token = await getToken({
+    req,
+    secret,
+    cookieName: process.env.NODE_ENV === 'production' ? '__Secure-authjs.session-token' : 'authjs.session-token',
+  } as any);
 
   const role = token?.role;
-  console.log('Role:', token?.role);
   const isLoggedIn = !!req.auth;
   const pathname = req.nextUrl.pathname;
+  console.log('ROLE', role);
 
   const isAdminRoute = ADMIN_ROUTES.test(pathname);
   const isAuthRoute = AUTH_ROUTES.includes(pathname);
