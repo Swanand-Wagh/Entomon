@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-export const AdminDashboardPage = () => {
+const AdminDashboardPage = () => {
   return (
     <div className="flex-col md:flex">
       <div className="flex-1 space-y-4">
