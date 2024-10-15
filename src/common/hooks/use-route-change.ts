@@ -7,6 +7,5 @@ export const useRouteChange = (callback: () => void) => {
 
   useEffect(() => {
     callback();
-  }, [pathname, callback]);
+  }, [pathname]);
 };
-

@@ -11,9 +11,9 @@ import {
   IoWarningOutline,
   IoCheckmarkCircleOutline,
 } from 'react-icons/io5';
-import { MdErrorOutline } from 'react-icons/md';
-import { SiGmail, SiLinkedin } from 'react-icons/si';
-import { FaFacebookSquare, FaUserNinja } from 'react-icons/fa';
+import { FaFacebookSquare, FaUserNinja, FaBlog } from 'react-icons/fa';
+import { SiGmail, SiLinkedin, SiGoogleanalytics } from 'react-icons/si';
+import { MdErrorOutline, MdMenuBook, MdEventNote } from 'react-icons/md';
 
 interface IconProps {
   name: keyof typeof ICONS;
@@ -21,10 +21,13 @@ interface IconProps {
 }
 
 export const ICONS = {
+  blog: FaBlog,
   gmail: SiGmail,
   search: IoSearch,
   hamburger: IoMenu,
   user: FaUserNinja,
+  course: MdMenuBook,
+  event: MdEventNote,
   linkedin: SiLinkedin,
   calendar: IoCalendar,
   google: IoLogoGoogle,
@@ -34,6 +37,7 @@ export const ICONS = {
   facebook: FaFacebookSquare,
   chevronDown: IoChevronDown,
   chevronBack: IoChevronBack,
+  analytics: SiGoogleanalytics,
   check: IoCheckmarkCircleOutline,
 } as const;
 

@@ -22,9 +22,9 @@ export default auth(async (req) => {
     return NextResponse.next();
   }
 
-  // if (role === 'USER' && isAdminRoute) {
-  //   return NextResponse.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl));
-  // }
+  if (role === 'USER' && isAdminRoute) {
+    return NextResponse.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl));
+  }
 
   if (isAuthRoute) {
     return isLoggedIn ? NextResponse.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl)) : NextResponse.next();
