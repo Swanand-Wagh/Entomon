@@ -7,9 +7,11 @@ import { apiAuthPrefix, AUTH_ROUTES, DEFAULT_LOGIN_REDIRECT, PUBLIC_ROUTES, ADMI
 const { auth } = NextAuth(authConfig);
 
 export default auth(async (req) => {
-  const isLoggedIn = !!req.auth;
-  const role = req.auth?.user?.role;
-  const pathname = req.nextUrl.pathname;
+  const { auth: session, nextUrl } = req;
+
+  const isLoggedIn = !!session;
+  const role = session?.user?.role;
+  const pathname = nextUrl.pathname;
 
   const isAdminRoute = ADMIN_ROUTES.test(pathname);
   const isAuthRoute = AUTH_ROUTES.includes(pathname);
@@ -20,25 +22,17 @@ export default auth(async (req) => {
     return NextResponse.next();
   }
 
-  if (role === 'USER' && isAdminRoute) {
-    return NextResponse.redirect(new URL(DEFAULT_LOGIN_REDIRECT, req.nextUrl));
-  }
+  // if (role === 'USER' && isAdminRoute) {
+  //   return NextResponse.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl));
+  // }
 
   if (isAuthRoute) {
-    if (isLoggedIn) {
-      return NextResponse.redirect(new URL(DEFAULT_LOGIN_REDIRECT, req.nextUrl));
-    }
-    return;
+    return isLoggedIn ? NextResponse.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl)) : NextResponse.next();
   }
 
   if (!isLoggedIn && !isPublicRoute) {
-    let callbackUrl = req.nextUrl.pathname;
-    if (req.nextUrl.search) {
-      callbackUrl += req.nextUrl.search;
-    }
-
-    const encodedCallbackUrl = encodeURIComponent(callbackUrl);
-    return NextResponse.redirect(new URL(`/auth/login?callbackUrl=${encodedCallbackUrl}`, req.nextUrl));
+    const callbackUrl = encodeURIComponent(`${nextUrl.pathname}${nextUrl.search}`);
+    return NextResponse.redirect(new URL(`/auth/login?callbackUrl=${callbackUrl}`, nextUrl));
   }
 
   return NextResponse.next();
