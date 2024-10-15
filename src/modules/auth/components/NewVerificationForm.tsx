@@ -5,8 +5,7 @@ import { useSearchParams } from 'next/navigation';
 import { newVerificationAction } from '@/actions';
 
 import { BeatLoader } from 'react-spinners';
-import { FormError } from '@/common/components/custom/FormError';
-import { FormSuccess } from '@/common/components/custom/FormSuccess';
+import { FormError, FormSuccess } from '@/common/components/custom';
 
 export const NewVerificationForm = () => {
   const searchParams = useSearchParams();

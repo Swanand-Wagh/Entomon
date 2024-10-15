@@ -14,7 +14,8 @@ import { Separator } from '@/common/components/ui/separator';
 import { ResizablePanel, ResizablePanelGroup } from '@/common/components/ui/resizable';
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from '@/common/components/ui/sheet';
 
-import { Sidebar, Header } from '@/modules/admin';
+import { Sidebar } from '@/modules/admin';
+import { UserNav } from '@/common/components/custom';
 import { useScreenSize } from '@/common/hooks/use-screen-size';
 import { useRouteChange } from '@/common/hooks/use-route-change';
 
@@ -105,7 +106,7 @@ export default function AdminLayout({ children }: LayoutProps) {
               </Button>
 
               <div className="flex gap-2">
-                <Header />
+                <UserNav />
               </div>
             </div>
             <Separator />

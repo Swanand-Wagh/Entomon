@@ -8,8 +8,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 
 import { resetAction } from '@/actions';
 import { resetSchema } from '@/common/schemas/authSchema';
-import { FormError } from '@/common/components/custom/FormError';
-import { FormSuccess } from '@/common/components/custom/FormSuccess';
+import { FormError, FormSuccess } from '@/common/components/custom';
 
 import { Input } from '@/common/components/ui/input';
 import { Button } from '@/common/components/ui/button';

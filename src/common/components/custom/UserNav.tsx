@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import {
   DropdownMenu,
   DropdownMenuItem,
@@ -11,7 +12,9 @@ import {
 import { Button } from '@/common/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/common/components/ui/avatar';
 
-export const Header = () => {
+import { LogoutButton } from '@/modules/auth';
+
+export const UserNav = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -36,18 +39,24 @@ export const Header = () => {
         <DropdownMenuSeparator />
 
         <DropdownMenuGroup>
-          <DropdownMenuItem>
-            Profile
-            <DropdownMenuShortcut>⌘P</DropdownMenuShortcut>
+          <DropdownMenuItem asChild>
+            <Link href="/admin/dashboard" className="w-full cursor-pointer">
+              Profile
+              <DropdownMenuShortcut>⌘P</DropdownMenuShortcut>
+            </Link>
           </DropdownMenuItem>
-          <DropdownMenuItem>
-            Settings
-            <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
+          <DropdownMenuItem asChild>
+            <Link href="/admin/settings" className="w-full cursor-pointer">
+              Settings
+              <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
+            </Link>
           </DropdownMenuItem>
         </DropdownMenuGroup>
 
         <DropdownMenuSeparator />
-        <DropdownMenuItem>Log out</DropdownMenuItem>
+        <DropdownMenuItem>
+          <LogoutButton>Logout</LogoutButton>
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

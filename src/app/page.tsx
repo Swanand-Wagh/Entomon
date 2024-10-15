@@ -1,8 +1,7 @@
 import React from 'react';
 
 import Home from '@/modules/home';
-import { Navbar } from '@/common/components/custom/Navbar';
-import { Footer } from '@/common/components/custom/Footer';
+import { Navbar, Footer } from '@/common/components/custom';
 
 const HomePage = () => {
   return (

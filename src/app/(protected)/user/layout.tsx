@@ -5,7 +5,7 @@ import { RoleGate } from '@/modules/auth';
 
 export default function UserLayout({ children }: { children: React.ReactNode }) {
   return (
-    <RoleGate allowedRole={UserRole.USER}>
+    <RoleGate allowedRole={UserRole.USER && UserRole.ADMIN}>
       <div>
         <h1>Header</h1>
         <h1>Sidebar</h1>

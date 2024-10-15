@@ -11,8 +11,7 @@ import { contactSchema } from '@/common/schemas/contactSchema';
 import { Input } from '@/common/components/ui/input';
 import { Button } from '@/common/components/ui/button';
 import { Textarea } from '@/common/components/ui/textarea';
-import { FormError } from '@/common/components/custom/FormError';
-import { FormSuccess } from '@/common/components/custom/FormSuccess';
+import { FormError, FormSuccess } from '@/common/components/custom';
 import { Form, FormControl, FormField, FormItem, FormLabel } from '@/common/components/ui/form';
 
 export const ContactForm = () => {
