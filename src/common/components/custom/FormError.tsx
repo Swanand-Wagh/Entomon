@@ -1,9 +1,9 @@
 import React from 'react';
 import { Icon } from '@/common/constants/icons';
 
-interface FormErrorProps {
+type FormErrorProps = {
   message?: string;
-}
+};
 
 export const FormError = ({ message }: FormErrorProps) => {
   if (!message) return null;

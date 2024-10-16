@@ -15,13 +15,13 @@ import {
 } from '@/common/components/ui/command';
 import { Icon, ICONS } from '@/common/constants/icons';
 
-interface CommandOption {
+type CommandOption = {
   name: string;
   link: string;
   label: string;
   group: string;
   shortcut?: string;
-}
+};
 
 export const Spotlight = () => {
   const [open, setOpen] = useState<boolean>(true);

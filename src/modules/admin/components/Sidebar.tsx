@@ -145,10 +145,10 @@ const ExpandedSidebar = ({ item }: { readonly item: NavItem }) => {
   );
 };
 
-interface NavProps {
+type NavProps = {
   readonly isCollapsed: boolean;
   readonly isMobileSidebar?: boolean;
-}
+};
 
 const isNavItem = (item: SidebarItem): item is NavItem => {
   return (item as NavItem).title !== undefined;

@@ -1,22 +1,22 @@
 import { ICONS } from '@/common/constants/icons';
 
-export interface NavItem {
+export type NavItem = {
   title: string;
   label?: string;
   icon: keyof typeof ICONS;
   route?: string;
   children?: ChildNavItem[];
-}
+};
 
-export interface ChildNavItem {
+export type ChildNavItem = {
   title: string;
   label?: string;
   route: string;
-}
+};
 
-export interface NavHeader {
+export type NavHeader = {
   heading: string;
-}
+};
 
 export type SidebarItem = NavItem | NavHeader;
 

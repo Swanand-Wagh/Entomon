@@ -19,9 +19,9 @@ import { BugIcon, UserNav } from '@/common/components/custom';
 import { useScreenSize } from '@/common/hooks/use-screen-size';
 import { useRouteChange } from '@/common/hooks/use-route-change';
 
-interface LayoutProps {
+type LayoutProps = {
   readonly children: ReactNode;
-}
+};
 
 const appConfig = {
   appName: 'Entomon Institite',

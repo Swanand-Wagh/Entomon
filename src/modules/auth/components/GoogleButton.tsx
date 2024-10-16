@@ -8,9 +8,9 @@ import { useSearchParams } from 'next/navigation';
 import { Button } from '@/common/components/ui/button';
 import { DEFAULT_LOGIN_REDIRECT } from '@/common/lib/routes';
 
-interface GoogleButtonProps {
+type GoogleButtonProps = {
   message: string;
-}
+};
 
 export const GoogleButton = ({ message }: GoogleButtonProps) => {
   const searchParams = useSearchParams();

@@ -2,9 +2,9 @@
 
 import { logoutAction } from '@/actions';
 
-interface LoginButtonProps {
+type LoginButtonProps = {
   children?: React.ReactNode;
-}
+};
 
 export const LogoutButton = ({ children }: LoginButtonProps) => {
   const onClicked = () => {

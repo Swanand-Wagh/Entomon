@@ -1,9 +1,9 @@
 import React from 'react';
 import { Icon } from '@/common/constants/icons';
 
-interface FormSuccessProps {
+type FormSuccessProps = {
   message?: string;
-}
+};
 
 export const FormSuccess = ({ message }: FormSuccessProps) => {
   if (!message) return null;

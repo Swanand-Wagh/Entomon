@@ -15,10 +15,10 @@ import { FaFacebookSquare, FaUserNinja, FaBlog } from 'react-icons/fa';
 import { SiGmail, SiLinkedin, SiGoogleanalytics } from 'react-icons/si';
 import { MdErrorOutline, MdMenuBook, MdEventNote } from 'react-icons/md';
 
-interface IconProps {
+type IconProps = {
   name: keyof typeof ICONS;
   className?: string;
-}
+};
 
 export const ICONS = {
   blog: FaBlog,
