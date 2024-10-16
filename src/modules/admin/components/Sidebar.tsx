@@ -3,7 +3,7 @@ import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
-// import initials from 'initials';
+import initials from 'initials';
 
 import { cn } from '@/common/lib/utils';
 import { Icon } from '@/common/constants/icons';
@@ -25,7 +25,7 @@ const SidebarHeading = ({
     <Tooltip delayDuration={0}>
       <TooltipTrigger asChild>
         <div className="flex size-9 items-center justify-center rounded-md bg-gray-200">
-          <span className="text-sm uppercase text-zinc-500">{heading}</span>
+          <span className="text-sm uppercase text-zinc-500">{initials(heading)}</span>
         </div>
       </TooltipTrigger>
       <TooltipContent side="right" className="flex items-center gap-4">
@@ -85,7 +85,7 @@ const SidebarItemWithChildren = ({
             <Tooltip key={child.title} delayDuration={0}>
               <TooltipTrigger asChild>
                 <Link href={child.route || '#'} className={cn(buttonVariants({ size: 'icon' }), 'h-9 w-9')}>
-                  <span className="text-sm">{child.title}</span>
+                  <span className="text-sm">{initials(child.title)}</span>
                 </Link>
               </TooltipTrigger>
               <TooltipContent side="right" className="flex items-center gap-4">
