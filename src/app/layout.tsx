@@ -3,7 +3,9 @@ import type { Metadata } from 'next';
 import { SessionProvider } from 'next-auth/react';
 import { auth } from '@/auth';
 
-import { Toaster } from '@/common/components/ui/sonner';
+import { Toaster } from '@/common/components/ui/toaster';
+import { ToastProvider } from '@/common/components/ui/toast';
+
 import { Plus_Jakarta_Sans, Inter } from 'next/font/google';
 import '@/common/styles/globals.css';
 
@@ -25,10 +27,12 @@ export default async function RootLayout({
   return (
     <SessionProvider session={session}>
       <html lang="en">
-        <body className={`${plus_jakarta_sans.className} ${inter.className}`} suppressHydrationWarning={true}>
-          <Toaster />
-          {children}
-        </body>
+        <ToastProvider>
+          <body className={`${plus_jakarta_sans.className} ${inter.className}`} suppressHydrationWarning={true}>
+            <Toaster />
+            {children}
+          </body>
+        </ToastProvider>
       </html>
     </SessionProvider>
   );

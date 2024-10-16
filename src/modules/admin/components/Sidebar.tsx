@@ -119,7 +119,7 @@ const CollapsedSidebar = ({ item }: { readonly item: NavItem }) => {
     <Tooltip delayDuration={0}>
       <TooltipTrigger asChild>
         <Link href={item.route ?? '#'} className={cn(buttonVariants({ size: 'icon' }), 'h-9 w-9')}>
-          <Icon name={item.icon} className="mr-2 size-4" />
+          <Icon name={item.icon} className="size-4" />
           <span className="sr-only">{item.title}</span>
         </Link>
       </TooltipTrigger>

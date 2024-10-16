@@ -15,7 +15,7 @@ import { ResizablePanel, ResizablePanelGroup } from '@/common/components/ui/resi
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from '@/common/components/ui/sheet';
 
 import { Sidebar } from '@/modules/admin';
-import { UserNav } from '@/common/components/custom';
+import { BugIcon, UserNav } from '@/common/components/custom';
 import { useScreenSize } from '@/common/hooks/use-screen-size';
 import { useRouteChange } from '@/common/hooks/use-route-change';
 
@@ -25,7 +25,7 @@ interface LayoutProps {
 
 const appConfig = {
   appName: 'Entomon Institite',
-  appShortName: 'EIIZ',
+  appShortName: <BugIcon />,
 };
 
 export default function AdminLayout({ children }: LayoutProps) {
@@ -55,12 +55,12 @@ export default function AdminLayout({ children }: LayoutProps) {
       <main>
         <ResizablePanelGroup direction="horizontal" className="min-h-screen items-stretch">
           <ResizablePanel
-            ref={panelRef}
-            defaultSize={18}
-            collapsedSize={4}
             collapsible
             minSize={18}
             maxSize={18}
+            ref={panelRef}
+            defaultSize={18}
+            collapsedSize={4}
             onCollapse={() => {
               setIsCollapsed(true);
             }}
@@ -78,10 +78,10 @@ export default function AdminLayout({ children }: LayoutProps) {
               <h1>{!isCollapsed ? appConfig.appName : appConfig.appShortName}</h1>
 
               <Button
-                className="absolute right-[-12px] size-6 rounded-full border-none bg-gray-200"
-                variant="outline"
                 size="icon"
+                variant="outline"
                 onClick={handleTogglePanel}
+                className="absolute right-[-12px] size-6 rounded-full border-none bg-gray-200"
               >
                 <span className="transition-transform duration-300 ease-in-out">
                   <Icon
@@ -98,9 +98,9 @@ export default function AdminLayout({ children }: LayoutProps) {
           <ResizablePanel defaultSize={!isMediumOrSmaller ? 82 : 100}>
             <div className="flex items-center justify-between px-4 py-2 lg:justify-end">
               <Button
-                onClick={() => setIsMobileNavOpen(!isMobileNavOpen)}
                 variant="default"
                 className="size-9 p-1 md:flex lg:hidden"
+                onClick={() => setIsMobileNavOpen(!isMobileNavOpen)}
               >
                 <Icon name="hamburger" className="size-6" />
               </Button>
