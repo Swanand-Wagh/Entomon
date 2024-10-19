@@ -1,4 +1,9 @@
 import Link from 'next/link';
+
+import initials from 'initials';
+import { User } from '@prisma/client';
+import { LogoutButton } from '@/modules/auth';
+
 import {
   DropdownMenu,
   DropdownMenuItem,
@@ -12,9 +17,12 @@ import {
 import { Button } from '@/common/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/common/components/ui/avatar';
 
-import { LogoutButton } from '@/modules/auth';
+const userNavItems = [
+  { href: '/admin/dashboard', label: 'Profile', shortcut: '⌘P' },
+  { href: '/admin/settings', label: 'Settings', shortcut: '⌘S' },
+];
 
-export const UserNav = () => {
+export const UserNav = ({ user }: { user: User }) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -23,8 +31,8 @@ export const UserNav = () => {
           className="relative size-9 rounded-full focus-visible:ring-0 focus-visible:ring-offset-0"
         >
           <Avatar className="size-9">
-            <AvatarImage src="" alt="@entomon" />
-            <AvatarFallback>EP</AvatarFallback>
+            {user.image && <AvatarImage src={user.image} alt={initials(user.name)} />}
+            <AvatarFallback>{initials(user.name)}</AvatarFallback>
           </Avatar>
         </Button>
       </DropdownMenuTrigger>
@@ -32,25 +40,21 @@ export const UserNav = () => {
       <DropdownMenuContent className="w-56" align="end" forceMount>
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
-            <p className="text-sm font-medium leading-none">Entomon Institite</p>
-            <p className="text-xs leading-none text-muted-foreground">entomoninstitute@gmail.com</p>
+            <p className="text-sm font-medium leading-none">{user.name}</p>
+            <p className="text-xs leading-none text-muted-foreground">{user.email}</p>
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
 
         <DropdownMenuGroup>
-          <DropdownMenuItem asChild>
-            <Link href="/admin/dashboard" className="w-full cursor-pointer">
-              Profile
-              <DropdownMenuShortcut>⌘P</DropdownMenuShortcut>
-            </Link>
-          </DropdownMenuItem>
-          <DropdownMenuItem asChild>
-            <Link href="/admin/settings" className="w-full cursor-pointer">
-              Settings
-              <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
-            </Link>
-          </DropdownMenuItem>
+          {userNavItems.map((item, index) => (
+            <DropdownMenuItem key={index} asChild>
+              <Link href={item.href} className="w-full cursor-pointer">
+                {item.label}
+                {item.shortcut && <DropdownMenuShortcut>{item.shortcut}</DropdownMenuShortcut>}
+              </Link>
+            </DropdownMenuItem>
+          ))}
         </DropdownMenuGroup>
 
         <DropdownMenuSeparator />

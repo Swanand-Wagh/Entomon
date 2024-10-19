@@ -2,8 +2,8 @@
 
 import React, { ReactNode, useState, useRef } from 'react';
 
-import { UserRole } from '@prisma/client';
 import { RoleGate } from '@/modules/auth';
+import { User, UserRole } from '@prisma/client';
 
 import { Icon } from '@/common/constants/icons';
 import { ImperativePanelHandle, PanelResizeHandle } from 'react-resizable-panels';
@@ -18,6 +18,7 @@ import { Sidebar } from '@/modules/admin';
 import { BugIcon, UserNav } from '@/common/components/custom';
 import { useScreenSize } from '@/common/hooks/use-screen-size';
 import { useRouteChange } from '@/common/hooks/use-route-change';
+import { useCurrentUser } from '@/common/hooks/use-current-user';
 
 type LayoutProps = {
   readonly children: ReactNode;
@@ -29,6 +30,7 @@ const appConfig = {
 };
 
 export default function AdminLayout({ children }: LayoutProps) {
+  const user = useCurrentUser();
   const isMediumOrSmaller = useScreenSize();
 
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -106,7 +108,7 @@ export default function AdminLayout({ children }: LayoutProps) {
               </Button>
 
               <div className="flex gap-2">
-                <UserNav />
+                <UserNav user={user as User} />
               </div>
             </div>
             <Separator />
