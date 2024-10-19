@@ -11,6 +11,7 @@ import {
   IoWarningOutline,
   IoCheckmarkCircleOutline,
 } from 'react-icons/io5';
+import { RxMixerHorizontal } from 'react-icons/rx';
 import { FaFacebookSquare, FaUserNinja, FaBlog } from 'react-icons/fa';
 import { SiGmail, SiLinkedin, SiGoogleanalytics } from 'react-icons/si';
 import { MdErrorOutline, MdMenuBook, MdEventNote } from 'react-icons/md';
@@ -32,6 +33,7 @@ export const ICONS = {
   calendar: IoCalendar,
   google: IoLogoGoogle,
   error: MdErrorOutline,
+  mixer: RxMixerHorizontal,
   warning: IoWarningOutline,
   settings: IoSettingsSharp,
   facebook: FaFacebookSquare,
