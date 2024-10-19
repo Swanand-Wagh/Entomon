@@ -6,5 +6,6 @@ import { FormError } from './FormError';
 import { Spotlight } from './Spotlight';
 import { FormSuccess } from './FormSuccess';
 import { SearchInput } from './SearchInput';
+import { CustomBreadcrumbs } from './CustomBreadcrumbs';
 
-export { BugIcon, UserNav, Footer, Navbar, FormSuccess, FormError, SearchInput, Spotlight };
+export { BugIcon, UserNav, Footer, Navbar, FormSuccess, FormError, SearchInput, Spotlight, CustomBreadcrumbs };
