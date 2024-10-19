@@ -1,137 +1,154 @@
 'use client';
 
-import React, { ReactNode, useState, useRef } from 'react';
-
-import { RoleGate } from '@/modules/auth';
-import { User, UserRole } from '@prisma/client';
-
-import { cn } from '@/common/lib/utils';
-import { Sidebar } from '@/modules/admin';
+import React from 'react';
+import Link from 'next/link';
+import { User } from '@prisma/client';
+import { usePathname } from 'next/navigation';
 import { Icon } from '@/common/constants/icons';
-import { ImperativePanelHandle, PanelResizeHandle } from 'react-resizable-panels';
-
 import { BugIcon, UserNav } from '@/common/components/custom';
-import { useScreenSize } from '@/common/hooks/use-screen-size';
-import { useRouteChange } from '@/common/hooks/use-route-change';
-import { useCurrentUser } from '@/common/hooks/use-current-user';
-import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
+import { sidebarItems } from '@/modules/admin/components/SidebarItems';
 
-import { Button } from '@/common/components/ui/button';
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from '@/common/components/ui/breadcrumb';
+import {
+  Sidebar,
+  useSidebar,
+  SidebarMenu,
+  SidebarRail,
+  SidebarGroup,
+  SidebarInput,
+  SidebarInset,
+  SidebarHeader,
+  SidebarContent,
+  SidebarTrigger,
+  SidebarMenuItem,
+  SidebarProvider,
+  SidebarGroupLabel,
+  SidebarMenuButton,
+  SidebarGroupContent,
+} from '@/common/components/ui/sidebar';
+import { Label } from '@/common/components/ui/label';
 import { Separator } from '@/common/components/ui/separator';
-import { ResizablePanel, ResizablePanelGroup } from '@/common/components/ui/resizable';
-import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from '@/common/components/ui/sheet';
+import { useCurrentUser } from '@/common/hooks/use-current-user';
 
-
-type LayoutProps = {
-  readonly children: ReactNode;
-};
-
-const appConfig = {
-  appName: 'Entomon Institite',
-  appShortName: <BugIcon />,
-};
-
-export default function AdminLayout({ children }: LayoutProps) {
-  const user = useCurrentUser();
-  const isMediumOrSmaller = useScreenSize();
-
-  const [isCollapsed, setIsCollapsed] = useState(false);
-  const panelRef = useRef<ImperativePanelHandle | null>(null);
-  const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
-
-  useRouteChange(() => {
-    setIsMobileNavOpen(false);
-  });
-
-  const handleTogglePanel = () => {
-    if (panelRef.current) {
-      if (isCollapsed) {
-        panelRef.current.expand();
-      } else {
-        panelRef.current.collapse();
-      }
-      setIsCollapsed(!isCollapsed);
-    }
-  };
+const CompanyDetails = () => {
+  const { state } = useSidebar();
 
   return (
-    <RoleGate allowedRole={UserRole.ADMIN}>
-      <main>
-        <ResizablePanelGroup direction="horizontal" className="min-h-screen items-stretch">
-          <ResizablePanel
-            collapsible
-            minSize={18}
-            maxSize={18}
-            ref={panelRef}
-            defaultSize={18}
-            collapsedSize={4}
-            onCollapse={() => {
-              setIsCollapsed(true);
-            }}
-            onExpand={() => {
-              setIsCollapsed(false);
-            }}
-            className={cn(
-              'hidden !overflow-visible border-r lg:block',
-              isCollapsed && 'min-w-[50px] transition-all duration-300 ease-in-out'
-            )}
-          >
-            <div
-              className={cn('relative flex h-[52px] items-center', isCollapsed ? 'h-[52px] justify-center' : 'px-2')}
-            >
-              <h1>{!isCollapsed ? appConfig.appName : appConfig.appShortName}</h1>
+    <SidebarGroup className={`flex flex-row gap-2 ${state === 'collapsed' ? 'px-0' : 'px-2'} py-3`}>
+      <BugIcon className={`w-fit ${state === 'collapsed' ? 'mx-auto' : ''}`} />
+      {state !== 'collapsed' && <span className="text-lg font-bold">Entomon Institute</span>}
+    </SidebarGroup>
+  );
+};
 
-              <Button
-                size="icon"
-                variant="outline"
-                onClick={handleTogglePanel}
-                className="absolute right-[-12px] size-6 rounded-full border-none bg-gray-200"
-              >
-                <span className="transition-transform duration-300 ease-in-out">
-                  <Icon
-                    name="chevronBack"
-                    className={cn('size-4 transform', isCollapsed ? 'rotate-180' : 'rotate-0')}
-                  />
-                </span>
-              </Button>
-            </div>
-            <Separator />
-            <Sidebar isCollapsed={isCollapsed} />
-          </ResizablePanel>
+const SidebarSearch = () => {
+  const { state, toggleSidebar } = useSidebar();
 
-          <ResizablePanel defaultSize={!isMediumOrSmaller ? 82 : 100}>
-            <div className="flex items-center justify-between px-4 py-2 lg:justify-end">
-              <Button
-                variant="default"
-                className="size-9 p-1 md:flex lg:hidden"
-                onClick={() => setIsMobileNavOpen(!isMobileNavOpen)}
-              >
-                <Icon name="hamburger" className="size-6" />
-              </Button>
+  return (
+    <form>
+      <SidebarGroup className={`relative py-0 ${state === 'collapsed' ? 'px-0' : ''}`}>
+        <SidebarGroupContent className="relative">
+          <Label htmlFor="search" className="sr-only">
+            Search
+          </Label>
+          <SidebarInput
+            id="search"
+            autoComplete="off"
+            onFocus={() => state !== 'expanded' && toggleSidebar()}
+            onClick={() => state !== 'expanded' && toggleSidebar()}
+            placeholder={`${state !== 'collapsed' ? 'Search anything...' : ''}`}
+            className={`pl-8 ${state === 'collapsed' ? 'cursor-pointer pl-4' : ''}`}
+          />
+          <Icon
+            name="search"
+            className="pointer-events-none absolute left-2 top-1/2 size-4 -translate-y-1/2 select-none opacity-50"
+          />
+        </SidebarGroupContent>
+      </SidebarGroup>
+    </form>
+  );
+};
 
-              <div className="flex gap-2">
-                <UserNav user={user as User} />
-              </div>
-            </div>
-            <Separator />
-            <div className="p-4">{children}</div>
-          </ResizablePanel>
-          <PanelResizeHandle />
-        </ResizablePanelGroup>
+export default function AdminLayout({ children }: { children: React.ReactNode }) {
+  const user = useCurrentUser();
+  const pathname = usePathname();
+  const pathSegments = pathname.split('/').filter(Boolean);
 
-        <Sheet open={isMobileNavOpen} onOpenChange={setIsMobileNavOpen}>
-          <VisuallyHidden>
-            <SheetDescription>...</SheetDescription>
-          </VisuallyHidden>
+  return (
+    <SidebarProvider>
+      <Sidebar collapsible="icon">
+        <SidebarHeader>
+          <CompanyDetails />
+          <SidebarSearch />
+        </SidebarHeader>
 
-          <SheetContent className="px-2 py-3" side="left">
-            <SheetHeader>
-              <SheetTitle className="text-left">{appConfig.appName}</SheetTitle>
-            </SheetHeader>
-            <Sidebar isMobileSidebar isCollapsed={false} />
-          </SheetContent>
-        </Sheet>
-      </main>
-    </RoleGate>
+        <SidebarContent>
+          {sidebarItems.navMain.map((section) => (
+            <SidebarGroup key={section.title}>
+              <SidebarGroupLabel>{section.title}</SidebarGroupLabel>
+              <SidebarGroupContent>
+                <SidebarMenu>
+                  {section.items.map((item) => {
+                    const isActive = pathname === item.url;
+                    return (
+                      <SidebarMenuItem key={item.title}>
+                        <SidebarMenuButton asChild isActive={isActive} tooltip={item.title}>
+                          <Link
+                            href={item.url}
+                            className={`flex items-center gap-2 ${isActive ? 'font-semibold text-blue-600' : ''}`}
+                          >
+                            {item.icon && <Icon name={item.icon} />}
+                            {item.title}
+                          </Link>
+                        </SidebarMenuButton>
+                      </SidebarMenuItem>
+                    );
+                  })}
+                </SidebarMenu>
+              </SidebarGroupContent>
+            </SidebarGroup>
+          ))}
+        </SidebarContent>
+
+        <SidebarRail />
+      </Sidebar>
+
+      <SidebarInset>
+        <header className="flex h-16 shrink-0 items-center justify-between gap-2 border-b pl-4 pr-8">
+          <div className="flex items-center gap-2">
+            <SidebarTrigger className="-ml-1" />
+            <Separator orientation="vertical" className="mr-2 h-4" />
+
+            <Breadcrumb>
+              <BreadcrumbList>
+                {pathSegments.map((segment, index) => {
+                  const url = `/${pathSegments.slice(0, index + 1).join('/')}`;
+                  const isLast = index === pathSegments.length - 1;
+
+                  return (
+                    <React.Fragment key={url}>
+                      <BreadcrumbItem>
+                        <BreadcrumbPage>{segment}</BreadcrumbPage>
+                      </BreadcrumbItem>
+                      {!isLast && <BreadcrumbSeparator />}
+                    </React.Fragment>
+                  );
+                })}
+              </BreadcrumbList>
+            </Breadcrumb>
+          </div>
+
+          <UserNav user={user as User} />
+        </header>
+
+        <main className="container mx-auto flex-1 overflow-auto py-10">{children}</main>
+      </SidebarInset>
+    </SidebarProvider>
   );
 }

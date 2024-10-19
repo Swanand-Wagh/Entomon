@@ -1,67 +1,86 @@
 import { ICONS } from '@/common/constants/icons';
 
-export type NavItem = {
+type NavItem = {
   title: string;
-  label?: string;
-  icon: keyof typeof ICONS;
-  route?: string;
-  children?: ChildNavItem[];
+  url: string;
+  icon?: keyof typeof ICONS;
 };
 
-export type ChildNavItem = {
+type NavSection = {
   title: string;
-  label?: string;
-  route: string;
+  url: string;
+  items: NavItem[];
 };
 
-export type NavHeader = {
-  heading: string;
+type SidebarItems = {
+  navMain: NavSection[];
 };
 
-export type SidebarItem = NavItem | NavHeader;
-
-export const sidebarItems: SidebarItem[] = [
-  { heading: 'Overview' },
-  {
-    title: 'Dashboard',
-    icon: 'hamburger',
-    route: '/admin/dashboard',
-  },
-  { heading: 'Apps & Pages' },
-  {
-    title: 'Blogs',
-    icon: 'blog',
-    route: '/admin/blogs',
-  },
-  {
-    title: 'Courses',
-    icon: 'course',
-    route: '/admin/courses',
-  },
-  {
-    title: 'Events',
-    icon: 'event',
-    route: '/admin/events',
-  },
-  { heading: 'User Settings' },
-  {
-    title: 'Users',
-    icon: 'user',
-    route: '/admin/users',
-  },
-  {
-    title: 'Analytics',
-    icon: 'analytics',
-    route: '/admin/analytics',
-  },
-  {
-    title: 'Settings',
-    icon: 'settings',
-    route: '/admin/settings',
-  },
-  // {
-  //   title: 'Notifications',
-  //   icon: 'bell',
-  //   children: [{ title: 'Emails', route: '/admin/notifications/' }],
-  // },
-];
+export const sidebarItems: SidebarItems = {
+  navMain: [
+    {
+      title: 'Overview',
+      url: '#',
+      items: [
+        {
+          title: 'Dashboard',
+          url: '/admin/dashboard',
+          icon: 'hamburger',
+        },
+      ],
+    },
+    {
+      title: 'Apps & Pages',
+      url: '#',
+      items: [
+        {
+          title: 'Blogs',
+          url: '/admin/blogs',
+          icon: 'blog',
+        },
+        {
+          title: 'Courses',
+          url: '/admin/courses',
+          icon: 'course',
+        },
+        {
+          title: 'Events',
+          url: '/admin/events',
+          icon: 'event',
+        },
+      ],
+    },
+    {
+      title: 'User Settings',
+      url: '#',
+      items: [
+        {
+          title: 'Users',
+          url: '/admin/users',
+          icon: 'user',
+        },
+        {
+          title: 'Analytics',
+          url: '/admin/analytics',
+          icon: 'analytics',
+        },
+        {
+          title: 'Settings',
+          url: '/admin/settings',
+          icon: 'settings',
+        },
+      ],
+    },
+    {
+      title: 'Notifications',
+      url: '#',
+      items: [
+        {
+          title: 'Emails',
+          url: '/admin/notifications/', 
+          icon: 'gmail',
+        },
+      ],
+    },
+  ],
+};

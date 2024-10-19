@@ -15,9 +15,7 @@ const AdminUsersPage = async () => {
 
   return (
     <>
-      <div className="container mx-auto py-10">
-        <UserDataTable columns={columns} data={users} />
-      </div>
+      <UserDataTable columns={columns} data={users} />
     </>
   );
 };
