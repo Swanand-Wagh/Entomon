@@ -4,14 +4,18 @@ import {
   IoMenu,
   IoSearch,
   IoCalendar,
+  IoChevronUp,
   IoLogoGoogle,
   IoChevronDown,
   IoChevronBack,
   IoSettingsSharp,
+  IoChevronForward,
   IoWarningOutline,
   IoCheckmarkCircleOutline,
 } from 'react-icons/io5';
 import { RxMixerHorizontal } from 'react-icons/rx';
+import { BsArrowDown, BsArrowUp } from 'react-icons/bs';
+import { FiChevronsLeft, FiChevronsRight } from 'react-icons/fi';
 import { FaFacebookSquare, FaUserNinja, FaBlog } from 'react-icons/fa';
 import { SiGmail, SiLinkedin, SiGoogleanalytics } from 'react-icons/si';
 import { MdErrorOutline, MdMenuBook, MdEventNote } from 'react-icons/md';
@@ -33,14 +37,20 @@ export const ICONS = {
   calendar: IoCalendar,
   google: IoLogoGoogle,
   error: MdErrorOutline,
+  chevronUp: IoChevronUp,
+  filterArrowUp: BsArrowUp,
   mixer: RxMixerHorizontal,
   warning: IoWarningOutline,
   settings: IoSettingsSharp,
   facebook: FaFacebookSquare,
   chevronDown: IoChevronDown,
   chevronBack: IoChevronBack,
+  filterArrowDown: BsArrowDown,
   analytics: SiGoogleanalytics,
   check: IoCheckmarkCircleOutline,
+  chevronForward: IoChevronForward,
+  doubleChevronsLeft: FiChevronsLeft,
+  doubleChevronsRight: FiChevronsRight,
 } as const;
 
 export const Icon: React.FC<IconProps> = ({ name, className }) => {

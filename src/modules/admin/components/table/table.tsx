@@ -18,6 +18,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 
 import { FilterEmail } from './filter';
 import { VisibilityColumns } from './visibility';
+import { Pagination } from './pagination';
 
 type DataTableProps<TData, TValue> = {
   columns: ColumnDef<TData, TValue>[];
@@ -87,6 +88,8 @@ export const UserDataTable = <TData, TValue>({ columns, data }: DataTableProps<T
           </TableBody>
         </Table>
       </div>
+
+      <Pagination table={table} />
     </>
   );
 };
