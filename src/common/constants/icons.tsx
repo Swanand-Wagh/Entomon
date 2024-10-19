@@ -18,7 +18,7 @@ import { BsArrowDown, BsArrowUp } from 'react-icons/bs';
 import { FiChevronsLeft, FiChevronsRight } from 'react-icons/fi';
 import { FaFacebookSquare, FaUserNinja, FaBlog } from 'react-icons/fa';
 import { SiGmail, SiLinkedin, SiGoogleanalytics } from 'react-icons/si';
-import { MdErrorOutline, MdMenuBook, MdEventNote } from 'react-icons/md';
+import { MdErrorOutline, MdMenuBook, MdEventNote, MdOutlineFileDownload } from 'react-icons/md';
 
 type IconProps = {
   name: keyof typeof ICONS;
@@ -47,6 +47,7 @@ export const ICONS = {
   chevronBack: IoChevronBack,
   filterArrowDown: BsArrowDown,
   analytics: SiGoogleanalytics,
+  download: MdOutlineFileDownload,
   check: IoCheckmarkCircleOutline,
   chevronForward: IoChevronForward,
   doubleChevronsLeft: FiChevronsLeft,

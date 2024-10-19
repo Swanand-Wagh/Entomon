@@ -16,7 +16,7 @@ export const VisibilityColumns = <TData,>({ table }: { table: Table<TData> }) =>
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button aria-label="Toggle columns" variant="outline" size="sm" className="ml-auto hidden h-8 lg:flex">
+        <Button aria-label="Toggle columns" variant="secondary" size="sm" className="ml-auto hidden h-8 lg:flex">
           <Icon name="mixer" className="mr-2 size-4 font-bold" /> View
         </Button>
       </DropdownMenuTrigger>

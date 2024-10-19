@@ -19,6 +19,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { FilterEmail } from './filter';
 import { VisibilityColumns } from './visibility';
 import { Pagination } from './pagination';
+import { ExportToCSV } from './export';
 
 type DataTableProps<TData, TValue> = {
   columns: ColumnDef<TData, TValue>[];
@@ -49,9 +50,12 @@ export const UserDataTable = <TData, TValue>({ columns, data }: DataTableProps<T
 
   return (
     <>
-      <div className="flex items-center py-4">
+      <div className="flex justify-between py-4">
         <FilterEmail table={table} />
-        <VisibilityColumns table={table} />
+        <div className="flex gap-4">
+          <ExportToCSV table={table} />
+          <VisibilityColumns table={table} />
+        </div>
       </div>
       <div className="rounded-md border">
         <Table>
