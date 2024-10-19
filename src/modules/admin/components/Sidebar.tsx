@@ -1,10 +1,10 @@
-import React from 'react';
+'use client';
 
+import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 import initials from 'initials';
-
 import { cn } from '@/common/lib/utils';
 import { Icon } from '@/common/constants/icons';
 import { buttonVariants } from '@/common/components/ui/button';
@@ -56,8 +56,8 @@ const SidebarItemWithChildren = ({
         className={cn(
           buttonVariants({ variant: 'ghost', size: isCollapsed ? 'icon' : 'sm' }),
           isCollapsed && 'hide-accordion-icon',
-          'flex h-9 w-9 items-center justify-between py-0 hover:no-underline',
-          isActive && 'bg-accent'
+          'flex h-9 w-9 items-center justify-between py-0 hover:bg-gray-200 hover:text-black',
+          isActive ? 'bg-gray-300 text-black' : 'bg-white text-black'
         )}
       >
         {isCollapsed ? (
@@ -97,7 +97,11 @@ const SidebarItemWithChildren = ({
             <Link
               key={child.title}
               href={child.route || '#'}
-              className={cn(buttonVariants({ size: 'sm' }), 'flex items-center justify-start px-4 py-0')}
+              className={cn(
+                buttonVariants({ size: 'sm' }),
+                'flex items-center justify-start px-4 py-0 hover:bg-gray-200 hover:text-black',
+                currentPath.includes(child.route) ? 'bg-gray-300 text-black' : 'bg-white text-black'
+              )}
             >
               <Icon name="check" className={cn('mr-2 h-3 w-3')} />
               <div className={cn('text-sm duration-200')}>{child.title}</div>
@@ -118,7 +122,13 @@ const CollapsedSidebar = ({ item }: { readonly item: NavItem }) => {
   return (
     <Tooltip delayDuration={0}>
       <TooltipTrigger asChild>
-        <Link href={item.route ?? '#'} className={cn(buttonVariants({ size: 'icon' }), 'h-9 w-9')}>
+        <Link
+          href={item.route ?? '#'}
+          className={cn(
+            buttonVariants({ size: 'icon' }),
+            'h-9 w-9 bg-white text-black hover:bg-gray-200 hover:text-black'
+          )}
+        >
           <Icon name={item.icon} className="size-4" />
           <span className="sr-only">{item.title}</span>
         </Link>
@@ -132,12 +142,18 @@ const CollapsedSidebar = ({ item }: { readonly item: NavItem }) => {
 };
 
 const ExpandedSidebar = ({ item }: { readonly item: NavItem }) => {
-  if (item.children) {
-    return <SidebarItemWithChildren item={item} />;
-  }
+  const currentPath = usePathname();
+  const isActive = currentPath === item.route;
 
   return (
-    <Link href={item.route ?? '#'} className={cn(buttonVariants({ size: 'sm' }), 'flex items-center justify-start')}>
+    <Link
+      href={item.route ?? '#'}
+      className={cn(
+        buttonVariants({ size: 'sm' }),
+        'flex items-center justify-start px-4 py-0 hover:bg-gray-200 hover:text-black',
+        isActive ? 'bg-gray-300 text-black' : 'bg-white text-black'
+      )}
+    >
       <Icon name={item.icon} className="mr-2 size-4" />
       {item.title}
       {item.label && <span className={cn('ml-auto')}>{item.label}</span>}

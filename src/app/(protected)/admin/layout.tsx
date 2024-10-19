@@ -5,20 +5,22 @@ import React, { ReactNode, useState, useRef } from 'react';
 import { RoleGate } from '@/modules/auth';
 import { User, UserRole } from '@prisma/client';
 
+import { cn } from '@/common/lib/utils';
+import { Sidebar } from '@/modules/admin';
 import { Icon } from '@/common/constants/icons';
 import { ImperativePanelHandle, PanelResizeHandle } from 'react-resizable-panels';
 
-import { cn } from '@/common/lib/utils';
+import { BugIcon, UserNav } from '@/common/components/custom';
+import { useScreenSize } from '@/common/hooks/use-screen-size';
+import { useRouteChange } from '@/common/hooks/use-route-change';
+import { useCurrentUser } from '@/common/hooks/use-current-user';
+import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
+
 import { Button } from '@/common/components/ui/button';
 import { Separator } from '@/common/components/ui/separator';
 import { ResizablePanel, ResizablePanelGroup } from '@/common/components/ui/resizable';
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from '@/common/components/ui/sheet';
 
-import { Sidebar } from '@/modules/admin';
-import { BugIcon, UserNav } from '@/common/components/custom';
-import { useScreenSize } from '@/common/hooks/use-screen-size';
-import { useRouteChange } from '@/common/hooks/use-route-change';
-import { useCurrentUser } from '@/common/hooks/use-current-user';
 
 type LayoutProps = {
   readonly children: ReactNode;
@@ -118,7 +120,9 @@ export default function AdminLayout({ children }: LayoutProps) {
         </ResizablePanelGroup>
 
         <Sheet open={isMobileNavOpen} onOpenChange={setIsMobileNavOpen}>
-          <SheetDescription>...</SheetDescription>
+          <VisuallyHidden>
+            <SheetDescription>...</SheetDescription>
+          </VisuallyHidden>
 
           <SheetContent className="px-2 py-3" side="left">
             <SheetHeader>
