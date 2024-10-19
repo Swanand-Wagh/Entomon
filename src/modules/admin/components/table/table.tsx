@@ -16,10 +16,10 @@ import {
 } from '@tanstack/react-table';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/common/components/ui/table';
 
-import { FilterEmail } from './filter';
-import { VisibilityColumns } from './visibility';
-import { Pagination } from './pagination';
+import { FilterName } from './filter';
 import { ExportToCSV } from './export';
+import { Pagination } from './pagination';
+import { VisibilityColumns } from './visibility';
 
 type DataTableProps<TData, TValue> = {
   columns: ColumnDef<TData, TValue>[];
@@ -51,7 +51,7 @@ export const UserDataTable = <TData, TValue>({ columns, data }: DataTableProps<T
   return (
     <>
       <div className="flex justify-between py-4">
-        <FilterEmail table={table} />
+        <FilterName table={table} />
         <div className="flex gap-4">
           <ExportToCSV table={table} />
           <VisibilityColumns table={table} />

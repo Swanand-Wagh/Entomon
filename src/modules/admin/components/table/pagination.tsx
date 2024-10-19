@@ -12,7 +12,7 @@ export const Pagination = <TData,>({ table }: DataTablePaginationProps<TData>) =
   return (
     <div className="flex items-center justify-end space-x-2 px-2 py-4">
       <div className="flex items-center space-x-2">
-        <p className="text-sm font-medium">Rows per page</p>
+        <p className="text-sm">Rows per page</p>
         <Select
           value={`${table.getState().pagination.pageSize}`}
           onValueChange={(value) => {
@@ -32,7 +32,7 @@ export const Pagination = <TData,>({ table }: DataTablePaginationProps<TData>) =
         </Select>
       </div>
 
-      <div className="flex w-[100px] items-center justify-center text-sm font-medium">
+      <div className="flex w-[100px] items-center justify-center text-sm">
         Page {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
       </div>
       <div className="flex items-center space-x-2">
