@@ -1,6 +1,4 @@
 import React from 'react';
-import { User } from '@prisma/client';
-import { currentUser } from '@/common/lib/auth';
 import { CustomBreadcrumbs, UserNav } from '@/common/components/custom';
 import { sidebarItemsList, SidebarSearch, CompanyDetails, SidebarItems } from '@/modules/admin';
 
@@ -19,9 +17,7 @@ import {
 } from '@/common/components/ui/sidebar';
 import { Separator } from '@/common/components/ui/separator';
 
-export default async function AdminLayout({ children }: { children: React.ReactNode }) {
-  const user = await currentUser();
-
+export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
     <SidebarProvider>
       <Sidebar collapsible="icon">
@@ -53,7 +49,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
             <CustomBreadcrumbs />
           </div>
 
-          <UserNav user={user as User} />
+          <UserNav />
         </header>
 
         <main className="container mx-auto flex-1 overflow-auto py-10">{children}</main>

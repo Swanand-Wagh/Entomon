@@ -1,8 +1,8 @@
 import Link from 'next/link';
 
 import initials from 'initials';
-import { User } from '@prisma/client';
 import { LogoutButton } from '@/modules/auth';
+import { currentUser } from '@/common/lib/auth';
 
 import {
   DropdownMenu,
@@ -22,7 +22,9 @@ const userNavItems = [
   { href: '/admin/settings', label: 'Settings', shortcut: '⌘S' },
 ];
 
-export const UserNav = ({ user }: { user: User }) => {
+export const UserNav = async () => {
+  const user = await currentUser();
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -31,8 +33,8 @@ export const UserNav = ({ user }: { user: User }) => {
           className="relative size-9 rounded-full focus-visible:ring-0 focus-visible:ring-offset-0"
         >
           <Avatar className="size-9">
-            {user.image && <AvatarImage src={user.image} alt={initials(user.name)} />}
-            <AvatarFallback>{initials(user.name)}</AvatarFallback>
+            {user?.image && <AvatarImage src={user?.image} alt={initials(user?.name as string)} />}
+            <AvatarFallback>{initials(user?.name as string)}</AvatarFallback>
           </Avatar>
         </Button>
       </DropdownMenuTrigger>
@@ -40,8 +42,8 @@ export const UserNav = ({ user }: { user: User }) => {
       <DropdownMenuContent className="w-56" align="end" forceMount>
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
-            <p className="text-sm font-medium leading-none">{user.name}</p>
-            <p className="text-xs leading-none text-muted-foreground">{user.email}</p>
+            <p className="text-sm font-medium leading-none">{user?.name}</p>
+            <p className="text-xs leading-none text-muted-foreground">{user?.email}</p>
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
