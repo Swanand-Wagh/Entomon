@@ -1,5 +1,5 @@
-import { columns } from './components/table/columns';
-import { UserDataTable } from './components/table/table';
+import { columns } from './components/users/columns';
+import { UserDataTable } from './components/users/table';
 
 import { SidebarItems } from './components/layout/SidebarItems';
 import { SidebarSearch } from './components/layout/SidebarSearch';
