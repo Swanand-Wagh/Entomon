@@ -10,7 +10,7 @@ type UserColumn = {
   emailVerified: boolean;
 };
 
-export const columns: ColumnDef<UserColumn>[] = [
+export const AdminUserColumns: ColumnDef<UserColumn>[] = [
   {
     accessorKey: 'name',
     enableHiding: true,

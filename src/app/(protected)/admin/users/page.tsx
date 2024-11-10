@@ -1,7 +1,8 @@
 import React from 'react';
 
+import { columns } from '@/modules/admin';
 import { getAllUsers } from '@/common/data/admin';
-import { columns, UserDataTable } from '@/modules/admin';
+import { DataTable } from '@/common/components/custom/table';
 
 const AdminUsersPage = async () => {
   const data = await getAllUsers();
@@ -15,7 +16,7 @@ const AdminUsersPage = async () => {
 
   return (
     <>
-      <UserDataTable columns={columns} data={users} />
+      <DataTable columns={columns} data={users} />
     </>
   );
 };

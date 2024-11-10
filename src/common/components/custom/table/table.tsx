@@ -16,7 +16,7 @@ import {
 } from '@tanstack/react-table';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/common/components/ui/table';
 
-import { FilterName } from './filter';
+import { FilterField } from './filter';
 import { ExportToCSV } from './export';
 import { Pagination } from './pagination';
 import { VisibilityColumns } from './visibility';
@@ -24,9 +24,18 @@ import { VisibilityColumns } from './visibility';
 type DataTableProps<TData, TValue> = {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  showExportButton?: boolean;
+  showFilter?: boolean;
+  showVisibilityColumns?: boolean;
 };
 
-export const UserDataTable = <TData, TValue>({ columns, data }: DataTableProps<TData, TValue>) => {
+export const DataTable = <TData, TValue>({
+  columns,
+  data,
+  showExportButton = true,
+  showFilter = true,
+  showVisibilityColumns = true,
+}: DataTableProps<TData, TValue>) => {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
@@ -51,10 +60,10 @@ export const UserDataTable = <TData, TValue>({ columns, data }: DataTableProps<T
   return (
     <>
       <div className="flex justify-between py-4">
-        <FilterName table={table} />
+        {showFilter && <FilterField table={table} columnKey="name" />}
         <div className="flex gap-4">
-          <ExportToCSV table={table} />
-          <VisibilityColumns table={table} />
+          {showExportButton && <ExportToCSV table={table} />}
+          {showVisibilityColumns && <VisibilityColumns table={table} />}
         </div>
       </div>
       <div className="rounded-md border">
