@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 
+import Loading from './loading';
 import { UserRole } from '@prisma/client';
 import { RoleGate } from '@/common/feature-flags';
 import { CustomBreadcrumbs, UserNav } from '@/common/components/custom';
@@ -56,7 +57,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             <UserNav />
           </header>
 
-          <main className="container mx-auto flex-1 overflow-auto py-10">{children}</main>
+          <Suspense fallback={<Loading />}>
+            <main className="container mx-auto flex-1 overflow-auto py-10">{children}</main>
+          </Suspense>
         </SidebarInset>
       </SidebarProvider>
     </RoleGate>
