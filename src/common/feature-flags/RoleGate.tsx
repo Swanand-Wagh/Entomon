@@ -1,8 +1,6 @@
-'use client';
-
 import { UserRole } from '@prisma/client';
+import { currentRole } from '@/common/lib/auth';
 import { FormError } from '@/common/components/custom';
-import { useCurrentRole } from '@/common/hooks/use-current-role';
 
 type RoleGateProps = {
   children: React.ReactNode;
@@ -10,8 +8,15 @@ type RoleGateProps = {
   fallbackComponent?: React.ReactNode;
 };
 
-export const RoleGate = ({ children, allowedRole, fallbackComponent }: RoleGateProps) => {
-  const role = useCurrentRole();
+export const RoleGate = async ({ children, allowedRole, fallbackComponent }: RoleGateProps) => {
+  const role = await currentRole();
+
+  // If the role is Admin, they can access all routes.
+  if (role === UserRole.ADMIN) {
+    return <>{children}</>;
+  }
+
+  // If the role is not Admin, check if the current role matches the allowedRole
   if (role !== allowedRole) {
     return fallbackComponent ? (
       <>{fallbackComponent}</>
