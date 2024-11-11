@@ -1,5 +1,6 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import { useTransition } from 'react';
 import { Icon } from '@/common/constants/icons';
 import { ColumnDef } from '@tanstack/react-table';
@@ -12,30 +13,36 @@ type AdminBlogsColumns = {
   price: string;
 };
 
+const SlugLink = ({ value, slug }: { value: string; slug: string }) => {
+  const router = useRouter();
+
+  return (
+    <div onClick={() => router.push(`/${slug.toLowerCase()}`)} className="cursor-pointer hover:underline">
+      {value}
+    </div>
+  );
+};
+
 export const AdminBlogsColumns: ColumnDef<AdminBlogsColumns>[] = [
   {
     accessorKey: 'title',
     enableHiding: true,
     enableSorting: true,
-    header: ({ column }) => {
-      return <SortColumnButton column={column} label="Title" />;
-    },
+    header: ({ column }) => <SortColumnButton column={column} label="Title" />,
+    cell: ({ row }) => <SlugLink value={row.getValue('title')} slug={row.original.slug} />,
   },
   {
     accessorKey: 'slug',
     enableHiding: true,
     enableSorting: true,
-    header: ({ column }) => {
-      return <SortColumnButton column={column} label="Slug" />;
-    },
+    header: ({ column }) => <SortColumnButton column={column} label="Slug" />,
+    cell: ({ row }) => <SlugLink value={row.getValue('slug')} slug={row.original.slug} />,
   },
   {
     accessorKey: 'category',
     enableHiding: true,
     enableSorting: true,
-    header: ({ column }) => {
-      return <SortColumnButton column={column} label="Category" />;
-    },
+    header: ({ column }) => <SortColumnButton column={column} label="Category" />,
   },
   {
     accessorKey: 'price',
@@ -45,7 +52,7 @@ export const AdminBlogsColumns: ColumnDef<AdminBlogsColumns>[] = [
   {
     id: 'actions',
     header: 'Actions',
-    cell: function Cell({ row }) {
+    cell: function ActionsCell({ row }) {
       const [isUpdatePending, startUpdateTransition] = useTransition();
 
       return (

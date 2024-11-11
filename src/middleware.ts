@@ -13,6 +13,13 @@ export default auth(async (req) => {
   const role = session?.user?.role;
   const pathname = nextUrl.pathname;
 
+  if (pathname === '/user') {
+    return NextResponse.redirect(new URL('/user/dashboard', nextUrl));
+  }
+  if (pathname === '/admin') {
+    return NextResponse.redirect(new URL('/admin/dashboard', nextUrl));
+  }
+
   const isAdminRoute = ADMIN_ROUTES.test(pathname);
   const isAuthRoute = AUTH_ROUTES.includes(pathname);
   const isPublicRoute = PUBLIC_ROUTES.includes(pathname);

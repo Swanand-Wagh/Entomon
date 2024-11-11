@@ -68,9 +68,10 @@ export const DataTable = <TData, TValue>({
           {showVisibilityColumns && <VisibilityColumns table={table} />}
         </div>
       </div>
-      <div className="rounded-md border">
+
+      <div className="rounded-md border" style={{ maxHeight: 'calc(100vh - 16rem)', overflowY: 'auto' }}>
         <Table>
-          <TableHeader>
+          <TableHeader style={{ position: 'sticky' }}>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
@@ -103,7 +104,6 @@ export const DataTable = <TData, TValue>({
           </TableBody>
         </Table>
       </div>
-
       <Pagination table={table} />
     </>
   );
