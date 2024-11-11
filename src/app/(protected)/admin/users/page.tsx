@@ -16,7 +16,7 @@ const AdminUsersPage = async () => {
 
   return (
     <>
-      <DataTable columns={columns} data={users} />
+      <DataTable columns={columns} data={users} filterField="name" />
     </>
   );
 };

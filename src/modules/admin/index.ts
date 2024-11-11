@@ -5,4 +5,6 @@ import { SidebarSearch } from './components/layout/SidebarSearch';
 import { CompanyDetails } from './components/layout/CompanyDetails';
 import { sidebarItemsList } from './components/layout/SidebarItemsList';
 
-export { AdminUserColumns as columns, sidebarItemsList, SidebarItems, SidebarSearch, CompanyDetails };
+import { Blogs } from './components/blogs/Blogs';
+
+export { AdminUserColumns as columns, sidebarItemsList, SidebarItems, SidebarSearch, CompanyDetails, Blogs };

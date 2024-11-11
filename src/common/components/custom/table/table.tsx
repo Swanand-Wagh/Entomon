@@ -26,6 +26,7 @@ type DataTableProps<TData, TValue> = {
   data: TData[];
   showExportButton?: boolean;
   showFilter?: boolean;
+  filterField?: string;
   showVisibilityColumns?: boolean;
 };
 
@@ -34,6 +35,7 @@ export const DataTable = <TData, TValue>({
   data,
   showExportButton = true,
   showFilter = true,
+  filterField,
   showVisibilityColumns = true,
 }: DataTableProps<TData, TValue>) => {
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -60,7 +62,7 @@ export const DataTable = <TData, TValue>({
   return (
     <>
       <div className="flex justify-between py-4">
-        {showFilter && <FilterField table={table} columnKey="name" />}
+        {showFilter && <FilterField table={table} columnKey={filterField ?? ''} />}
         <div className="flex gap-4">
           {showExportButton && <ExportToCSV table={table} />}
           {showVisibilityColumns && <VisibilityColumns table={table} />}

@@ -16,9 +16,9 @@ import {
 import { RxMixerHorizontal } from 'react-icons/rx';
 import { BsArrowDown, BsArrowUp } from 'react-icons/bs';
 import { FiChevronsLeft, FiChevronsRight } from 'react-icons/fi';
-import { FaFacebookSquare, FaUserNinja, FaBlog } from 'react-icons/fa';
 import { SiGmail, SiLinkedin, SiGoogleanalytics } from 'react-icons/si';
-import { MdErrorOutline, MdMenuBook, MdEventNote, MdOutlineFileDownload } from 'react-icons/md';
+import { FaFacebookSquare, FaUserNinja, FaBlog, FaRegEdit } from 'react-icons/fa';
+import { MdErrorOutline, MdMenuBook, MdEventNote, MdOutlineFileDownload, MdDeleteForever } from 'react-icons/md';
 
 type IconProps = {
   name: keyof typeof ICONS;
@@ -28,6 +28,7 @@ type IconProps = {
 export const ICONS = {
   blog: FaBlog,
   gmail: SiGmail,
+  edit: FaRegEdit,
   search: IoSearch,
   hamburger: IoMenu,
   user: FaUserNinja,
@@ -38,6 +39,7 @@ export const ICONS = {
   google: IoLogoGoogle,
   error: MdErrorOutline,
   chevronUp: IoChevronUp,
+  delete: MdDeleteForever,
   filterArrowUp: BsArrowUp,
   mixer: RxMixerHorizontal,
   warning: IoWarningOutline,
