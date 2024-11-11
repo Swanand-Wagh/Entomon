@@ -17,7 +17,10 @@ const SlugLink = ({ value, slug }: { value: string; slug: string }) => {
   const router = useRouter();
 
   return (
-    <div onClick={() => router.push(`/${slug.toLowerCase()}`)} className="cursor-pointer hover:underline">
+    <div
+      className="cursor-pointer hover:underline"
+      onClick={() => router.push(`/admin/blogs/edit/${encodeURIComponent(slug.toLowerCase())}`)}
+    >
       {value}
     </div>
   );
