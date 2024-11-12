@@ -18,7 +18,14 @@ import { BsArrowDown, BsArrowUp } from 'react-icons/bs';
 import { FiChevronsLeft, FiChevronsRight } from 'react-icons/fi';
 import { SiGmail, SiLinkedin, SiGoogleanalytics } from 'react-icons/si';
 import { FaFacebookSquare, FaUserNinja, FaBlog, FaRegEdit } from 'react-icons/fa';
-import { MdErrorOutline, MdMenuBook, MdEventNote, MdOutlineFileDownload, MdDeleteForever } from 'react-icons/md';
+import {
+  MdMenuBook,
+  MdEventNote,
+  MdErrorOutline,
+  MdDeleteForever,
+  MdOutlineAddCircle,
+  MdOutlineFileDownload,
+} from 'react-icons/md';
 
 type IconProps = {
   name: keyof typeof ICONS;
@@ -30,6 +37,7 @@ export const ICONS = {
   gmail: SiGmail,
   edit: FaRegEdit,
   search: IoSearch,
+  add: MdOutlineAddCircle,
   hamburger: IoMenu,
   user: FaUserNinja,
   course: MdMenuBook,

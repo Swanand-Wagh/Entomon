@@ -1,20 +1,11 @@
 'use client';
 
 import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+
 import { Icon } from '@/common/constants/icons';
 import { ColumnDef } from '@tanstack/react-table';
 import { SortColumnButton } from '@/common/components/custom/table';
-import {
-  Dialog,
-  DialogTrigger,
-  DialogContent,
-  DialogTitle,
-  DialogDescription,
-  DialogHeader,
-  DialogFooter,
-} from '@/common/components/ui/dialog';
-import { Button } from '@/common/components/ui/button';
 import { CustomModal } from '@/common/components/custom/CustomModal';
 
 type AdminBlogsColumns = {
@@ -25,15 +16,10 @@ type AdminBlogsColumns = {
 };
 
 const SlugLink = ({ value, slug }: { value: string; slug: string }) => {
-  const router = useRouter();
-
   return (
-    <div
-      className="cursor-pointer hover:underline"
-      onClick={() => router.push(`/admin/blogs/edit/${encodeURIComponent(slug.toLowerCase())}`)}
-    >
-      {value}
-    </div>
+    <Link href={`/admin/blogs/edit/${encodeURIComponent(slug.toLowerCase())}`}>
+      <div className="cursor-pointer hover:underline">{value}</div>
+    </Link>
   );
 };
 
@@ -67,7 +53,6 @@ export const AdminBlogsColumns: ColumnDef<AdminBlogsColumns>[] = [
     id: 'actions',
     header: 'Actions',
     cell: function ActionsCell({ row }) {
-      const router = useRouter();
       const [isDialogOpen, setDialogOpen] = useState(false);
 
       const handleDelete = async () => {
@@ -77,9 +62,9 @@ export const AdminBlogsColumns: ColumnDef<AdminBlogsColumns>[] = [
 
       return (
         <div className="flex items-center space-x-4">
-          <span onClick={() => router.push(`/admin/blogs/edit/${encodeURIComponent(row.original.slug.toLowerCase())}`)}>
+          <Link href={`/admin/blogs/edit/${encodeURIComponent(row.original.slug.toLowerCase())}`}>
             <Icon name="edit" className="h-5 w-5 cursor-pointer" />
-          </span>
+          </Link>
 
           <CustomModal
             open={isDialogOpen}
