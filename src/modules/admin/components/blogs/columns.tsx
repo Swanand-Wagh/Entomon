@@ -1,10 +1,21 @@
 'use client';
 
+import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useTransition } from 'react';
 import { Icon } from '@/common/constants/icons';
 import { ColumnDef } from '@tanstack/react-table';
 import { SortColumnButton } from '@/common/components/custom/table';
+import {
+  Dialog,
+  DialogTrigger,
+  DialogContent,
+  DialogTitle,
+  DialogDescription,
+  DialogHeader,
+  DialogFooter,
+} from '@/common/components/ui/dialog';
+import { Button } from '@/common/components/ui/button';
+import { CustomModal } from '@/common/components/custom/CustomModal';
 
 type AdminBlogsColumns = {
   title: string;
@@ -56,12 +67,35 @@ export const AdminBlogsColumns: ColumnDef<AdminBlogsColumns>[] = [
     id: 'actions',
     header: 'Actions',
     cell: function ActionsCell({ row }) {
-      const [isUpdatePending, startUpdateTransition] = useTransition();
+      const router = useRouter();
+      const [isDialogOpen, setDialogOpen] = useState(false);
+
+      const handleDelete = async () => {
+        console.log('Delete', row.original);
+        setDialogOpen(false);
+      };
 
       return (
         <div className="flex items-center space-x-4">
-          <Icon name="edit" className="h-5 w-5 cursor-pointer" />
-          <Icon name="delete" className="h-6 w-6 cursor-pointer text-red-500" />
+          <span onClick={() => router.push(`/admin/blogs/edit/${encodeURIComponent(row.original.slug.toLowerCase())}`)}>
+            <Icon name="edit" className="h-5 w-5 cursor-pointer" />
+          </span>
+
+          <CustomModal
+            open={isDialogOpen}
+            onConfirm={handleDelete}
+            onOpenChange={setDialogOpen}
+            confirmButtonVariant="destructive"
+            title="Confirm Deletion"
+            confirmButtonLabel="Delete"
+            cancelButtonLabel="Cancel"
+            description="Are you sure you want to delete this blog? This action cannot be undone!"
+            trigger={
+              <span onClick={() => setDialogOpen(true)}>
+                <Icon name="delete" className="h-6 w-6 cursor-pointer text-red-500" />
+              </span>
+            }
+          />
         </div>
       );
     },
