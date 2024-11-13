@@ -3,9 +3,9 @@
 import React from 'react';
 import { Icon } from '@/common/constants/icons';
 import { RichTextEditor } from '@mantine/tiptap';
-import { Popover, PopoverTrigger, PopoverContent } from '@/common/components/ui/popover';
 import { Input } from '@/common/components/ui/input';
 import { Button } from '@/common/components/ui/button';
+import { Popover, PopoverTrigger, PopoverContent } from '@/common/components/ui/popover';
 
 type ImageUploadPopoverProps = {
   imageUrl: string;
