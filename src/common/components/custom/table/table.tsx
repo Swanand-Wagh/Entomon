@@ -69,7 +69,7 @@ export const DataTable = <TData, TValue>({
         </div>
       </div>
 
-      <div className="rounded-md border" style={{ maxHeight: 'calc(100vh - 16rem)', overflowY: 'auto' }}>
+      <div className="max-h-[calc(100vh-16rem)] overflow-y-auto rounded-md border">
         <Table>
           <TableHeader style={{ position: 'sticky' }}>
             {table.getHeaderGroups().map((headerGroup) => (

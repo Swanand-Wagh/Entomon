@@ -1,18 +1,34 @@
 'use client';
 
-import { useCallback } from 'react';
+import { useState } from 'react';
 import { Editor } from '@tiptap/react';
-import { Icon } from '@/common/constants/icons';
 import { RichTextEditor } from '@mantine/tiptap';
+import { ImageUploadPopover } from './ImageUploadPopover';
 
 export const TextEditor = ({ editor }: { editor: Editor | null }) => {
-  const addImage = useCallback(() => {
-    const url = window.prompt('URL');
+  const [imageUrl, setImageUrl] = useState<string>('');
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [isPopoverOpen, setIsPopoverOpen] = useState<boolean>(false);
 
-    if (url) {
-      editor?.chain().focus().setImage({ src: url }).run();
+  const addImage = () => {
+    if (imageUrl) {
+      editor?.chain().focus().setImage({ src: imageUrl }).run();
+      setIsPopoverOpen(false);
+      setImageUrl('');
+    } else if (imageFile) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        editor
+          ?.chain()
+          .focus()
+          .setImage({ src: reader.result as string })
+          .run();
+        setIsPopoverOpen(false);
+        setImageFile(null);
+      };
+      reader.readAsDataURL(imageFile);
     }
-  }, [editor]);
+  };
 
   return (
     <RichTextEditor editor={editor}>
@@ -57,9 +73,9 @@ export const TextEditor = ({ editor }: { editor: Editor | null }) => {
         </RichTextEditor.ControlsGroup>
 
         <RichTextEditor.ControlsGroup>
-          <RichTextEditor.Control onClick={addImage} aria-label="Insert Image" title="Insert Image">
-            <Icon name="image" className="mx-auto h-4 w-4" />
-          </RichTextEditor.Control>
+          <ImageUploadPopover
+            {...{ imageUrl, setImageUrl, imageFile, setImageFile, isPopoverOpen, setIsPopoverOpen, addImage }}
+          />
           <RichTextEditor.Blockquote />
           <RichTextEditor.Hr />
           <RichTextEditor.BulletList />
@@ -84,7 +100,9 @@ export const TextEditor = ({ editor }: { editor: Editor | null }) => {
         </RichTextEditor.ControlsGroup>
       </RichTextEditor.Toolbar>
 
-      <RichTextEditor.Content className="min-h-[calc(100vh-21rem)] overflow-y-auto" />
+      <div className="h-[calc(100vh-22rem)] overflow-y-scroll">
+        <RichTextEditor.Content className="h-full" />
+      </div>
     </RichTextEditor>
   );
 };
