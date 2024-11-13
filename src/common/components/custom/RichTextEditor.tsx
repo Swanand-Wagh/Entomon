@@ -1,37 +1,11 @@
 'use client';
 
-import { RichTextEditor } from '@mantine/tiptap';
-import Link from '@tiptap/extension-link';
-import { useEditor } from '@tiptap/react';
-import Highlight from '@tiptap/extension-highlight';
-import StarterKit from '@tiptap/starter-kit';
-import Underline from '@tiptap/extension-underline';
-import TextAlign from '@tiptap/extension-text-align';
-import { Color } from '@tiptap/extension-color';
-import TextStyle from '@tiptap/extension-text-style';
-import Image from '@tiptap/extension-image';
 import { useCallback } from 'react';
+import { Editor } from '@tiptap/react';
 import { Icon } from '@/common/constants/icons';
+import { RichTextEditor } from '@mantine/tiptap';
 
-const content =
-  '<h2 style="text-align: center;">Welcome to Mantine rich text editor</h2><p><code>RichTextEditor</code> component focuses on usability and is designed to be as simple as possible to bring a familiar editing experience to regular users. <code>RichTextEditor</code> is based on <a href="https://tiptap.dev/" rel="noopener noreferrer" target="_blank">Tiptap.dev</a> and supports all of its features:</p><ul><li>General text formatting: <strong>bold</strong>, <em>italic</em>, <u>underline</u>, <s>strike-through</s> </li><li>Headings (h1-h6)</li><li>Sub and super scripts (<sup>&lt;sup /&gt;</sup> and <sub>&lt;sub /&gt;</sub> tags)</li><li>Ordered and bullet lists</li><li>Text align&nbsp;</li><li>And all <a href="https://tiptap.dev/extensions" target="_blank" rel="noopener noreferrer">other extensions</a></li></ul>';
-
-export const TextEditor = () => {
-  const editor = useEditor({
-    immediatelyRender: false,
-    extensions: [
-      StarterKit,
-      Underline,
-      TextStyle,
-      Color,
-      Link,
-      Highlight,
-      Image,
-      TextAlign.configure({ types: ['heading', 'paragraph'] }),
-    ],
-    content,
-  });
-
+export const TextEditor = ({ editor }: { editor: Editor | null }) => {
   const addImage = useCallback(() => {
     const url = window.prompt('URL');
 
@@ -110,7 +84,7 @@ export const TextEditor = () => {
         </RichTextEditor.ControlsGroup>
       </RichTextEditor.Toolbar>
 
-      <RichTextEditor.Content />
+      <RichTextEditor.Content className="min-h-[calc(100vh-21rem)] overflow-y-auto" />
     </RichTextEditor>
   );
 };

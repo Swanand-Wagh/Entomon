@@ -1,11 +1,11 @@
 import React from 'react';
 
-import { TextEditor } from '@/common/components/custom/RichTextEditor';
+import { AddBlog } from '@/modules/admin';
 
 const AddBlogPage = () => {
   return (
     <>
-      <TextEditor />
+      <AddBlog />
     </>
   );
 };
