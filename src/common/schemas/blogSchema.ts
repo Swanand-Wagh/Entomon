@@ -11,6 +11,7 @@ const blogSchema = z.object({
     message: 'Cover Image is required.',
   }),
   categories: z.array(z.string()).nonempty({ message: 'At least one category is required.' }),
+  isPaid: z.boolean(),
   content: z.any(),
 });
 

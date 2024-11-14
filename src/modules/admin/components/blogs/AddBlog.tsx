@@ -14,7 +14,6 @@ import Highlight from '@tiptap/extension-highlight';
 import Underline from '@tiptap/extension-underline';
 import TextAlign from '@tiptap/extension-text-align';
 import TextStyle from '@tiptap/extension-text-style';
-import { Switch } from '@/common/components/ui/switch';
 import Placeholder from '@tiptap/extension-placeholder';
 import CharacterCount from '@tiptap/extension-character-count';
 import { TextEditor } from '@/common/components/custom/editor';
@@ -23,9 +22,10 @@ import { z } from 'zod';
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { blogSchema } from '@/common/schemas/blogSchema';
+import { Checkbox } from '@/common/components/ui/checkbox';
 import { MultiSelect } from '@/common/components/ui/multi-select';
 import { FormError, FormSuccess } from '@/common/components/custom';
-import { Form, FormControl, FormField, FormItem } from '@/common/components/ui/form';
+import { Form, FormControl, FormField, FormItem, FormLabel } from '@/common/components/ui/form';
 
 const blogCategories = [
   { label: 'Technology', value: 'Technology' },
@@ -49,6 +49,7 @@ export const AddBlog = () => {
       slug: '',
       coverImage: '',
       categories: [],
+      isPaid: false,
       content: { type: 'doc', content: [{ type: 'paragraph' }] },
     },
   });
@@ -190,6 +191,19 @@ export const AddBlog = () => {
                 )}
               />
             </div>
+
+            {/* <FormField
+              control={form.control}
+              name="isPaid"
+              render={({ field }) => (
+                <FormItem className="flex flex-row items-center gap-3 rounded-lg px-4 py-2">
+                  <FormControl>
+                    <Checkbox checked={field.value} onCheckedChange={field.onChange} />
+                  </FormControl>
+                  <FormLabel className="mt-0 text-sm font-medium text-gray-600">Is Paid</FormLabel>
+                </FormItem>
+              )}
+            /> */}
 
             {/* Reset and Submit Buttons */}
             <div className="mt-4 flex w-full flex-col gap-2">
