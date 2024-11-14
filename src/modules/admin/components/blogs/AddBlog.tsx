@@ -14,6 +14,7 @@ import Highlight from '@tiptap/extension-highlight';
 import Underline from '@tiptap/extension-underline';
 import TextAlign from '@tiptap/extension-text-align';
 import TextStyle from '@tiptap/extension-text-style';
+import { Switch } from '@/common/components/ui/switch';
 import Placeholder from '@tiptap/extension-placeholder';
 import CharacterCount from '@tiptap/extension-character-count';
 import { TextEditor } from '@/common/components/custom/editor';
@@ -22,16 +23,16 @@ import { z } from 'zod';
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { blogSchema } from '@/common/schemas/blogSchema';
+import { MultiSelect } from '@/common/components/ui/multi-select';
 import { FormError, FormSuccess } from '@/common/components/custom';
 import { Form, FormControl, FormField, FormItem } from '@/common/components/ui/form';
-import { CustomMultiSelect } from '@/common/components/custom/MultiSelect';
 
 const blogCategories = [
-  { id: '1', name: 'Technology' },
-  { id: '2', name: 'Lifestyle' },
-  { id: '3', name: 'Education' },
-  { id: '4', name: 'Health' },
-  { id: '5', name: 'Business' },
+  { label: 'Technology', value: 'Technology' },
+  { label: 'Lifestyle', value: 'Lifestyle' },
+  { label: 'Education', value: 'Education' },
+  { label: 'Health', value: 'Health' },
+  { label: 'Business', value: 'Business' },
 ];
 
 export const AddBlog = () => {
@@ -140,7 +141,16 @@ export const AddBlog = () => {
               render={({ field }) => (
                 <FormItem>
                   <FormControl className="rounded-md border-gray-300">
-                    <CustomMultiSelect field={field} data={blogCategories} />
+                    <MultiSelect
+                      {...field}
+                      maxCount={3}
+                      maxSelections={3}
+                      variant="inverted"
+                      enableSelectAll={false}
+                      options={blogCategories}
+                      placeholder="Select Categories"
+                      onValueChange={(value) => field.onChange(value)}
+                    />
                   </FormControl>
                 </FormItem>
               )}
@@ -165,7 +175,6 @@ export const AddBlog = () => {
                         handleCoverImageChange(e);
                       }}
                     />
-
                     {coverImagePreview ? (
                       <NextImage
                         width={160}
@@ -193,10 +202,7 @@ export const AddBlog = () => {
               >
                 Reset
               </Button>
-              <Button
-                type="submit"
-                className="w-full rounded-md bg-blue-600 p-2 font-semibold text-white hover:bg-blue-500"
-              >
+              <Button type="submit" className="w-full rounded-md p-2 font-semibold text-white">
                 Create Blog
               </Button>
             </div>
