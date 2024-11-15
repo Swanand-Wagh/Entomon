@@ -100,6 +100,7 @@ export const TextEditor = ({ editor }: { editor: Editor | null }) => {
             <RichTextEditor.Redo />
           </RichTextEditor.ControlsGroup>
         </RichTextEditor.Toolbar>
+
         <div className="h-[calc(100vh-12rem)] overflow-y-scroll">
           <RichTextEditor.Content className="h-full" />
         </div>
