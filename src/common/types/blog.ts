@@ -11,3 +11,15 @@ export type BlogFormProps = {
   editor: any;
   fileInputRef: any;
 };
+
+export type SingleBlogData = {
+  slug: string;
+  id: string;
+  title: string;
+  coverImage: string;
+  categories: string[];
+  isPaid: boolean;
+  content: string;
+  createdAt: Date;
+  updatedAt: Date;
+};

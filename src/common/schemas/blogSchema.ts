@@ -7,12 +7,10 @@ const blogSchema = z.object({
   slug: z.string().min(1, {
     message: 'Slug is required.',
   }),
-  coverImage: z.unknown().refine((value) => value !== null, {
-    message: 'Cover Image is required.',
-  }),
+  coverImage: z.string(),
   categories: z.array(z.string()).nonempty({ message: 'At least one category is required.' }),
   isPaid: z.boolean(),
-  content: z.any(),
+  content: z.string(),
 });
 
 export { blogSchema };

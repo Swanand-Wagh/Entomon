@@ -15,12 +15,18 @@ import Placeholder from '@tiptap/extension-placeholder';
 import CharacterCount from '@tiptap/extension-character-count';
 
 import { z } from 'zod';
+import { BlogForm } from './BlogForm';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { blogSchema } from '@/common/schemas/blogSchema';
-import { BlogForm } from './BlogForm';
+import { createBlogAction } from '@/actions/admin/create-blog-action';
+import { Blog } from '@prisma/client';
 
-export const CreateUpdateBlog = ({ slug }: { slug: string }) => {
+type CreateUpdateBlogProps = {
+  data: Blog | null;
+};
+
+export const CreateUpdateBlog = ({ data }: CreateUpdateBlogProps) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | undefined>('');
@@ -29,14 +35,23 @@ export const CreateUpdateBlog = ({ slug }: { slug: string }) => {
 
   const form = useForm<z.infer<typeof blogSchema>>({
     resolver: zodResolver(blogSchema),
-    defaultValues: {
-      title: '',
-      slug: '',
-      coverImage: '',
-      categories: [],
-      isPaid: false,
-      content: { type: 'doc', content: [{ type: 'paragraph' }] },
-    },
+    defaultValues: data
+      ? {
+          title: data.title || '',
+          slug: data.slug || '',
+          coverImage: data.coverImage || '',
+          categories: data.categories || [],
+          isPaid: data.isPaid || false,
+          content: data.content || '',
+        }
+      : {
+          title: '',
+          slug: '',
+          coverImage: '',
+          categories: [],
+          isPaid: false,
+          content: '',
+        },
   });
 
   const editor = useEditor({
@@ -57,9 +72,9 @@ export const CreateUpdateBlog = ({ slug }: { slug: string }) => {
       TextAlign.configure({ types: ['heading', 'paragraph', 'image'] }),
       Placeholder.configure({ placeholder: 'Write something …' }),
     ],
-    content: '',
+    content: data ? data.content : '',
     onUpdate: ({ editor }) => {
-      form.setValue('content', editor.getJSON());
+      form.setValue('content', editor.getHTML());
     },
   });
 
@@ -73,8 +88,8 @@ export const CreateUpdateBlog = ({ slug }: { slug: string }) => {
   const handleCoverImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
+      form.setValue('coverImage', URL.createObjectURL(file));
       setCoverImagePreview(URL.createObjectURL(file));
-      form.setValue('coverImage', file);
     }
   };
 
@@ -82,11 +97,26 @@ export const CreateUpdateBlog = ({ slug }: { slug: string }) => {
     fileInputRef.current?.click();
   };
 
-  const onSubmit = async (values: z.infer<typeof blogSchema>) => {
+  const onSubmit = (values: z.infer<typeof blogSchema>) => {
     setError('');
     setSuccess('');
-    console.log(values);
-    startTransition(() => {});
+
+    startTransition(() => {
+      startTransition(() => {
+        createBlogAction(values)
+          .then((data) => {
+            if (data?.error) {
+              handleResetBlog();
+              setError(data.error);
+            }
+            if (data?.success) {
+              handleResetBlog();
+              setSuccess(data.success);
+            }
+          })
+          .catch(() => setError('Something went wrong!'));
+      });
+    });
   };
 
   return (

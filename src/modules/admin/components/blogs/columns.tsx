@@ -12,7 +12,7 @@ type AdminBlogsColumns = {
   title: string;
   slug: string;
   category: string;
-  price: string;
+  price: boolean;
 };
 
 const SlugLink = ({ value, slug }: { value: string; slug: string }) => {
@@ -46,7 +46,7 @@ export const AdminBlogsColumns: ColumnDef<AdminBlogsColumns>[] = [
   },
   {
     accessorKey: 'price',
-    header: 'Price',
+    header: 'Is Paid',
     enableHiding: true,
   },
   {
@@ -56,7 +56,6 @@ export const AdminBlogsColumns: ColumnDef<AdminBlogsColumns>[] = [
       const [isDialogOpen, setDialogOpen] = useState(false);
 
       const handleDelete = async () => {
-        console.log('Delete', row.original);
         setDialogOpen(false);
       };
 
