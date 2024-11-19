@@ -11,11 +11,11 @@ import { Button } from '@/common/components/ui/button';
 import { TextEditor } from '@/common/components/custom/editor';
 
 const blogCategories = [
-  { label: 'Technology', value: 'Technology' },
-  { label: 'Lifestyle', value: 'Lifestyle' },
-  { label: 'Education', value: 'Education' },
-  { label: 'Health', value: 'Health' },
-  { label: 'Business', value: 'Business' },
+  { label: 'Technology', value: 'Technology', checked: false },
+  { label: 'Lifestyle', value: 'Lifestyle', checked: false },
+  { label: 'Education', value: 'Education', checked: false },
+  { label: 'Health', value: 'Health', checked: false },
+  { label: 'Business', value: 'Business', checked: false },
 ];
 
 export const BlogForm = ({
@@ -64,7 +64,7 @@ export const BlogForm = ({
                 )}
               />
 
-              <FormField
+              <Controller
                 name="categories"
                 control={form.control}
                 render={({ field }) => (
@@ -72,13 +72,11 @@ export const BlogForm = ({
                     <FormControl className="rounded-md border-gray-300">
                       <MultiSelect
                         {...field}
-                        maxCount={3}
-                        maxSelections={3}
-                        variant="inverted"
-                        enableSelectAll={false}
+                        maxSelect={3}
+                        disabled={isPending}
                         options={blogCategories}
-                        placeholder="Select Categories"
-                        onValueChange={(value) => field.onChange(value)}
+                        placeholder="Select categories..."
+                        className="rounded-md border-gray-300 text-gray-500"
                       />
                     </FormControl>
                   </FormItem>
@@ -139,6 +137,7 @@ export const BlogForm = ({
                 <FormSuccess message={success} />
 
                 <Button
+                  type="button"
                   onClick={handleResetBlog}
                   className="w-full rounded-md bg-red-200 p-2 font-semibold text-black hover:bg-red-100"
                 >

@@ -16,11 +16,11 @@ import CharacterCount from '@tiptap/extension-character-count';
 
 import { z } from 'zod';
 import { BlogForm } from './BlogForm';
+import { Blog } from '@prisma/client';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { blogSchema } from '@/common/schemas/blogSchema';
 import { createBlogAction } from '@/actions/admin/create-blog-action';
-import { Blog } from '@prisma/client';
 
 type CreateUpdateBlogProps = {
   data: Blog | null;
@@ -80,9 +80,23 @@ export const CreateUpdateBlog = ({ data }: CreateUpdateBlogProps) => {
 
   const handleResetBlog = () => {
     form.clearErrors();
-    form.reset();
-    editor?.commands.clearContent();
-    setCoverImagePreview(null);
+
+    if (data) {
+      form.reset({
+        title: data.title || '',
+        slug: data.slug || '',
+        coverImage: data.coverImage || '',
+        categories: data.categories || [],
+        isPaid: data.isPaid || false,
+        content: data.content || '',
+      });
+      editor?.commands.setContent(data.content || '');
+      setCoverImagePreview(data.coverImage || null);
+    } else {
+      form.reset();
+      editor?.commands.clearContent();
+      setCoverImagePreview(null);
+    }
   };
 
   const handleCoverImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
