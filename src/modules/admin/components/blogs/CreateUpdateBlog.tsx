@@ -20,7 +20,7 @@ import { Blog } from '@prisma/client';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { blogSchema } from '@/common/schemas/blogSchema';
-import { createBlogAction } from '@/actions/admin/create-blog-action';
+import { editBlogAction, createBlogAction } from '@/actions/admin';
 
 type CreateUpdateBlogProps = {
   data: Blog | null;
@@ -116,7 +116,20 @@ export const CreateUpdateBlog = ({ data }: CreateUpdateBlogProps) => {
     setSuccess('');
 
     startTransition(() => {
-      startTransition(() => {
+      if (data) {
+        editBlogAction(values)
+          .then((data) => {
+            if (data?.error) {
+              handleResetBlog();
+              setError(data.error);
+            }
+            if (data?.success) {
+              handleResetBlog();
+              setSuccess(data.success);
+            }
+          })
+          .catch(() => setError('Something went wrong!'));
+      } else {
         createBlogAction(values)
           .then((data) => {
             if (data?.error) {
@@ -129,7 +142,7 @@ export const CreateUpdateBlog = ({ data }: CreateUpdateBlogProps) => {
             }
           })
           .catch(() => setError('Something went wrong!'));
-      });
+      }
     });
   };
 

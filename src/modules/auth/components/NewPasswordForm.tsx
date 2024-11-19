@@ -5,7 +5,7 @@ import { useSearchParams } from 'next/navigation';
 
 import * as z from 'zod';
 import { useForm } from 'react-hook-form';
-import { newPasswordAction } from '@/actions';
+import { newPasswordAction } from '@/actions/auth';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { newPasswordSchema } from '@/common/schemas/authSchema';
 import { FormError, FormSuccess } from '@/common/components/custom';

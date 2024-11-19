@@ -4,7 +4,7 @@ import React, { useState, useTransition } from 'react';
 
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
-import { registerAction } from '@/actions';
+import { registerAction } from '@/actions/auth';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { registerSchema } from '@/common/schemas/authSchema';
 

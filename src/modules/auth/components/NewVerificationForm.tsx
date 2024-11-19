@@ -2,9 +2,9 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { newVerificationAction } from '@/actions';
 
 import { BeatLoader } from 'react-spinners';
+import { newVerificationAction } from '@/actions/auth';
 import { FormError, FormSuccess } from '@/common/components/custom';
 
 export const NewVerificationForm = () => {

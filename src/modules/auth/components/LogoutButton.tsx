@@ -1,6 +1,6 @@
 'use client';
 
-import { logoutAction } from '@/actions';
+import { logoutAction } from '@/actions/auth';
 
 type LoginButtonProps = {
   children?: React.ReactNode;

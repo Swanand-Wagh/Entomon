@@ -6,7 +6,7 @@ import * as z from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
-import { resetAction } from '@/actions';
+import { resetAction } from '@/actions/auth';
 import { resetSchema } from '@/common/schemas/authSchema';
 import { FormError, FormSuccess } from '@/common/components/custom';
 
