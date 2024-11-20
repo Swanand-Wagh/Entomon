@@ -152,6 +152,7 @@ export const CreateUpdateBlog = ({ data }: CreateUpdateBlogProps) => {
       error={error}
       editor={editor}
       success={success}
+      isEditing={!!data}
       onSubmit={onSubmit}
       isPending={isPending}
       fileInputRef={fileInputRef}

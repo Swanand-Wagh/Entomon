@@ -1,15 +1,19 @@
-export type BlogFormProps = {
-  form: any;
-  onSubmit: any;
-  handleResetBlog: any;
-  handleCoverImageChange: any;
+import { Editor } from '@tiptap/react';
+import { UseFormReturn, FieldValues } from 'react-hook-form';
+
+export type BlogFormProps<TFormValues extends FieldValues> = {
+  form: UseFormReturn<TFormValues>;
+  onSubmit: (values: TFormValues) => void;
+  handleResetBlog: () => void;
+  handleCoverImageChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   coverImagePreview: string | null;
-  handleContainerClick: any;
+  handleContainerClick: () => void;
   isPending: boolean;
-  error: string | undefined;
-  success: string | undefined;
-  editor: any;
-  fileInputRef: any;
+  error?: string;
+  success?: string;
+  editor: Editor | null;
+  fileInputRef: React.RefObject<HTMLInputElement>;
+  isEditing: boolean;
 };
 
 export type SingleBlogData = {

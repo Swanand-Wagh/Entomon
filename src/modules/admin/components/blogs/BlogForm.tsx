@@ -8,6 +8,7 @@ import { Controller } from 'react-hook-form';
 import { BlogFormProps } from '@/common/types/blog';
 import { Input } from '@/common/components/ui/input';
 import { Button } from '@/common/components/ui/button';
+import { BlogFormValues } from '@/common/schemas/blogSchema';
 import { TextEditor } from '@/common/components/custom/editor';
 
 const blogCategories = [
@@ -30,7 +31,8 @@ export const BlogForm = ({
   error,
   success,
   editor,
-}: BlogFormProps) => {
+  isEditing,
+}: BlogFormProps<BlogFormValues>) => {
   return (
     <>
       <Form {...form}>
@@ -58,7 +60,18 @@ export const BlogForm = ({
                 render={({ field }) => (
                   <FormItem>
                     <FormControl className="rounded-md border-gray-300">
-                      <Input {...field} type="text" disabled={isPending} placeholder="Slug" />
+                      <Input
+                        {...field}
+                        type="text"
+                        disabled={isPending}
+                        placeholder="Slug"
+                        onChange={(e) => {
+                          field.onChange(e.target.value.replace(/\s+/g, '-').toLowerCase());
+                        }}
+                        onBlur={(e) => {
+                          form.setValue('slug', e.target.value.trim().replace(/^-+|-+$/g, ''));
+                        }}
+                      />
                     </FormControl>
                   </FormItem>
                 )}
@@ -144,7 +157,7 @@ export const BlogForm = ({
                   Reset
                 </Button>
                 <Button type="submit" className="w-full rounded-md p-2 font-semibold text-white">
-                  Create Blog
+                  {isEditing ? 'Update Blog' : 'Create Blog'}
                 </Button>
               </div>
             </div>

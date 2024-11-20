@@ -1,16 +1,15 @@
 import { z } from 'zod';
 
 const blogSchema = z.object({
-  title: z.string().min(1, {
-    message: 'Title is required.',
-  }),
-  slug: z.string().min(1, {
-    message: 'Slug is required.',
-  }),
+  title: z.string().min(1),
+  slug: z.string().min(1),
   coverImage: z.string(),
-  categories: z.array(z.string()).nonempty({ message: 'At least one category is required.' }),
+  categories: z.tuple([z.string()]).or(z.array(z.string())), // Allow one or more categories
   isPaid: z.boolean(),
-  content: z.string(),
+  content: z.string().min(1),
 });
 
+type BlogFormValues = z.infer<typeof blogSchema>;
+
 export { blogSchema };
+export type { BlogFormValues };
