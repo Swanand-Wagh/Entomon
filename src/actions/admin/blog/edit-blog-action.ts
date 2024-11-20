@@ -2,11 +2,14 @@
 
 import { z } from 'zod';
 import { prisma } from '@/common/lib/prisma';
+import { isAuthenicated } from '@/common/lib/auth';
 import { blogSchema } from '@/common/schemas/blogSchema';
 
 export const editBlogAction = async (values: z.infer<typeof blogSchema>) => {
-  const validatedFields = blogSchema.safeParse(values);
+  const isAuthenticated = await isAuthenicated();
+  if (!isAuthenticated) return { error: 'You must be logged in to update the blog.' };
 
+  const validatedFields = blogSchema.safeParse(values);
   if (!validatedFields.success) return { error: 'Invalid data provided!' };
 
   const { title, slug, coverImage, categories, isPaid, content } = values;

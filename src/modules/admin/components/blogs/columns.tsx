@@ -1,11 +1,11 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { startTransition, useState } from 'react';
 import Link from 'next/link';
 
 import { Icon } from '@/common/constants/icons';
 import { ColumnDef } from '@tanstack/react-table';
-import { deleteBlogAction } from '@/actions/admin';
+import { deleteBlogAction } from '@/actions/admin/blog';
 import { SortColumnButton } from '@/common/components/custom/table';
 import { CustomModal } from '@/common/components/custom/CustomModal';
 
@@ -67,9 +67,12 @@ export const AdminBlogsColumns: ColumnDef<AdminBlogsColumns>[] = [
     cell: function ActionsCell({ row }) {
       const [isDialogOpen, setDialogOpen] = useState(false);
 
-      const handleDelete = async () => {
+      const handleDelete = () => {
         setDialogOpen(false);
-        deleteBlogAction(row.original.slug);
+
+        startTransition(() => {
+          deleteBlogAction(row.original.slug);
+        });
       };
 
       return (

@@ -20,7 +20,7 @@ import { Blog } from '@prisma/client';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { blogSchema } from '@/common/schemas/blogSchema';
-import { editBlogAction, createBlogAction } from '@/actions/admin';
+import { editBlogAction, createBlogAction } from '@/actions/admin/blog';
 
 type CreateUpdateBlogProps = {
   data: Blog | null;
