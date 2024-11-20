@@ -11,3 +11,9 @@ export async function currentRole() {
 
   return session?.user?.role;
 }
+
+export async function isAuthenicated() {
+  const session = await auth();
+
+  return !!session;
+}

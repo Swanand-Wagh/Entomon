@@ -12,7 +12,7 @@ export const Blogs = async () => {
   const blogs = data.map((blog) => ({
     title: blog.title,
     slug: blog.slug,
-    category: blog.categories[0],
+    category: blog.categories.join(', '),
     price: blog.isPaid,
   }));
 

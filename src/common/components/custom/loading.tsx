@@ -1,7 +1,7 @@
 import React from 'react';
 import { Skeleton } from '@/common/components/ui/skeleton';
 
-const Loading = () => {
+export const Loading = () => {
   return (
     <div className="flex w-full flex-col space-y-6">
       {/* Full-width Skeleton */}
@@ -20,5 +20,3 @@ const Loading = () => {
     </div>
   );
 };
-
-export default Loading;

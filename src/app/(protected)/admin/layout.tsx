@@ -1,8 +1,8 @@
 import React, { Suspense } from 'react';
 
-import Loading from './loading';
 import { UserRole } from '@prisma/client';
 import { RoleGate } from '@/common/feature-flags';
+import { Loading } from '@/common/components/custom';
 import { CustomBreadcrumbs, UserNav } from '@/common/components/custom';
 import { sidebarItemsList, SidebarSearch, CompanyDetails, SidebarItems } from '@/modules/admin';
 

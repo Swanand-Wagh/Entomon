@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { CreateUpdateBlog } from '@/modules/admin';
+import { Loading } from '@/common/components/custom';
 
 const CreateUpdateBlogPage = () => {
   return (
     <>
-      <CreateUpdateBlog data={null} />
+      <Suspense fallback={<Loading />}>
+        <CreateUpdateBlog data={null} />
+      </Suspense>
     </>
   );
 };

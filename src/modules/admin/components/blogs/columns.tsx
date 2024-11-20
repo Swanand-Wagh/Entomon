@@ -5,6 +5,7 @@ import Link from 'next/link';
 
 import { Icon } from '@/common/constants/icons';
 import { ColumnDef } from '@tanstack/react-table';
+import { deleteBlogAction } from '@/actions/admin';
 import { SortColumnButton } from '@/common/components/custom/table';
 import { CustomModal } from '@/common/components/custom/CustomModal';
 
@@ -41,8 +42,19 @@ export const AdminBlogsColumns: ColumnDef<AdminBlogsColumns>[] = [
   {
     accessorKey: 'category',
     enableHiding: true,
-    enableSorting: true,
-    header: ({ column }) => <SortColumnButton column={column} label="Category" />,
+    header: 'Category',
+    cell: ({ getValue }) => {
+      const categories = getValue<string>()?.split(',') || [];
+      return (
+        <div className="flex flex-wrap gap-2">
+          {categories.map((category, index) => (
+            <span key={index} className="inline-block rounded-full bg-black px-2 py-1 text-xs font-semibold text-white">
+              {category.trim()}
+            </span>
+          ))}
+        </div>
+      );
+    },
   },
   {
     accessorKey: 'price',
@@ -57,11 +69,12 @@ export const AdminBlogsColumns: ColumnDef<AdminBlogsColumns>[] = [
 
       const handleDelete = async () => {
         setDialogOpen(false);
+        deleteBlogAction(row.original.slug);
       };
 
       return (
         <div className="flex items-center space-x-4">
-          <Link href={`/admin/blogs/edit/${encodeURIComponent(row.original.slug.toLowerCase())}`}>
+          <Link href={`/admin/blogs/edit/${encodeURIComponent(row.original.slug)}`}>
             <Icon name="edit" className="h-5 w-5 cursor-pointer" />
           </Link>
 

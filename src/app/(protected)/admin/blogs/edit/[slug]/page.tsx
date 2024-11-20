@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { CreateUpdateBlog } from '@/modules/admin';
+import { Loading } from '@/common/components/custom';
 import { getBlogBySlug } from '@/common/data/admin/blogs';
 
 const EditBlog = async ({ params }: { params: Promise<{ slug: string }> }) => {
@@ -8,7 +9,9 @@ const EditBlog = async ({ params }: { params: Promise<{ slug: string }> }) => {
 
   return (
     <>
-      <CreateUpdateBlog data={blog} />
+      <Suspense fallback={<Loading />}>
+        <CreateUpdateBlog data={blog} />
+      </Suspense>
     </>
   );
 };
