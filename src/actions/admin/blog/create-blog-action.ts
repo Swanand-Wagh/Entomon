@@ -5,7 +5,7 @@ import { prisma } from '@/common/lib/prisma';
 import { blogSchema } from '@/common/schemas/blogSchema';
 import fs from 'fs';
 import path from 'path';
-import { isAuthenicated } from '@/common/lib/auth';
+import { currentRole } from '@/common/lib/auth';
 
 // Utility function to save the image to the public folder
 const saveImageToPublic = async (file: Buffer, fileName: string) => {
@@ -21,8 +21,8 @@ const saveImageToPublic = async (file: Buffer, fileName: string) => {
 };
 
 export const createBlogAction = async (values: z.infer<typeof blogSchema>) => {
-  const isAuthenticated = await isAuthenicated();
-  if (!isAuthenticated) return { error: 'You must be logged in to create a blog.' };
+  const role = await currentRole();
+  if (role !== 'ADMIN') return { error: 'Only Admins can create a blog.' };
 
   const validatedFields = blogSchema.safeParse(values);
   if (!validatedFields.success) return { error: 'Invalid data provided!' };

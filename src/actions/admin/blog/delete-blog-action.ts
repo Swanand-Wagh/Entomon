@@ -1,12 +1,12 @@
 'use server';
 
-import { prisma } from '@/common/lib/prisma';
 import { revalidatePath } from 'next/cache';
-import { isAuthenicated } from '@/common/lib/auth';
+import { prisma } from '@/common/lib/prisma';
+import { currentRole } from '@/common/lib/auth';
 
 export const deleteBlogAction = async (slug: string) => {
-  const isAuthenticated = await isAuthenicated();
-  if (!isAuthenticated) return { error: 'You must be logged in to delete a blog.' };
+  const role = await currentRole();
+  if (role !== 'ADMIN') return { error: 'Only Admins can delete a blog.' };
 
   if (!slug || typeof slug !== 'string') return { error: 'Invalid slug provided.' };
 
