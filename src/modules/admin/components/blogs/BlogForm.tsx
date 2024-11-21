@@ -112,7 +112,10 @@ export const BlogForm = ({
                         ref={fileInputRef}
                         className="hidden"
                         onChange={(e) => {
-                          handleCoverImageChange(e);
+                          const file = e.target.files?.[0];
+                          if (file) {
+                            handleCoverImageChange(file);
+                          }
                         }}
                       />
                       {coverImagePreview ? (

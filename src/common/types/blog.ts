@@ -5,7 +5,7 @@ export type BlogFormProps<TFormValues extends FieldValues> = {
   form: UseFormReturn<TFormValues>;
   onSubmit: (values: TFormValues) => void;
   handleResetBlog: () => void;
-  handleCoverImageChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handleCoverImageChange: (file: File) => void;
   coverImagePreview: string | null;
   handleContainerClick: () => void;
   isPending: boolean;

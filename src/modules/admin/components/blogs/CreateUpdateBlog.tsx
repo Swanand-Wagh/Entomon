@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState, useTransition } from 'react';
+import { useEffect, useRef, useState, useTransition } from 'react';
 
 import Link from '@tiptap/extension-link';
 import { useEditor } from '@tiptap/react';
@@ -16,14 +16,14 @@ import CharacterCount from '@tiptap/extension-character-count';
 
 import { z } from 'zod';
 import { BlogForm } from './BlogForm';
-import { Blog } from '@prisma/client';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { blogSchema } from '@/common/schemas/blogSchema';
+import { convertFileToBase64 } from '@/common/lib/base64';
+import { BlogFormValues, blogSchema } from '@/common/schemas/blogSchema';
 import { editBlogAction, createBlogAction } from '@/actions/admin/blog';
 
 type CreateUpdateBlogProps = {
-  data: Blog | null;
+  data: BlogFormValues | null;
 };
 
 export const CreateUpdateBlog = ({ data }: CreateUpdateBlogProps) => {
@@ -33,13 +33,19 @@ export const CreateUpdateBlog = ({ data }: CreateUpdateBlogProps) => {
   const [success, setSuccess] = useState<string | undefined>('');
   const [coverImagePreview, setCoverImagePreview] = useState<string | null>(null);
 
+  useEffect(() => {
+    if (data?.coverImage) {
+      setCoverImagePreview(`data:image/jpeg;base64,${data.coverImage}`);
+    }
+  }, [data?.coverImage]);
+
   const form = useForm<z.infer<typeof blogSchema>>({
     resolver: zodResolver(blogSchema),
     defaultValues: data
       ? {
           title: data.title || '',
           slug: data.slug || '',
-          coverImage: data.coverImage || '',
+          coverImage: `data:image/jpeg;base64,${data.coverImage}` || '',
           categories: data.categories || [],
           isPaid: data.isPaid || false,
           content: data.content || '',
@@ -85,13 +91,13 @@ export const CreateUpdateBlog = ({ data }: CreateUpdateBlogProps) => {
       form.reset({
         title: data.title || '',
         slug: data.slug || '',
-        coverImage: data.coverImage || '',
+        coverImage: `data:image/jpeg;base64,${data.coverImage}` || '',
         categories: data.categories || [],
         isPaid: data.isPaid || false,
         content: data.content || '',
       });
       editor?.commands.setContent(data.content || '');
-      setCoverImagePreview(data.coverImage || null);
+      setCoverImagePreview(`data:image/jpeg;base64,${data.coverImage}` || null);
     } else {
       form.reset();
       editor?.commands.clearContent();
@@ -99,11 +105,13 @@ export const CreateUpdateBlog = ({ data }: CreateUpdateBlogProps) => {
     }
   };
 
-  const handleCoverImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      form.setValue('coverImage', URL.createObjectURL(file));
-      setCoverImagePreview(URL.createObjectURL(file));
+  const handleCoverImageChange = async (file: File) => {
+    try {
+      const base64CoverImage = await convertFileToBase64(file);
+      form.setValue('coverImage', base64CoverImage);
+      setCoverImagePreview(`data:image/jpeg;base64,${base64CoverImage}`);
+    } catch (error) {
+      console.error('Error converting file to Base64:', error);
     }
   };
 
