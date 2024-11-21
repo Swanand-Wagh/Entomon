@@ -1,6 +1,7 @@
 'use server';
 
 import { z } from 'zod';
+import { revalidatePath } from 'next/cache';
 import { prisma } from '@/common/lib/prisma';
 import { currentRole } from '@/common/lib/auth';
 import { blogSchema } from '@/common/schemas/blogSchema';
@@ -31,6 +32,7 @@ export const createBlogAction = async (values: z.infer<typeof blogSchema>) => {
       },
     });
 
+    revalidatePath('/admin/blogs');
     return { success: 'Your Blog has been created!' };
   } catch (error) {
     console.error('Error while creating a Blog:', error);

@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, useTransition } from 'react';
 
 import Link from '@tiptap/extension-link';
 import { useEditor } from '@tiptap/react';
+import { useRouter } from 'next/navigation';
 import Image from '@tiptap/extension-image';
 import StarterKit from '@tiptap/starter-kit';
 import { Color } from '@tiptap/extension-color';
@@ -27,6 +28,8 @@ type CreateUpdateBlogProps = {
 };
 
 export const CreateUpdateBlog = ({ data }: CreateUpdateBlogProps) => {
+  const router = useRouter();
+
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | undefined>('');
@@ -119,6 +122,17 @@ export const CreateUpdateBlog = ({ data }: CreateUpdateBlogProps) => {
     fileInputRef.current?.click();
   };
 
+  const commonAction = (data: { error?: string; success?: string }) => {
+    if (data?.error) {
+      handleResetBlog();
+      setError(data.error);
+    }
+    if (data?.success) {
+      handleResetBlog();
+      setSuccess(data.success);
+    }
+  };
+
   const onSubmit = (values: z.infer<typeof blogSchema>) => {
     setError('');
     setSuccess('');
@@ -127,29 +141,21 @@ export const CreateUpdateBlog = ({ data }: CreateUpdateBlogProps) => {
       if (data) {
         editBlogAction(values)
           .then((data) => {
-            if (data?.error) {
-              handleResetBlog();
-              setError(data.error);
-            }
-            if (data?.success) {
-              handleResetBlog();
-              setSuccess(data.success);
-            }
+            commonAction(data);
           })
-          .catch(() => setError('Something went wrong!'));
+          .catch(() => setError('Something went wrong!'))
+          .finally(() => {
+            router.push('/admin/blogs');
+          });
       } else {
         createBlogAction(values)
           .then((data) => {
-            if (data?.error) {
-              handleResetBlog();
-              setError(data.error);
-            }
-            if (data?.success) {
-              handleResetBlog();
-              setSuccess(data.success);
-            }
+            commonAction(data);
           })
-          .catch(() => setError('Something went wrong!'));
+          .catch(() => setError('Something went wrong!'))
+          .finally(() => {
+            router.push('/admin/blogs');
+          });
       }
     });
   };
