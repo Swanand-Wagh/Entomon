@@ -6,7 +6,7 @@ import { prisma } from '@/common/lib/prisma';
 import { currentRole } from '@/common/lib/auth';
 import { blogSchema } from '@/common/schemas/blogSchema';
 
-export const editBlogAction = async (values: z.infer<typeof blogSchema>) => {
+export const editBlogAction = async (values: z.infer<typeof blogSchema>, currentSlug: string) => {
   const role = await currentRole();
   if (role !== 'ADMIN') return { error: 'Only Admins can update a blog.' };
 
@@ -23,10 +23,11 @@ export const editBlogAction = async (values: z.infer<typeof blogSchema>) => {
 
     await prisma.blog.update({
       where: {
-        slug,
+        slug: currentSlug,
       },
       data: {
         title,
+        slug,
         coverImage: coverImageData,
         categories,
         isPaid,

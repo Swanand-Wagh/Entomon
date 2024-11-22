@@ -77,7 +77,6 @@ export const CreateUpdateBlog = ({ data }: CreateUpdateBlogProps) => {
     form.clearErrors();
 
     if (data) {
-      form.reset(data);
       editor?.commands.setContent(data.content || '');
       setCoverImagePreview(data.coverImage || null);
     } else {
@@ -113,10 +112,12 @@ export const CreateUpdateBlog = ({ data }: CreateUpdateBlogProps) => {
 
     startTransition(async () => {
       try {
-        const action = data ? editBlogAction(values) : createBlogAction(values);
+        const action = data ? editBlogAction(values, data.slug) : createBlogAction(values);
         const result = await action;
         commonAction(result);
-        router.push('/admin/blogs');
+        setTimeout(() => {
+          router.push('/admin/blogs');
+        }, 500);
       } catch (error) {
         setError('Something went wrong!');
       }
