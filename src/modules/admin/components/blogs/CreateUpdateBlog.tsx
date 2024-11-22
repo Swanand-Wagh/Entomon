@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState, useTransition } from 'react';
+import { useCallback, useRef, useState, useTransition, useMemo } from 'react';
 
 import Link from '@tiptap/extension-link';
 import { useEditor } from '@tiptap/react';
@@ -16,12 +16,13 @@ import Placeholder from '@tiptap/extension-placeholder';
 import CharacterCount from '@tiptap/extension-character-count';
 
 import { z } from 'zod';
+import isEqual from 'lodash/isEqual';
 import { BlogForm } from './BlogForm';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { convertFileToBase64 } from '@/common/lib/base64';
-import { BlogFormValues, blogSchema } from '@/common/schemas/blogSchema';
 import { editBlogAction, createBlogAction } from '@/actions/admin/blog';
+import { BlogFormValues, blogSchema } from '@/common/schemas/blogSchema';
 
 type CreateUpdateBlogProps = {
   data: BlogFormValues | null;
@@ -29,7 +30,7 @@ type CreateUpdateBlogProps = {
 
 export const CreateUpdateBlog = ({ data }: CreateUpdateBlogProps) => {
   const router = useRouter();
-  console.log(data?.coverImage);
+
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | undefined>('');
@@ -38,23 +39,14 @@ export const CreateUpdateBlog = ({ data }: CreateUpdateBlogProps) => {
 
   const form = useForm<z.infer<typeof blogSchema>>({
     resolver: zodResolver(blogSchema),
-    defaultValues: data
-      ? {
-          title: data.title || '',
-          slug: data.slug || '',
-          coverImage: data.coverImage || '',
-          categories: data.categories || [],
-          isPaid: data.isPaid || false,
-          content: data.content || '',
-        }
-      : {
-          title: '',
-          slug: '',
-          coverImage: '',
-          categories: [],
-          isPaid: false,
-          content: '',
-        },
+    defaultValues: data || {
+      title: '',
+      slug: '',
+      coverImage: '',
+      categories: [],
+      isPaid: false,
+      content: '',
+    },
   });
 
   const editor = useEditor({
@@ -81,18 +73,11 @@ export const CreateUpdateBlog = ({ data }: CreateUpdateBlogProps) => {
     },
   });
 
-  const handleResetBlog = () => {
+  const handleResetBlog = useCallback(() => {
     form.clearErrors();
 
     if (data) {
-      form.reset({
-        title: data.title || '',
-        slug: data.slug || '',
-        coverImage: data.coverImage || '',
-        categories: data.categories || [],
-        isPaid: data.isPaid || false,
-        content: data.content || '',
-      });
+      form.reset(data);
       editor?.commands.setContent(data.content || '');
       setCoverImagePreview(data.coverImage || null);
     } else {
@@ -100,59 +85,53 @@ export const CreateUpdateBlog = ({ data }: CreateUpdateBlogProps) => {
       editor?.commands.clearContent();
       setCoverImagePreview(null);
     }
-  };
+  }, [data, form, editor]);
 
-  const handleCoverImageChange = async (file: File) => {
-    try {
-      const base64CoverImage = await convertFileToBase64(file);
-      form.setValue('coverImage', base64CoverImage);
-      setCoverImagePreview(base64CoverImage);
-    } catch (error) {
-      console.error('Error converting file to Base64:', error);
-    }
-  };
-
-  const handleContainerClick = () => {
-    fileInputRef.current?.click();
-  };
+  const handleCoverImageChange = useCallback(
+    async (file: File) => {
+      try {
+        const base64CoverImage = await convertFileToBase64(file);
+        form.setValue('coverImage', base64CoverImage);
+        setCoverImagePreview(base64CoverImage);
+      } catch (error) {
+        setError('Failed to process the image. Please retry.');
+        console.error('Error converting file to Base64:', error);
+      }
+    },
+    [form]
+  );
 
   const commonAction = (data: { error?: string; success?: string }) => {
-    if (data?.error) {
-      handleResetBlog();
-      setError(data.error);
-    }
-    if (data?.success) {
-      handleResetBlog();
-      setSuccess(data.success);
-    }
+    handleResetBlog();
+    if (data?.error) setError(data.error);
+    if (data?.success) setSuccess(data.success);
   };
 
-  const onSubmit = (values: z.infer<typeof blogSchema>) => {
+  const onSubmit = async (values: z.infer<typeof blogSchema>) => {
     setError('');
     setSuccess('');
 
-    startTransition(() => {
-      if (data) {
-        editBlogAction(values)
-          .then((data) => {
-            commonAction(data);
-          })
-          .catch(() => setError('Something went wrong!'))
-          .finally(() => {
-            router.push('/admin/blogs');
-          });
-      } else {
-        createBlogAction(values)
-          .then((data) => {
-            commonAction(data);
-          })
-          .catch(() => setError('Something went wrong!'))
-          .finally(() => {
-            router.push('/admin/blogs');
-          });
+    startTransition(async () => {
+      try {
+        const action = data ? editBlogAction(values) : createBlogAction(values);
+        const result = await action;
+        commonAction(result);
+        router.push('/admin/blogs');
+      } catch (error) {
+        setError('Something went wrong!');
       }
     });
   };
+
+  const handleContainerClick = () => fileInputRef.current?.click();
+
+  const isSubmitDisabled = useMemo(() => {
+    if (data) {
+      const hasChanged = !isEqual(data, form.getValues());
+      return !hasChanged;
+    }
+    return !form.formState.isValid || !coverImagePreview || isPending;
+  }, [form.formState.isValid, form.getValues(), isPending, coverImagePreview, data]);
 
   return (
     <BlogForm
@@ -165,6 +144,7 @@ export const CreateUpdateBlog = ({ data }: CreateUpdateBlogProps) => {
       isPending={isPending}
       fileInputRef={fileInputRef}
       handleResetBlog={handleResetBlog}
+      isSubmitDisabled={isSubmitDisabled}
       coverImagePreview={coverImagePreview}
       handleContainerClick={handleContainerClick}
       handleCoverImageChange={handleCoverImageChange}

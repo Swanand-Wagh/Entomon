@@ -14,6 +14,7 @@ export type BlogFormProps<TFormValues extends FieldValues> = {
   editor: Editor | null;
   fileInputRef: React.RefObject<HTMLInputElement>;
   isEditing: boolean;
+  isSubmitDisabled: boolean;
 };
 
 export type SingleBlogData = {

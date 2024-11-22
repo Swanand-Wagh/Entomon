@@ -1,7 +1,7 @@
 import { Checkbox } from '@/common/components/ui/checkbox';
 import { MultiSelect } from '@/common/components/ui/multi-select';
 import { FormError, FormSuccess } from '@/common/components/custom';
-import { Form, FormControl, FormField, FormItem } from '@/common/components/ui/form';
+import { Form, FormControl, FormField, FormItem, FormLabel } from '@/common/components/ui/form';
 
 import NextImage from 'next/image';
 import { Controller } from 'react-hook-form';
@@ -10,6 +10,7 @@ import { Input } from '@/common/components/ui/input';
 import { Button } from '@/common/components/ui/button';
 import { BlogFormValues } from '@/common/schemas/blogSchema';
 import { TextEditor } from '@/common/components/custom/editor';
+import { Switch } from '@/common/components/ui/switch';
 
 const blogCategories = [
   { label: 'Technology', value: 'Technology', checked: false },
@@ -32,6 +33,7 @@ export const BlogForm = ({
   success,
   editor,
   isEditing,
+  isSubmitDisabled,
 }: BlogFormProps<BlogFormValues>) => {
   return (
     <>
@@ -134,18 +136,20 @@ export const BlogForm = ({
                 />
               </div>
 
-              {/* <FormField
-              control={form.control}
-              name="isPaid"
-              render={({ field }) => (
-                <FormItem className="flex flex-row items-center gap-3 rounded-lg px-4 py-2">
-                  <FormControl>
-                    <Checkbox checked={field.value} onCheckedChange={field.onChange} />
-                  </FormControl>
-                  <FormLabel className="mt-0 text-sm font-medium text-gray-600">Is Paid</FormLabel>
-                </FormItem>
-              )}
-            /> */}
+              <FormField
+                control={form.control}
+                name="isPaid"
+                render={({ field }) => (
+                  <FormItem className="flex flex-row items-center gap-3 space-y-0 rounded-lg px-2 py-2">
+                    <FormControl>
+                      <Switch id="Is Paid" checked={field.value} onCheckedChange={field.onChange} />
+                    </FormControl>
+                    <FormLabel htmlFor="Is Paid" className="text-sm font-medium text-gray-600">
+                      Is Paid
+                    </FormLabel>
+                  </FormItem>
+                )}
+              />
 
               {/* Reset and Submit Buttons */}
               <div className="mt-4 flex w-full flex-col gap-2">
@@ -159,7 +163,11 @@ export const BlogForm = ({
                 >
                   Reset
                 </Button>
-                <Button type="submit" className="w-full rounded-md p-2 font-semibold text-white">
+                <Button
+                  type="submit"
+                  disabled={isSubmitDisabled}
+                  className="w-full rounded-md p-2 font-semibold text-white"
+                >
                   {isEditing ? 'Update Blog' : 'Create Blog'}
                 </Button>
               </div>
