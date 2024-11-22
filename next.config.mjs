@@ -4,6 +4,7 @@ const nextConfig = {
     serverActions: {
       bodySizeLimit: '5mb',
     },
+    optimizePackageImports: ['@mantine/core', '@mantine/hooks', '@mantine/tiptap'],
   },
   reactStrictMode: true,
   swcMinify: true,
