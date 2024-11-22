@@ -18,7 +18,10 @@ export const createBlogAction = async (values: z.infer<typeof blogSchema>) => {
   try {
     let coverImageData: Buffer | null = null;
     if (coverImage) {
-      coverImageData = Buffer.from(coverImage, 'base64');
+      // Remove the Base64 prefix
+      const base64Data = coverImage.replace(/^data:image\/\w+;base64,/, '');
+      // Convert to Buffer
+      coverImageData = Buffer.from(base64Data, 'base64');
     }
 
     await prisma.blog.create({

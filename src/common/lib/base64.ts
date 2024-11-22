@@ -1,16 +1,16 @@
-export const convertFileToBase64 = async (file: File) => {
+export const convertFileToBase64 = async (file: File): Promise<string> => {
   const reader = new FileReader();
 
   return new Promise<string>((resolve, reject) => {
     reader.onload = () => {
-      const base64String = reader.result?.toString().split(',')[1]; // Strip the data prefix
-      if (base64String) {
-        resolve(base64String);
+      if (reader.result) {
+        resolve(reader.result.toString());
       } else {
-        reject('Failed to convert file to Base64.');
+        reject('FileReader did not return a result.');
       }
     };
-    reader.onerror = (error) => reject(error);
+
+    reader.onerror = (error) => reject(`Error reading file: ${error}`);
 
     reader.readAsDataURL(file);
   });

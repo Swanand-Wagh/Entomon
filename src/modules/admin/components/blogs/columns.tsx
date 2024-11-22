@@ -18,7 +18,7 @@ type AdminBlogsColumns = {
 
 const SlugLink = ({ value, slug }: { value: string; slug: string }) => {
   return (
-    <Link href={`/admin/blogs/edit/${encodeURIComponent(slug.toLowerCase())}`}>
+    <Link target="_blank" href={`/blogs/${encodeURIComponent(slug.toLowerCase())}`}>
       <div className="cursor-pointer hover:underline">{value}</div>
     </Link>
   );

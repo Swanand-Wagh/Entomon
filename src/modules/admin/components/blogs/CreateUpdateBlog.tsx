@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState, useTransition } from 'react';
+import { useRef, useState, useTransition } from 'react';
 
 import Link from '@tiptap/extension-link';
 import { useEditor } from '@tiptap/react';
@@ -29,18 +29,12 @@ type CreateUpdateBlogProps = {
 
 export const CreateUpdateBlog = ({ data }: CreateUpdateBlogProps) => {
   const router = useRouter();
-
+  console.log(data?.coverImage);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | undefined>('');
   const [success, setSuccess] = useState<string | undefined>('');
-  const [coverImagePreview, setCoverImagePreview] = useState<string | null>(null);
-
-  useEffect(() => {
-    if (data?.coverImage) {
-      setCoverImagePreview(`data:image/jpeg;base64,${data.coverImage}`);
-    }
-  }, [data?.coverImage]);
+  const [coverImagePreview, setCoverImagePreview] = useState<string | null>(data?.coverImage ?? '');
 
   const form = useForm<z.infer<typeof blogSchema>>({
     resolver: zodResolver(blogSchema),
@@ -48,7 +42,7 @@ export const CreateUpdateBlog = ({ data }: CreateUpdateBlogProps) => {
       ? {
           title: data.title || '',
           slug: data.slug || '',
-          coverImage: `data:image/jpeg;base64,${data.coverImage}` || '',
+          coverImage: data.coverImage || '',
           categories: data.categories || [],
           isPaid: data.isPaid || false,
           content: data.content || '',
@@ -94,13 +88,13 @@ export const CreateUpdateBlog = ({ data }: CreateUpdateBlogProps) => {
       form.reset({
         title: data.title || '',
         slug: data.slug || '',
-        coverImage: `data:image/jpeg;base64,${data.coverImage}` || '',
+        coverImage: data.coverImage || '',
         categories: data.categories || [],
         isPaid: data.isPaid || false,
         content: data.content || '',
       });
       editor?.commands.setContent(data.content || '');
-      setCoverImagePreview(`data:image/jpeg;base64,${data.coverImage}` || null);
+      setCoverImagePreview(data.coverImage || null);
     } else {
       form.reset();
       editor?.commands.clearContent();
@@ -112,7 +106,7 @@ export const CreateUpdateBlog = ({ data }: CreateUpdateBlogProps) => {
     try {
       const base64CoverImage = await convertFileToBase64(file);
       form.setValue('coverImage', base64CoverImage);
-      setCoverImagePreview(`data:image/jpeg;base64,${base64CoverImage}`);
+      setCoverImagePreview(base64CoverImage);
     } catch (error) {
       console.error('Error converting file to Base64:', error);
     }

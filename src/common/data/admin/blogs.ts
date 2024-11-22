@@ -15,11 +15,13 @@ export const getBlogBySlug = async (slug: string): Promise<BlogFormValues | null
     });
 
     if (!blog) return null;
-    const coverImageBase64 = blog.coverImage ? blog.coverImage.toString('base64') : '';
+    const coverImageBase64 = blog.coverImage ? Buffer.from(new Uint8Array(blog.coverImage)).toString('base64') : '';
+    // Remove the "data:image/jpeg;base64," part
+    const cleanImageData = coverImageBase64.replace(/^dataimage\/[a-zA-Z]+base64/, '');
 
     return {
       ...blog,
-      coverImage: coverImageBase64,
+      coverImage: `data:image/jpeg;base64,${cleanImageData}`,
     };
   } catch (error) {
     console.error('Error fetching blog by slug:', error);
