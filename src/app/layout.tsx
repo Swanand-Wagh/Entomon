@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 
-import { SessionProvider } from 'next-auth/react';
 import { auth } from '@/auth';
+import { SessionProvider } from 'next-auth/react';
 
 import { Toaster } from '@/common/components/ui/toaster';
 import { ToastProvider } from '@/common/components/ui/toast';
@@ -28,7 +28,7 @@ export default async function RootLayout({
   const session = await auth();
 
   return (
-    <SessionProvider session={session}>
+    <SessionProvider session={session} refetchInterval={0} refetchOnWindowFocus={false}>
       <html lang="en">
         <ToastProvider>
           <body className={`${plus_jakarta_sans.className} ${inter.className}`} suppressHydrationWarning={true}>
