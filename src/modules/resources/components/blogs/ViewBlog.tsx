@@ -15,7 +15,6 @@ export const ViewBlog = ({ data }: ViewBlogProps) => {
 
   return (
     <div className="mx-auto my-8 max-w-3xl rounded-lg bg-white p-6 shadow-lg">
-      {/* Cover Image */}
       {coverImage && (
         <div className="mb-4">
           <Image

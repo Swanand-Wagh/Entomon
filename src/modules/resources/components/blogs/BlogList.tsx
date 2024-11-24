@@ -14,14 +14,7 @@ export const BlogList = ({ blogs }: BlogListProps) => {
       {blogs.map((blog) => (
         <Card key={blog.slug} className="flex flex-col overflow-hidden">
           <div className="relative w-full pt-[56.25%]">
-            <Image
-              src={
-                blog.coverImage && blog.coverImage.trim() ? blog.coverImage : '/placeholder.svg?height=400&width=600'
-              }
-              alt={blog.title}
-              fill
-              className="object-cover"
-            />
+            <Image src={blog.coverImage ? blog.coverImage : ''} alt={blog.title} fill className="object-cover" />
           </div>
 
           <CardHeader>
@@ -36,8 +29,13 @@ export const BlogList = ({ blogs }: BlogListProps) => {
                 </Badge>
               ))}
             </div>
-            {/* <p className="text-sm text-muted-foreground">Created: {new Date(blog.createdAt).toDateString()}</p>
-            <p className="text-sm text-muted-foreground">Updated: {new Date(blog.updatedAt).toDateString()}</p> */}
+
+            <p className="text-sm text-muted-foreground">
+              Created: {blog.createdAt ? new Date(blog.createdAt).toDateString() : 'N/A'}
+            </p>
+            <p className="text-sm text-muted-foreground">
+              Updated: {blog.createdAt ? new Date(blog.createdAt).toDateString() : 'N/A'}
+            </p>
           </CardContent>
 
           <CardFooter className="mt-auto">

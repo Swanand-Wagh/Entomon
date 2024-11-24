@@ -7,36 +7,14 @@ const bufferToBase64 = (buffer: Buffer): string => {
   return `data:image/jpeg;base64,${cleanImageData}`;
 };
 
-export const getAllBlogs = async (
-  fields?: Record<string, boolean>
-): Promise<Omit<BlogFormValues, 'coverImage'>[] | BlogFormValues[]> => {
-  const needsCoverImage = fields?.coverImage ?? true;
-
-  const selectFields = fields ?? {
-    title: true,
-    slug: true,
-    coverImage: true,
-    categories: true,
-    isPaid: true,
-    content: true,
-    createdAt: true,
-    updatedAt: true,
-  };
-
-  const blogs = await prisma.blog.findMany({
-    select: needsCoverImage ? { ...selectFields } : { ...selectFields, coverImage: false },
-  });
+export const getAllBlogs = async (): Promise<BlogFormValues[]> => {
+  const blogs = await prisma.blog.findMany();
 
   return blogs.map((blog) => {
-    if (!needsCoverImage) {
-      const { coverImage, ...rest } = blog;
-      return rest as Omit<BlogFormValues, 'coverImage'>;
-    }
-
     return {
       ...blog,
       coverImage: blog.coverImage ? bufferToBase64(blog.coverImage) : '',
-    } as BlogFormValues;
+    };
   });
 };
 
