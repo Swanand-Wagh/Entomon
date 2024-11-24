@@ -1,6 +1,12 @@
 import { prisma } from '@/common/lib/prisma';
 import { BlogFormValues } from '@/common/schemas/blogSchema';
 
+const bufferToBase64 = (buffer: Buffer): string => {
+  const coverImageBase64 = buffer ? Buffer.from(new Uint8Array(buffer)).toString('base64') : null;
+  const cleanImageData = coverImageBase64 ? coverImageBase64.replace(/^dataimage\/[a-zA-Z]+base64/, '') : null;
+  return `data:image/jpeg;base64,${cleanImageData}`;
+};
+
 export const getAllBlogs = async (
   fields?: Record<string, boolean>
 ): Promise<Omit<BlogFormValues, 'coverImage'>[] | BlogFormValues[]> => {
@@ -13,6 +19,8 @@ export const getAllBlogs = async (
     categories: true,
     isPaid: true,
     content: true,
+    createdAt: true,
+    updatedAt: true,
   };
 
   const blogs = await prisma.blog.findMany({
@@ -25,13 +33,9 @@ export const getAllBlogs = async (
       return rest as Omit<BlogFormValues, 'coverImage'>;
     }
 
-    const coverImageBase64 = blog.coverImage ? Buffer.from(new Uint8Array(blog.coverImage)).toString('base64') : null;
-
-    const cleanImageData = coverImageBase64 ? coverImageBase64.replace(/^data:image\/[a-zA-Z]+;base64,/, '') : null;
-
     return {
       ...blog,
-      coverImage: coverImageBase64 ? `data:image/jpeg;base64,${cleanImageData}` : null,
+      coverImage: blog.coverImage ? bufferToBase64(blog.coverImage) : '',
     } as BlogFormValues;
   });
 };
@@ -45,13 +49,10 @@ export const getBlogBySlug = async (slug: string): Promise<BlogFormValues | null
     });
 
     if (!blog) return null;
-    const coverImageBase64 = blog.coverImage ? Buffer.from(new Uint8Array(blog.coverImage)).toString('base64') : '';
-    // Remove the "data:image/jpeg;base64," part
-    const cleanImageData = coverImageBase64.replace(/^dataimage\/[a-zA-Z]+base64/, '');
 
     return {
       ...blog,
-      coverImage: `data:image/jpeg;base64,${cleanImageData}`,
+      coverImage: blog.coverImage ? bufferToBase64(blog.coverImage) : '',
     };
   } catch (error) {
     console.error('Error fetching blog by slug:', error);
