@@ -100,10 +100,10 @@ export const CreateUpdateBlog = ({ data }: CreateUpdateBlogProps) => {
     [form]
   );
 
-  const commonAction = (data: { error?: string; success?: string }) => {
-    handleResetBlog();
-    if (data?.error) setError(data.error);
-    if (data?.success) setSuccess(data.success);
+  const commonAction = (info: { error?: string; success?: string }) => {
+    if (!data) handleResetBlog();
+    if (info?.error) setError(info.error);
+    if (info?.success) setSuccess(info.success);
   };
 
   const onSubmit = async (values: z.infer<typeof blogSchema>) => {
@@ -129,6 +129,7 @@ export const CreateUpdateBlog = ({ data }: CreateUpdateBlogProps) => {
   const isSubmitDisabled = useMemo(() => {
     if (data) {
       const hasChanged = !isEqual(data, form.getValues());
+      console.log('hasChanged', hasChanged);
       return !hasChanged;
     }
     return !form.formState.isValid || !coverImagePreview || isPending;

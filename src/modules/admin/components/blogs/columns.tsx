@@ -12,8 +12,8 @@ import { CustomModal } from '@/common/components/custom/CustomModal';
 type AdminBlogsColumns = {
   title: string;
   slug: string;
-  category: string;
-  price: boolean;
+  categories: string[];
+  isPaid: boolean;
 };
 
 const SlugLink = ({ value, slug }: { value: string; slug: string }) => (
@@ -83,16 +83,16 @@ export const AdminBlogsColumns: ColumnDef<AdminBlogsColumns>[] = [
     cell: ({ row }) => <SlugLink value={row.getValue('slug')} slug={row.original.slug} />,
   },
   {
-    accessorKey: 'category',
+    accessorKey: 'categories',
     enableHiding: true,
     header: 'Category',
-    cell: ({ getValue }) => {
-      const categories = getValue<string>()?.split(',') || [];
+    cell: ({ row }) => {
+      const categories = row.original.categories;
       return <CategoryBadges categories={categories} />;
     },
   },
   {
-    accessorKey: 'price',
+    accessorKey: 'isPaid',
     header: 'Is Paid',
     enableHiding: true,
   },

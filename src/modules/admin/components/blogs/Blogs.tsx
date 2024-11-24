@@ -8,13 +8,7 @@ import { getAllBlogs } from '@/common/data/admin/blogs';
 import { DataTable } from '@/common/components/custom/table';
 
 export const Blogs = async () => {
-  const data = await getAllBlogs();
-  const blogs = data.map((blog) => ({
-    title: blog.title,
-    slug: blog.slug,
-    category: blog.categories.join(', '),
-    price: blog.isPaid,
-  }));
+  const blogs = await getAllBlogs({ id: true, title: true, slug: true, categories: true, isPaid: true });
 
   return (
     <>
