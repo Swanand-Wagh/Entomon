@@ -34,9 +34,4 @@ export const NAVBAR: NavbarProps[] = [
     url: '/contact',
     type: 'Link',
   },
-  {
-    name: 'Login/Register',
-    url: '/auth/login',
-    type: 'Button',
-  },
 ];

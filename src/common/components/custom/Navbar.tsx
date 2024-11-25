@@ -2,10 +2,12 @@ import React from 'react';
 import Link from 'next/link';
 
 import { BugIcon } from './BugIcon';
+import { UserNav } from './UserNav';
 import { SearchInput } from './SearchInput';
+import { Icon } from '@/common/constants/icons';
+import { currentUser } from '@/common/lib/auth';
 import { NAVBAR } from '@/common/constants/navbar';
 import { NavbarOption } from '@/common/types/navbar';
-import { Icon } from '@/common/constants/icons';
 
 import {
   DropdownMenu,
@@ -14,9 +16,10 @@ import {
   DropdownMenuTrigger,
 } from '@/common/components/ui/dropdown-menu';
 import { Button } from '@/common/components/ui/button';
+import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
 import { Sheet, SheetContent, SheetDescription, SheetTitle, SheetTrigger } from '@/common/components/ui/sheet';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/common/components/ui/collapsible';
-import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
+import { User } from '@prisma/client';
 
 const DropdownLink = ({ url, name, description }: NavbarOption) => (
   <Link
@@ -40,7 +43,9 @@ const ButtonLink = ({ name, url }: NavbarOption) => (
   </Link>
 );
 
-export const Navbar = () => {
+export const Navbar = async () => {
+  const user = await currentUser();
+
   return (
     <header className="sticky top-0 z-50 w-full bg-background">
       <div className="container flex h-16 items-center justify-between px-4 md:px-6">
@@ -80,7 +85,9 @@ export const Navbar = () => {
               <ButtonLink key={item.name} name={item.name} url={item.url ?? ''} />
             ) : null
           )}
+
           <SearchInput />
+          {user ? <UserNav user={user as User} /> : <ButtonLink url="/auth/login" name="Login/Register" />}
         </nav>
 
         <Sheet>

@@ -1,8 +1,8 @@
 import Link from 'next/link';
 
 import initials from 'initials';
+import { User } from '@prisma/client';
 import { LogoutButton } from '@/modules/auth';
-import { currentUser } from '@/common/lib/auth';
 
 import {
   DropdownMenu,
@@ -22,9 +22,7 @@ const userNavItems = [
   { href: '/admin/settings', label: 'Settings', shortcut: '⌘S' },
 ];
 
-export const UserNav = async () => {
-  const user = await currentUser();
-
+export const UserNav = async ({ user }: { user: User }) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>

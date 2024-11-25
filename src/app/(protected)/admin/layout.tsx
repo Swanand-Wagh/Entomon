@@ -1,6 +1,7 @@
 import React, { Suspense } from 'react';
 
-import { UserRole } from '@prisma/client';
+import { User, UserRole } from '@prisma/client';
+import { currentUser } from '@/common/lib/auth';
 import { RoleGate } from '@/common/feature-flags';
 import { Loading } from '@/common/components/custom';
 import { CustomBreadcrumbs, UserNav } from '@/common/components/custom';
@@ -21,7 +22,9 @@ import {
 } from '@/common/components/ui/sidebar';
 import { Separator } from '@/common/components/ui/separator';
 
-export default function AdminLayout({ children }: { children: React.ReactNode }) {
+export default async function AdminLayout({ children }: { children: React.ReactNode }) {
+  const user = await currentUser();
+
   return (
     <RoleGate allowedRole={UserRole.ADMIN}>
       <SidebarProvider>
@@ -54,7 +57,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               <CustomBreadcrumbs />
             </div>
 
-            <UserNav />
+            <UserNav user={user as User} />
           </header>
 
           <Suspense fallback={<Loading />}>
