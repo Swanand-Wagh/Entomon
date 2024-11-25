@@ -24,9 +24,9 @@ const ViewBlogPage = async ({ params }: { params: Promise<{ slug: string }> }) =
 
   return (
     <>
-      <Suspense fallback={<Loading />}>
+      {/* <Suspense fallback={<Loading />}> */}
         <ViewBlog data={blog} />
-      </Suspense>
+      {/* </Suspense> */}
     </>
   );
 };
