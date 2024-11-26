@@ -129,7 +129,6 @@ export const CreateUpdateBlog = ({ data }: CreateUpdateBlogProps) => {
   const isSubmitDisabled = useMemo(() => {
     if (data) {
       const hasChanged = !isEqual(data, form.getValues());
-      console.log('hasChanged', hasChanged);
       return !hasChanged;
     }
     return !form.formState.isValid || !coverImagePreview || isPending;

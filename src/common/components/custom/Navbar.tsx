@@ -3,11 +3,12 @@ import Link from 'next/link';
 
 import { BugIcon } from './BugIcon';
 import { UserNav } from './UserNav';
+import { User } from '@prisma/client';
 import { SearchInput } from './SearchInput';
 import { Icon } from '@/common/constants/icons';
-import { currentUser } from '@/common/lib/auth';
 import { NAVBAR } from '@/common/constants/navbar';
 import { NavbarOption } from '@/common/types/navbar';
+import { currentUser, isAuthenicated } from '@/common/lib/auth';
 
 import {
   DropdownMenu,
@@ -19,7 +20,6 @@ import { Button } from '@/common/components/ui/button';
 import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
 import { Sheet, SheetContent, SheetDescription, SheetTitle, SheetTrigger } from '@/common/components/ui/sheet';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/common/components/ui/collapsible';
-import { User } from '@prisma/client';
 
 const DropdownLink = ({ url, name, description }: NavbarOption) => (
   <Link
