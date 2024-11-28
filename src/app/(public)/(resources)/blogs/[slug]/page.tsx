@@ -1,8 +1,8 @@
 import React, { Suspense } from 'react';
 import { prisma } from '@/common/lib/prisma';
+import { Loading } from '@/common/components/custom';
 import { getBlogBySlug } from '@/common/data/admin/blogs';
 import { ViewBlog } from '@/modules/resources/components/blogs';
-import { Footer, Loading, Navbar } from '@/common/components/custom';
 
 export const revalidate = 3600;
 
@@ -24,11 +24,9 @@ const ViewBlogPage = async ({ params }: { params: Promise<{ slug: string }> }) =
 
   return (
     <>
-      <Navbar />
-      {/* <Suspense fallback={<Loading />}> */}
-      <ViewBlog data={blog} />
-      {/* </Suspense> */}
-      <Footer />
+      <Suspense fallback={<Loading />}>
+        <ViewBlog data={blog} />
+      </Suspense>
     </>
   );
 };
