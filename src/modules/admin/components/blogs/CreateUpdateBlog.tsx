@@ -77,6 +77,7 @@ export const CreateUpdateBlog = ({ data }: CreateUpdateBlogProps) => {
     form.clearErrors();
 
     if (data) {
+      form.reset(data);
       editor?.commands.setContent(data.content || '');
       setCoverImagePreview(data.coverImage || null);
     } else {
