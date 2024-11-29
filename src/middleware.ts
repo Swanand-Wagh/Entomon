@@ -1,43 +1,48 @@
 import NextAuth from 'next-auth';
 import { NextResponse } from 'next/server';
 
+import {
+  AUTH_ROUTES,
+  ADMIN_ROUTES,
+  PUBLIC_ROUTES,
+  ROUTE_MAPPINGS,
+  API_AUTH_PREFIX,
+  DEFAULT_LOGIN_REDIRECT,
+} from '@/common/lib/routes';
 import authConfig from '@/auth.config';
-import { apiAuthPrefix, AUTH_ROUTES, DEFAULT_LOGIN_REDIRECT, PUBLIC_ROUTES, ADMIN_ROUTES } from '@/common/lib/routes';
+
+type routeMapping = keyof typeof ROUTE_MAPPINGS;
 
 const { auth } = NextAuth(authConfig);
 
 export default auth(async (req) => {
   const { auth: session, nextUrl } = req;
+  const pathname = nextUrl.pathname;
 
   const isLoggedIn = !!session;
   const role = session?.user?.role;
-  const pathname = nextUrl.pathname;
 
-  if (pathname === '/user') {
-    return NextResponse.redirect(new URL('/user/dashboard', nextUrl));
-  }
-  if (pathname === '/admin') {
-    return NextResponse.redirect(new URL('/admin/dashboard', nextUrl));
+  if (pathname in ROUTE_MAPPINGS) {
+    return NextResponse.redirect(new URL(ROUTE_MAPPINGS[pathname as routeMapping], nextUrl));
   }
 
-  const isAdminRoute = ADMIN_ROUTES.test(pathname);
-  const isAuthRoute = AUTH_ROUTES.includes(pathname);
-  const isPublicRoute = PUBLIC_ROUTES.includes(pathname);
-  const isApiAuthRoute = pathname.startsWith(apiAuthPrefix);
-
-  if (isApiAuthRoute) {
+  // Allow API auth routes
+  if (pathname.startsWith(API_AUTH_PREFIX)) {
     return NextResponse.next();
   }
 
-  if (role === 'USER' && isAdminRoute) {
+  // Prevent user role access to admin routes
+  if (role === 'USER' && ADMIN_ROUTES.test(pathname)) {
     return NextResponse.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl));
   }
 
-  if (isAuthRoute) {
+  // Handle authentication routes
+  if (AUTH_ROUTES.includes(pathname)) {
     return isLoggedIn ? NextResponse.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl)) : NextResponse.next();
   }
 
-  if (!isLoggedIn && !isPublicRoute) {
+  // Redirect unauthenticated users away from private routes
+  if (!isLoggedIn && !PUBLIC_ROUTES.test(pathname)) {
     const callbackUrl = encodeURIComponent(`${nextUrl.pathname}${nextUrl.search}`);
     return NextResponse.redirect(new URL(`/auth/login?callbackUrl=${callbackUrl}`, nextUrl));
   }
