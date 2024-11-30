@@ -1,5 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
+import DOMPurify from 'isomorphic-dompurify';
 import { BlogFormValues } from '@/common/schemas/blogSchema';
 
 type ViewBlogProps = {
@@ -8,59 +9,59 @@ type ViewBlogProps = {
 
 export const ViewBlog = ({ data }: ViewBlogProps) => {
   if (!data) {
-    return <div>No blog data available.</div>;
+    return (
+      <div className="mx-auto max-w-3xl px-4 py-8 text-center">
+        <h1 className="mb-4 text-2xl font-bold">Error Loading Blog Post</h1>
+        <p>
+          We&apos;re sorry, but we couldn&apos;t load the blog post data or probably it doesn&apos;t exist. <br />
+          Please try again later.
+        </p>
+      </div>
+    );
   }
 
-  const { title, slug, coverImage, categories, isPaid, content } = data;
+  const { title, coverImage, categories, isPaid, content, updatedAt } = data;
 
   return (
-    <div className="mx-auto my-8 max-w-3xl rounded-lg bg-white p-6 shadow-lg">
-      {coverImage && (
-        <div className="mb-4">
-          <Image
-            alt={title}
-            width={400}
-            height={200}
-            src={coverImage}
-            className="absolute inset-0 rounded-lg object-cover"
-          />
+    <div className="min-h-screen bg-gray-100">
+      <header className="relative h-80 w-full bg-gray-800">
+        {coverImage && (
+          <Image src={coverImage} alt={title} layout="fill" objectFit="cover" className="absolute inset-0 opacity-70" />
+        )}
+        <div className="relative z-10 flex h-full flex-col items-center justify-center bg-black bg-opacity-50 text-white">
+          <h1 className="text-center text-4xl font-bold">{title}</h1>
+          {isPaid && (
+            <span className="mt-4 rounded-md bg-red-500 px-4 py-1 text-sm font-medium text-white shadow">
+              Paid Content
+            </span>
+          )}
         </div>
-      )}
+      </header>
 
-      {/* Title and Meta Information */}
-      <h1 className="mb-2 text-3xl font-bold">{title}</h1>
-      <p className="mb-4 text-sm text-gray-500">Slug: {slug}</p>
-
-      {/* Categories */}
-      {categories && categories.length > 0 && (
-        <div className="mb-4">
-          <h2 className="text-lg font-semibold">Categories:</h2>
-          <ul className="list-inside list-disc">
-            {Array.isArray(categories)
-              ? categories.map((category, index) => (
-                  <li key={index} className="text-gray-700">
-                    {category}
-                  </li>
-                ))
-              : null}
-          </ul>
+      <main className="mx-auto -mt-10 max-w-4xl rounded-lg bg-white px-6 py-10 shadow-md">
+        <div className="mb-6 flex flex-wrap gap-3">
+          {categories.map((category, index) => (
+            <span key={index} className="rounded-md bg-blue-500 px-3 py-1 text-sm font-medium text-white">
+              {category}
+            </span>
+          ))}
         </div>
-      )}
 
-      {/* Paid Indicator */}
-      <p className="mb-4">
-        <strong>Paid Content:</strong>{' '}
-        <span className={isPaid ? 'text-green-500' : 'text-red-500'}>{isPaid ? 'Yes' : 'No'}</span>
-      </p>
+        <article className="prose prose-headings:text-gray-900 prose-a:text-blue-600 prose-a:underline max-w-none">
+          <div className="text-gray-800">
+            <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(content) }} />
+          </div>
+        </article>
 
-      {/* Content */}
-      <div className="prose prose-lg">
-        <h2 className="mb-2 text-lg font-semibold">Content:</h2>
-        <div
-          dangerouslySetInnerHTML={{ __html: content }}
-          className="prose prose-sm md:prose-lg lg:prose-xl max-w-none"
-        />
-      </div>
+        <div className="mt-10 flex flex-col space-y-2 border-t border-gray-200 pt-4 text-sm text-gray-600">
+          <p>
+            <strong>Author:</strong> Entomon Institute
+          </p>
+          <p>
+            <strong>Last Updated:</strong> {updatedAt ? new Date(updatedAt).toLocaleDateString() : 'N/A'}
+          </p>
+        </div>
+      </main>
     </div>
   );
 };
