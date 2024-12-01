@@ -2,10 +2,12 @@ import React from 'react';
 import Link from 'next/link';
 
 import { BugIcon } from './BugIcon';
+import { UserNav } from './UserNav';
+import { User } from '@prisma/client';
 import { ButtonLink } from './ButtonLink';
 import { SearchInput } from './SearchInput';
-import { NavbarAction } from './NavbarAction';
 import { Icon } from '@/common/constants/icons';
+import { currentUser } from '@/common/lib/auth';
 import { NAVBAR } from '@/common/constants/navbar';
 import { NavbarOption } from '@/common/types/navbar';
 
@@ -31,7 +33,9 @@ const DropdownLink = ({ url, name, description }: NavbarOption) => (
   </Link>
 );
 
-export const Navbar = () => {
+export const Navbar = async () => {
+  const user = await currentUser();
+
   return (
     <header className="sticky top-0 z-50 w-full bg-background">
       <div className="container flex h-16 items-center justify-between px-4 md:px-6">
@@ -73,7 +77,7 @@ export const Navbar = () => {
           )}
 
           <SearchInput />
-          <NavbarAction />
+          {user ? <UserNav user={user as User} /> : <ButtonLink url="/auth/login" name="Login/Register" />}
         </nav>
 
         <Sheet>

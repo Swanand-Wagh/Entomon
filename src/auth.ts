@@ -28,7 +28,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     },
   },
   callbacks: {
-    ...authConfig.callbacks,
     async signIn({ user, account }) {
       if (account?.type !== 'credentials') return true;
 
@@ -49,6 +48,20 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
       return true;
     },
+    async session({ session, token }: any) {
+      if (token.sub && session.user) {
+        session.user.id = token.sub;
+      }
+      if (token.role && session.user) {
+        session.user.role = token.role as UserRole;
+        session.user.isTwoFactorEnabled = token.isTwoFactor;
+        session.user.name = token.name;
+        session.user.email = token.email;
+        session.user.isOAuth = token.isOAuth;
+      }
+
+      return session;
+    },
     async jwt({ token }) {
       if (!token.sub) return token;
 
@@ -67,6 +80,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   },
   session: { strategy: 'jwt' },
   adapter: PrismaAdapter(prisma),
-  providers: authConfig.providers,
   secret: process.env.AUTH_SECRET as string,
+  ...authConfig,
 });
