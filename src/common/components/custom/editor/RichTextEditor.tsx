@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Editor } from '@tiptap/react';
 import { RichTextEditor } from '@mantine/tiptap';
 import { ImageUploadPopover } from './ImageUploadPopover';
+import { transformGoogleDriveUrl } from '@/common/lib/gdrive';
 
 export const TextEditor = ({ editor }: { editor: Editor | null }) => {
   const [imageUrl, setImageUrl] = useState<string>('');
@@ -12,7 +13,8 @@ export const TextEditor = ({ editor }: { editor: Editor | null }) => {
 
   const addImage = () => {
     if (imageUrl) {
-      editor?.chain().focus().setImage({ src: imageUrl }).run();
+      const src = imageUrl.startsWith('https://drive.google.com') ? transformGoogleDriveUrl(imageUrl) : imageUrl;
+      if (src) editor?.chain().focus().setImage({ src }).run();
       setIsPopoverOpen(false);
       setImageUrl('');
     } else if (imageFile) {

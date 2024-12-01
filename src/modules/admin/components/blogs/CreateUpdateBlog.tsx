@@ -1,11 +1,12 @@
 'use client';
 
-import { useCallback, useRef, useState, useTransition, useMemo } from 'react';
+import { useCallback, useRef, useState, useTransition } from 'react';
 
 import Link from '@tiptap/extension-link';
 import { useEditor } from '@tiptap/react';
 import { useRouter } from 'next/navigation';
 import Image from '@tiptap/extension-image';
+
 import StarterKit from '@tiptap/starter-kit';
 import { Color } from '@tiptap/extension-color';
 import Highlight from '@tiptap/extension-highlight';
@@ -16,7 +17,6 @@ import Placeholder from '@tiptap/extension-placeholder';
 import CharacterCount from '@tiptap/extension-character-count';
 
 import { z } from 'zod';
-import isEqual from 'lodash/isEqual';
 import { BlogForm } from './BlogForm';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -59,6 +59,7 @@ export const CreateUpdateBlog = ({ data }: CreateUpdateBlogProps) => {
       Highlight,
       StarterKit,
       Image.configure({
+        allowBase64: true,
         HTMLAttributes: {
           class: 'w-[80%] max-w-full mx-auto rounded-sm',
         },
@@ -127,14 +128,6 @@ export const CreateUpdateBlog = ({ data }: CreateUpdateBlogProps) => {
 
   const handleContainerClick = () => fileInputRef.current?.click();
 
-  const isSubmitDisabled = useMemo(() => {
-    if (data) {
-      const hasChanged = !isEqual(data, form.getValues());
-      return !hasChanged;
-    }
-    return !form.formState.isValid || !coverImagePreview || isPending;
-  }, [form.formState.isValid, form.getValues(), isPending, coverImagePreview, data]);
-
   return (
     <BlogForm
       form={form}
@@ -146,7 +139,6 @@ export const CreateUpdateBlog = ({ data }: CreateUpdateBlogProps) => {
       isPending={isPending}
       fileInputRef={fileInputRef}
       handleResetBlog={handleResetBlog}
-      isSubmitDisabled={isSubmitDisabled}
       coverImagePreview={coverImagePreview}
       handleContainerClick={handleContainerClick}
       handleCoverImageChange={handleCoverImageChange}

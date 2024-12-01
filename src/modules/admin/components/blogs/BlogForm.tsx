@@ -1,4 +1,3 @@
-import { Checkbox } from '@/common/components/ui/checkbox';
 import { MultiSelect } from '@/common/components/ui/multi-select';
 import { FormError, FormSuccess } from '@/common/components/custom';
 import { Form, FormControl, FormField, FormItem, FormLabel } from '@/common/components/ui/form';
@@ -33,7 +32,6 @@ export const BlogForm = ({
   success,
   editor,
   isEditing,
-  isSubmitDisabled,
 }: BlogFormProps<BlogFormValues>) => {
   return (
     <>
@@ -165,7 +163,6 @@ export const BlogForm = ({
                 </Button>
                 <Button
                   type="submit"
-                  disabled={isSubmitDisabled}
                   className="w-full rounded-md p-2 font-semibold text-white"
                 >
                   {isEditing ? 'Update Blog' : 'Create Blog'}

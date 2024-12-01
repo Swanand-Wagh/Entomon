@@ -16,11 +16,6 @@ export const editBlogAction = async (values: z.infer<typeof blogSchema>, current
   const { title, slug, coverImage, categories, isPaid, content } = values;
 
   try {
-    let coverImageData: Buffer | null = null;
-    if (coverImage) {
-      coverImageData = Buffer.from(coverImage, 'base64');
-    }
-
     await prisma.blog.update({
       where: {
         slug: currentSlug,
@@ -28,7 +23,7 @@ export const editBlogAction = async (values: z.infer<typeof blogSchema>, current
       data: {
         title,
         slug,
-        coverImage: coverImageData,
+        coverImage,
         categories,
         isPaid,
         content,
