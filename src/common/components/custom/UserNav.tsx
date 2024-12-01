@@ -22,7 +22,7 @@ const userNavItems = [
   { href: '/admin/settings', label: 'Settings', shortcut: '⌘S' },
 ];
 
-export const UserNav = async ({ user }: { user: User }) => {
+export const UserNav = ({ user, afterLogoutAction }: { user: User; afterLogoutAction?: () => void }) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -59,7 +59,7 @@ export const UserNav = async ({ user }: { user: User }) => {
 
         <DropdownMenuSeparator />
         <DropdownMenuItem>
-          <LogoutButton>Logout</LogoutButton>
+          <LogoutButton action={afterLogoutAction}>Logout</LogoutButton>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
