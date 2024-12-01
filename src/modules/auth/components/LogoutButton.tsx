@@ -1,14 +1,15 @@
 'use client';
 
-import { signOut } from 'next-auth/react';
+import { logoutAction } from '@/actions/auth';
 
 type LoginButtonProps = {
   children?: React.ReactNode;
+  action?: () => void;
 };
 
-export const LogoutButton = ({ children }: LoginButtonProps) => {
+export const LogoutButton = ({ children, action }: LoginButtonProps) => {
   const onClicked = async () => {
-    await signOut();
+    await logoutAction();
   };
 
   return (
