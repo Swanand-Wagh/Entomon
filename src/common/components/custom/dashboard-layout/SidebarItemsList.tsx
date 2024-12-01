@@ -14,7 +14,7 @@ type NavSection = {
 
 type SidebarItems = NavSection[];
 
-export const sidebarItemsList: SidebarItems = [
+export const adminSidebarItemsList: SidebarItems = [
   {
     title: 'Overview',
     url: '#',
@@ -76,6 +76,47 @@ export const sidebarItemsList: SidebarItems = [
         title: 'Emails',
         url: '/admin/notifications/',
         icon: 'gmail',
+      },
+    ],
+  },
+];
+
+export const userSidebarItemsList: SidebarItems = [
+  {
+    title: 'Overview',
+    url: '#',
+    items: [
+      {
+        title: 'Dashboard',
+        url: '/user/dashboard',
+        icon: 'hamburger',
+      },
+    ],
+  },
+  {
+    title: 'Apps & Pages',
+    url: '#',
+    items: [
+      {
+        title: 'Courses',
+        url: '/user/courses',
+        icon: 'course',
+      },
+      {
+        title: 'Events',
+        url: '/user/events',
+        icon: 'event',
+      },
+    ],
+  },
+  {
+    title: 'User Settings',
+    url: '#',
+    items: [
+      {
+        title: 'Settings',
+        url: '/user/settings',
+        icon: 'settings',
       },
     ],
   },
