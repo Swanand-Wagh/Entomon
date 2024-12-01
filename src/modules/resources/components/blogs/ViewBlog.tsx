@@ -26,7 +26,13 @@ export const ViewBlog = ({ data }: ViewBlogProps) => {
     <div className="min-h-screen bg-gray-100">
       <header className="relative h-80 w-full bg-gray-800">
         {coverImage && (
-          <Image src={coverImage} alt={title} layout="fill" objectFit="cover" className="absolute inset-0 opacity-70" />
+          <Image
+            alt={title}
+            layout="fill"
+            src={coverImage}
+            style={{ objectFit: 'cover' }}
+            className="absolute inset-0 opacity-70"
+          />
         )}
         <div className="relative z-10 flex h-full flex-col items-center justify-center bg-black bg-opacity-50 text-white">
           <h1 className="text-center text-4xl font-bold">{title}</h1>
