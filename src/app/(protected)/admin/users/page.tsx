@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { columns } from '@/modules/admin';
 import { getAllUsers } from '@/common/data/admin';
+import { columns } from '@/modules/admin/components/users';
 import { DataTable } from '@/common/components/custom/table';
 
 const AdminUsersPage = async () => {

@@ -4,10 +4,9 @@ import { logoutAction } from '@/actions/auth';
 
 type LoginButtonProps = {
   children?: React.ReactNode;
-  action?: () => void;
 };
 
-export const LogoutButton = ({ children, action }: LoginButtonProps) => {
+export const LogoutButton = ({ children }: LoginButtonProps) => {
   const onClicked = async () => {
     await logoutAction();
   };

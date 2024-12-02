@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 export const Hero = () => {
   return (
-    <section className="relative w-full bg-[url('https://bijlmakers.com/wp-content/uploads/2018/10/potato-beetle-2766872_1920-700x554.jpg')] bg-cover bg-center bg-no-repeat py-24 md:py-32 lg:py-40">
+    <section className="relative w-full bg-[url('https://wallpapercat.com/w/full/2/d/7/1044282-1920x1080-desktop-1080p-beetle-background-image.jpg')] bg-cover bg-center bg-no-repeat py-24 md:py-32 lg:py-40">
       <div className="container px-4 md:px-6">
         <div className="max-w-3xl space-y-4">
           <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl">

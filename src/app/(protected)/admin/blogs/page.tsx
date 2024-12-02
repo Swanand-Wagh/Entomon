@@ -1,5 +1,5 @@
 import React from 'react';
-import { Blogs } from '@/modules/admin/components/blogs/Blogs';
+import { Blogs } from '@/modules/admin/components/blogs';
 
 const AdminBlogsPage = () => {
   return (

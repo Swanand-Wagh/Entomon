@@ -1,6 +1,6 @@
 import React from 'react';
-import { CreateUpdateBlog } from '@/modules/admin';
 import { getBlogBySlug } from '@/common/data/admin/blogs';
+import { CreateUpdateBlog } from '@/modules/admin/components/blogs';
 
 const EditBlog = async ({ params }: { params: Promise<{ slug: string }> }) => {
   const slug = (await params).slug;

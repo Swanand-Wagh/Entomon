@@ -5,30 +5,27 @@ import Link from 'next/link';
 
 import { Icon } from '@/common/constants/icons';
 import { ColumnDef } from '@tanstack/react-table';
-import { deleteBlogAction } from '@/actions/admin/blog';
 import { SortColumnButton } from '@/common/components/custom/table';
 import { CustomModal } from '@/common/components/custom/CustomModal';
 
-type AdminBlogsColumns = {
+type AdminCoursesColumns = {
   title: string;
   slug: string;
-  categories: string[];
-  isPaid: boolean;
+  price: string;
+  status: 'Draft' | 'Published' | 'Archived';
 };
 
 const SlugLink = ({ value, slug }: { value: string; slug: string }) => (
-  <Link target="_blank" href={`/blogs/${encodeURIComponent(slug.toLowerCase())}`}>
+  <Link target="_blank" href={`/courses/${encodeURIComponent(slug.toLowerCase())}`}>
     <div className="cursor-pointer hover:underline">{value}</div>
   </Link>
 );
 
-const CategoryBadges = ({ categories }: { categories: string[] }) => (
+const CourseStatusBadge = ({ status }: { status: string }) => (
   <div className="flex flex-wrap gap-2">
-    {categories.map((category, index) => (
-      <span key={index} className="inline-block rounded-full bg-black px-2 py-1 text-xs font-semibold text-white">
-        {category.trim()}
-      </span>
-    ))}
+    <span className="inline-block rounded-full bg-black px-2 py-1 text-xs font-semibold text-white">
+      {status.trim()}
+    </span>
   </div>
 );
 
@@ -37,14 +34,12 @@ const ActionsCell = ({ row }: { row: any }) => {
 
   const handleDelete = () => {
     setDialogOpen(false);
-    startTransition(() => {
-      deleteBlogAction(row.original.slug);
-    });
+    startTransition(() => {});
   };
 
   return (
     <div className="flex items-center space-x-4">
-      <Link href={`/admin/blogs/edit/${encodeURIComponent(row.original.slug)}`}>
+      <Link href={`/admin/courses/edit/${encodeURIComponent(row.original.slug)}`}>
         <Icon name="edit" className="h-5 w-5 cursor-pointer" />
       </Link>
 
@@ -56,7 +51,7 @@ const ActionsCell = ({ row }: { row: any }) => {
         title="Confirm Deletion"
         confirmButtonLabel="Delete"
         cancelButtonLabel="Cancel"
-        description="Are you sure you want to delete this blog? This action cannot be undone!"
+        description="Are you sure you want to delete this course? This action cannot be undone!"
         trigger={
           <span onClick={() => setDialogOpen(true)}>
             <Icon name="delete" className="h-6 w-6 cursor-pointer text-red-500" />
@@ -67,7 +62,7 @@ const ActionsCell = ({ row }: { row: any }) => {
   );
 };
 
-export const AdminBlogsColumns: ColumnDef<AdminBlogsColumns>[] = [
+export const AdminCoursesColumns: ColumnDef<AdminCoursesColumns>[] = [
   {
     accessorKey: 'title',
     enableHiding: true,
@@ -76,25 +71,19 @@ export const AdminBlogsColumns: ColumnDef<AdminBlogsColumns>[] = [
     cell: ({ row }) => <SlugLink value={row.getValue('title')} slug={row.original.slug} />,
   },
   {
-    accessorKey: 'slug',
+    accessorKey: 'price',
     enableHiding: true,
     enableSorting: true,
-    header: ({ column }) => <SortColumnButton column={column} label="Slug" />,
-    cell: ({ row }) => <SlugLink value={row.getValue('slug')} slug={row.original.slug} />,
+    header: ({ column }) => <SortColumnButton column={column} label="Price" />,
   },
   {
-    accessorKey: 'categories',
+    accessorKey: 'status',
     enableHiding: true,
-    header: 'Category',
+    header: 'Status',
     cell: ({ row }) => {
-      const categories = row.original.categories;
-      return <CategoryBadges categories={categories} />;
+      const status = row.original.status;
+      return <CourseStatusBadge status={status} />;
     },
-  },
-  {
-    accessorKey: 'isPaid',
-    header: 'Is Paid',
-    enableHiding: true,
   },
   {
     id: 'actions',

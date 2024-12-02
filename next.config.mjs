@@ -15,6 +15,11 @@ const nextConfig = {
         hostname: 'bijlmakers.com',
         port: '',
       },
+      {
+        protocol: 'https',
+        hostname: 'wallpapercat.com',
+        port: '',
+      },
     ],
   },
 };

@@ -1,5 +1,5 @@
 import React from 'react';
-import { CreateUpdateBlog } from '@/modules/admin';
+import { CreateUpdateBlog } from '@/modules/admin/components/blogs';
 
 const CreateUpdateBlogPage = () => {
   return (
