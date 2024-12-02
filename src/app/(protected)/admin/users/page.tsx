@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { getAllUsers } from '@/common/data/admin';
+import { getAllUsers } from '@/common/data/admin/users';
 import { columns } from '@/modules/admin/components/users';
 import { DataTable } from '@/common/components/custom/table';
 
