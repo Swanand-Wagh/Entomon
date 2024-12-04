@@ -12,7 +12,7 @@ type AdminCoursesColumns = {
   title: string;
   slug: string;
   price: string;
-  status: 'Draft' | 'Published' | 'Archived';
+  status: 'DRAFT' | 'PUBLISHED' | 'ARCHIVED';
 };
 
 const SlugLink = ({ value, slug }: { value: string; slug: string }) => (

@@ -11,8 +11,10 @@ import { CustomModal } from '@/common/components/custom/CustomModal';
 type AdminEventsColumns = {
   title: string;
   slug: string;
+  location: string;
+  date: string;
   price: string;
-  status: 'Upcoming' | 'Completed' | 'Cancelled';
+  status: 'UPCOMING' | 'COMPLETED' | 'CANCELLED';
 };
 
 const SlugLink = ({ value, slug }: { value: string; slug: string }) => (
@@ -71,10 +73,17 @@ export const AdminEventsColumns: ColumnDef<AdminEventsColumns>[] = [
     cell: ({ row }) => <SlugLink value={row.getValue('title')} slug={row.original.slug} />,
   },
   {
-    accessorKey: 'price',
+    accessorKey: 'location',
     enableHiding: true,
     enableSorting: true,
-    header: ({ column }) => <SortColumnButton column={column} label="Price" />,
+    header: ({ column }) => <SortColumnButton column={column} label="Location" />,
+  },
+  {
+    accessorKey: 'date',
+    enableHiding: true,
+    enableSorting: true,
+    header: ({ column }) => <SortColumnButton column={column} label="Date" />,
+    cell: ({ row }) => new Date(row.original.date).toLocaleDateString(),
   },
   {
     accessorKey: 'status',
@@ -84,6 +93,12 @@ export const AdminEventsColumns: ColumnDef<AdminEventsColumns>[] = [
       const status = row.original.status;
       return <EventStatusBadge status={status} />;
     },
+  },
+  {
+    accessorKey: 'price',
+    enableHiding: true,
+    enableSorting: true,
+    header: ({ column }) => <SortColumnButton column={column} label="Price" />,
   },
   {
     id: 'actions',
