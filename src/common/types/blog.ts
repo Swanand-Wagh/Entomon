@@ -12,7 +12,7 @@ export type BlogFormProps<TFormValues extends FieldValues> = {
   error?: string;
   success?: string;
   editor: Editor | null;
-  fileInputRef: React.RefObject<HTMLInputElement>;
+  fileInputRef: React.RefObject<HTMLInputElement | null>;
   isEditing: boolean;
   isSubmitDisabled?: boolean;
 };

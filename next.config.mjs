@@ -7,7 +7,6 @@ const nextConfig = {
     optimizePackageImports: ['@mantine/core', '@mantine/hooks', '@mantine/tiptap'],
   },
   reactStrictMode: true,
-  swcMinify: true,
   images: {
     remotePatterns: [
       {

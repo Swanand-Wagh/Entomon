@@ -31,7 +31,7 @@ type CreateUpdateBlogProps = {
 export const CreateUpdateBlog = ({ data }: CreateUpdateBlogProps) => {
   const router = useRouter();
 
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | undefined>('');
   const [success, setSuccess] = useState<string | undefined>('');
