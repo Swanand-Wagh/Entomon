@@ -161,10 +161,7 @@ export const BlogForm = ({
                 >
                   Reset
                 </Button>
-                <Button
-                  type="submit"
-                  className="w-full rounded-md p-2 font-semibold text-white"
-                >
+                <Button type="submit" className="w-full rounded-md p-2 font-semibold text-white">
                   {isEditing ? 'Update Blog' : 'Create Blog'}
                 </Button>
               </div>

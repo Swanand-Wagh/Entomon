@@ -1,5 +1,13 @@
 import React from 'react';
-import { Dialog, DialogTrigger, DialogContent, DialogTitle, DialogDescription, DialogHeader, DialogFooter } from '@/common/components/ui/dialog';
+import {
+  Dialog,
+  DialogTrigger,
+  DialogContent,
+  DialogTitle,
+  DialogDescription,
+  DialogHeader,
+  DialogFooter,
+} from '@/common/components/ui/dialog';
 import { Button } from '@/common/components/ui/button';
 
 interface CustomModalProps {

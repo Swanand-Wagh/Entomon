@@ -1,5 +1,5 @@
-import { NavbarOption } from "@/common/types/navbar";
-import Link from "next/link";
+import { NavbarOption } from '@/common/types/navbar';
+import Link from 'next/link';
 
 export const ButtonLink = ({ name, url }: NavbarOption) => (
   <Link
