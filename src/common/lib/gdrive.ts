@@ -1,13 +1,19 @@
 export const transformGoogleDriveUrl = (url: string): string | null => {
-  if (!url.startsWith('https://drive.google.com')) return null;
+  try {
+    const parsedUrl = new URL(url);
 
-  const regex = /\/d\/([^/]+)\/view/;
-  const match = url.match(regex);
+    if (parsedUrl.protocol !== 'https:') return null;
+    if (parsedUrl.hostname !== 'drive.google.com') return null;
 
-  if (match && match[1]) {
+    const regex = /^\/d\/([^/]+)\/view$/;
+    const match = parsedUrl.pathname.match(regex);
+
+    if (!match || !match[1]) return null;
+    if (parsedUrl.search || parsedUrl.hash) return null;
+
     const id = match[1];
     return `https://lh3.googleusercontent.com/d/${id}`;
+  } catch (e) {
+    return null;
   }
-
-  return null;
 };

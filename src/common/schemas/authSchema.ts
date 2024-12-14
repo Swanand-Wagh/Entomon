@@ -1,12 +1,12 @@
 import { z } from 'zod';
+import { allowedDomains } from '@/common/constants/domains';
+
+const emailDomainRegex = new RegExp(`@(${allowedDomains.map((domain) => domain.replace('.', '\\.')).join('|')})$`);
 
 const loginSchema = z.object({
-  email: z
-    .string()
-    .email({ message: 'Invalid email address.' })
-    .regex(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, {
-      message: 'Invalid email format.',
-    }),
+  email: z.string().email({ message: 'Invalid email address.' }).regex(emailDomainRegex, {
+    message: 'Email domain is not allowed. Please use a valid domain.',
+  }),
   password: z
     .string()
     .min(1, { message: 'Password is required.' })
@@ -24,21 +24,20 @@ const registerSchema = z.object({
   firstName: z
     .string()
     .min(1, { message: 'First name is required.' })
+    .max(20, { message: 'First name must not exceed 20 characters.' })
     .regex(/^[A-Za-z]+$/, {
       message: 'First name can only contain alphabets.',
     }),
   lastName: z
     .string()
     .min(1, { message: 'Last name is required.' })
+    .max(20, { message: 'Last name must not exceed 20 characters.' })
     .regex(/^[A-Za-z]+$/, {
       message: 'Last name can only contain alphabets.',
     }),
-  email: z
-    .string()
-    .email({ message: 'Invalid email address.' })
-    .regex(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, {
-      message: 'Invalid email format.',
-    }),
+  email: z.string().email({ message: 'Invalid email address.' }).regex(emailDomainRegex, {
+    message: 'Email domain is not allowed. Please use a valid domain.',
+  }),
   password: z
     .string()
     .min(6, { message: 'Minimum 6 characters required.' })
@@ -49,12 +48,9 @@ const registerSchema = z.object({
 });
 
 const resetSchema = z.object({
-  email: z
-    .string()
-    .email({ message: 'Email is required.' })
-    .regex(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, {
-      message: 'Invalid email format.',
-    }),
+  email: z.string().email({ message: 'Invalid email address.' }).regex(emailDomainRegex, {
+    message: 'Email domain is not allowed. Please use a valid domain.',
+  }),
 });
 
 const newPasswordSchema = z.object({
