@@ -1,12 +1,8 @@
 import { z } from 'zod';
-import { allowedDomains } from '@/common/constants/domains';
-
-const emailDomainRegex = new RegExp(`@(${allowedDomains.map((domain) => domain.replace('.', '\\.')).join('|')})$`);
+import { emailSchema } from '@/common/constants/domains';
 
 const loginSchema = z.object({
-  email: z.string().email({ message: 'Invalid email address.' }).regex(emailDomainRegex, {
-    message: 'Email domain is not allowed. Please use a valid domain.',
-  }),
+  email: emailSchema,
   password: z
     .string()
     .min(1, { message: 'Password is required.' })
@@ -35,9 +31,7 @@ const registerSchema = z.object({
     .regex(/^[A-Za-z]+$/, {
       message: 'Last name can only contain alphabets.',
     }),
-  email: z.string().email({ message: 'Invalid email address.' }).regex(emailDomainRegex, {
-    message: 'Email domain is not allowed. Please use a valid domain.',
-  }),
+  email: emailSchema,
   password: z
     .string()
     .min(6, { message: 'Minimum 6 characters required.' })
@@ -48,9 +42,7 @@ const registerSchema = z.object({
 });
 
 const resetSchema = z.object({
-  email: z.string().email({ message: 'Invalid email address.' }).regex(emailDomainRegex, {
-    message: 'Email domain is not allowed. Please use a valid domain.',
-  }),
+  email: emailSchema,
 });
 
 const newPasswordSchema = z.object({

@@ -1,14 +1,11 @@
 import { z } from 'zod';
-import { allowedDomains } from '@/common/constants/domains';
+import { emailSchema } from '@/common/constants/domains';
 
-const emailDomainRegex = new RegExp(`@(${allowedDomains.map((domain) => domain.replace('.', '\\.')).join('|')})$`);
 const phoneRegex = /^\+?[1-9]\d{0,2}[-.\s]?(\(\d{1,4}\)|\d{1,4})[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/;
 
 const contactSchema = z.object({
   name: z.string().min(1, { message: 'Name is required.' }).max(50, { message: 'Name must not exceed 50 characters.' }),
-  email: z.string().email({ message: 'Invalid email address.' }).regex(emailDomainRegex, {
-    message: 'Email domain is not allowed. Please use a valid domain.',
-  }),
+  email: emailSchema,
   phone: z
     .string()
     .regex(phoneRegex, {

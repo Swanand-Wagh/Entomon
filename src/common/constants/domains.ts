@@ -1,4 +1,6 @@
-export const allowedDomains = [
+import { z } from 'zod';
+
+const allowedDomainsSet = new Set([
   'gmail.com',
   'yahoo.com',
   'hotmail.com',
@@ -99,4 +101,17 @@ export const allowedDomains = [
   'anz.com',
   'yahoo.dk',
   'dhs.gov',
-];
+]);
+
+export const emailSchema = z
+  .string()
+  .email({ message: 'Invalid email address.' })
+  .refine(
+    (email) => {
+      const domain = email.split('@')[1].toLowerCase();
+      return allowedDomainsSet.has(domain);
+    },
+    {
+      message: 'Email domain is not allowed.',
+    }
+  );
