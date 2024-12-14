@@ -13,7 +13,18 @@ export const TextEditor = ({ editor }: { editor: Editor | null }) => {
 
   const addImage = () => {
     if (imageUrl) {
-      const src = imageUrl.startsWith('https://drive.google.com') ? transformGoogleDriveUrl(imageUrl) : imageUrl;
+      let src;
+      try {
+        const parsedUrl = new URL(imageUrl);
+        if (parsedUrl.host === 'drive.google.com') {
+          src = transformGoogleDriveUrl(imageUrl);
+        } else {
+          src = imageUrl;
+        }
+      } catch (e) {
+        src = imageUrl;
+      }
+
       if (src) editor?.chain().focus().setImage({ src }).run();
       setIsPopoverOpen(false);
       setImageUrl('');
