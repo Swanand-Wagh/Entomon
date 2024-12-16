@@ -55,7 +55,7 @@ export const ViewBlog = ({ data }: ViewBlogProps) => {
 
         <article className="prose prose-headings:text-gray-900 prose-a:text-blue-600 prose-a:underline max-w-none">
           <div className="text-gray-800">
-            <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(content) }} />
+            <div className="prose mx-auto" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(content) }} />
           </div>
         </article>
 

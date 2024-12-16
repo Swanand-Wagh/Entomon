@@ -10,8 +10,8 @@ const loginSchema = z.object({
       message: 'Password contains invalid characters.',
     }),
   code: z.optional(
-    z.string().regex(/^[A-Za-z0-9]+$/, {
-      message: 'Code must only contain alphanumeric characters.',
+    z.string().regex(/^\d+$/, {
+      message: 'Code must only contain numbers.',
     })
   ),
 });
