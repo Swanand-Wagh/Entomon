@@ -27,6 +27,9 @@ interface CustomToken {
 export async function middleware(req: NextRequest) {
   const token = (await getToken({ req, secret: process.env.AUTH_SECRET })) as CustomToken;
   const role = token?.role;
+  console.info('Role:', role);
+  console.info('Token:', token);
+  console.info('Logged in:', !!token);
   const isLoggedIn = !!token;
 
   const nextUrl = req.nextUrl;
