@@ -1,13 +1,13 @@
 import type { Metadata } from 'next';
 
-import { auth } from '@/auth';
+import { auth } from '@/features/auth/server/next-auth-config';
 import { SessionProvider } from 'next-auth/react';
 
-import { Toaster } from '@/common/components/ui/toaster';
-import { ToastProvider } from '@/common/components/ui/toast';
+import { Toaster } from '@/components/ui/toaster';
+import { ToastProvider } from '@/components/ui/toast';
 
 import { Plus_Jakarta_Sans, Inter } from 'next/font/google';
-import '@/common/styles/globals.css';
+import '@/styles/globals.css';
 
 const plus_jakarta_sans = Plus_Jakarta_Sans({ subsets: ['latin'], preload: true });
 const inter = Inter({ subsets: ['latin'], preload: true });

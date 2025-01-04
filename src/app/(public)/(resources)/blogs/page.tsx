@@ -1,14 +1,14 @@
 import React from 'react';
-import { getAllBlogs } from '@/common/data/admin/blogs';
-import { BlogList } from '@/modules/resources/components/blogs/BlogList';
+import { BlogList } from '@/features/blog/components';
+import { getAllBlogsData } from '@/features/blog/server/actions';
 
 const BlogsPage = async () => {
-  const blogs = await getAllBlogs();
+  const blogs = await getAllBlogsData();
 
   return (
     <>
       <h1>Blogs</h1>
-      <BlogList blogs={blogs} />
+      <BlogList blogs={blogs?.data || []} />
     </>
   );
 };

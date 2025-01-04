@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Login } from '@/modules/auth';
+import { Login } from '@/features/auth/components';
 
 const LoginPage = () => {
   return (

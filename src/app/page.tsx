@@ -1,7 +1,7 @@
 import React from 'react';
 
-import Home from '@/modules/home';
-import { Navbar, Footer } from '@/common/components/custom';
+import { Home } from '@/features/home/components';
+import { Navbar, Footer } from '@/components/custom';
 
 const HomePage = () => {
   return (

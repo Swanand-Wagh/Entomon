@@ -1,10 +1,9 @@
 import React, { Suspense } from 'react';
 
 import { User } from '@prisma/client';
-import { currentUser } from '@/common/lib/auth';
-import { Loading } from '@/common/components/custom';
-import { Separator } from '@/common/components/ui/separator';
-import { CustomBreadcrumbs, UserNav } from '@/common/components/custom';
+import { Loading } from '@/components/custom';
+import { Separator } from '@/components/ui/separator';
+import { CustomBreadcrumbs, UserNav } from '@/components/custom';
 
 import {
   Sidebar,
@@ -18,7 +17,7 @@ import {
   SidebarProvider,
   SidebarGroupLabel,
   SidebarGroupContent,
-} from '@/common/components/ui/sidebar';
+} from '@/components/ui/sidebar';
 
 import {
   SidebarItems,
@@ -26,10 +25,12 @@ import {
   CompanyDetails,
   userSidebarItemsList,
   adminSidebarItemsList,
-} from '@/common/components/custom/dashboard-layout';
+} from '@/components/custom/dashboard-layout';
+import { auth } from '@/features/auth/server/next-auth-config';
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
-  const user = await currentUser();
+  const session = await auth();
+  const user = session?.user;
 
   return (
     <SidebarProvider>

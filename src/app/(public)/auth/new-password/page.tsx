@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { NewPassword } from '@/modules/auth';
+import { NewPassword } from '@/features/auth/components';
 
 const NewPasswordPage = () => {
   return (

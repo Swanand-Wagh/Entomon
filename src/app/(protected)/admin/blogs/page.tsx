@@ -1,21 +1,14 @@
 import React from 'react';
 import Link from 'next/link';
 
-import { prisma } from '@/common/lib/prisma';
-import { Icon } from '@/common/constants/icons';
-import { Button } from '@/common/components/ui/button';
-import { columns } from '@/modules/admin/components/blogs';
-import { DataTable } from '@/common/components/custom/table';
+import { Icon } from '@/constants/icons';
+import { Button } from '@/components/ui/button';
+import { DataTable } from '@/components/custom/table';
+import { columns } from '@/features/blog/components';
+import { getAllBlogsData } from '@/features/blog/server/actions';
 
 const AdminBlogsPage = async () => {
-  const blogs = await prisma.blog.findMany({
-    select: {
-      title: true,
-      slug: true,
-      categories: true,
-      isPaid: true,
-    },
-  });
+  const blogs = await getAllBlogsData();
 
   return (
     <>
@@ -26,7 +19,7 @@ const AdminBlogsPage = async () => {
         </Button>
       </Link>
 
-      <DataTable columns={columns} showExportButton={false} filterField="title" data={blogs ?? []} />
+      <DataTable columns={columns} showExportButton={false} filterField="title" data={blogs?.data ?? []} />
     </>
   );
 };

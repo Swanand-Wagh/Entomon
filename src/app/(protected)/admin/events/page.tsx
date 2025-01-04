@@ -1,10 +1,10 @@
 import React from 'react';
 import Link from 'next/link';
 
-import { Icon } from '@/common/constants/icons';
-import { Button } from '@/common/components/ui/button';
-import { columns } from '@/modules/admin/components/events';
-import { DataTable } from '@/common/components/custom/table';
+import { Icon } from '@/constants/icons';
+import { Button } from '@/components/ui/button';
+import { DataTable } from '@/components/custom/table';
+import { columns } from '@/features/events/components';
 
 const AdminEventsPage = async () => {
   return (

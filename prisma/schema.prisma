@@ -1,5 +1,6 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["omitApi"]
 }
 
 datasource db {
@@ -13,16 +14,15 @@ enum UserRole {
 }
 
 model User {
-  id                    String                 @id @default(auto()) @map("_id") @db.ObjectId
-  name                  String
-  email                 String                 @unique
-  emailVerified         DateTime?
-  image                 String?
-  password              String?
-  role                  UserRole               @default(USER)
-  accounts              Account[]
-  isTwoFactorEnabled    Boolean                @default(false)
-  twoFactorConfirmation TwoFactorConfirmation?
+  id                 String    @id @default(auto()) @map("_id") @db.ObjectId
+  name               String
+  email              String    @unique
+  emailVerified      DateTime?
+  image              String?
+  password           String?
+  role               UserRole  @default(USER)
+  accounts           Account[]
+  isTwoFactorEnabled Boolean   @default(false)
 }
 
 model Account {
@@ -44,38 +44,30 @@ model Account {
   @@unique([provider, providerAccountId])
 }
 
-model VerificationToken {
-  id      String   @id @default(auto()) @map("_id") @db.ObjectId
-  email   String
-  token   String   @unique
-  expires DateTime
+enum TokenType {
+  RESET_PASSWORD
+  EMAIL_VERIFICATION
+  TWO_FACTOR
 }
 
-model PasswordResetToken {
-  id      String   @id @default(auto()) @map("_id") @db.ObjectId
-  email   String
-  token   String   @unique
-  expires DateTime
-}
+model Token {
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String    @db.ObjectId
+  type      TokenType
+  token     String    @unique
+  createdAt DateTime  @default(now())
+  expiresAt DateTime
 
-model TwoFactorToken {
-  id      String   @id @default(auto()) @map("_id") @db.ObjectId
-  email   String
-  token   String   @unique
-  expires DateTime
-}
-
-model TwoFactorConfirmation {
-  id     String @id @default(auto()) @map("_id") @db.ObjectId
-  userId String @unique @db.ObjectId
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@unique([type, token])
 }
 
 model Blog {
   id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId     String   @db.ObjectId
+  author     String
   title      String
   slug       String   @unique
-  coverImage String?
+  coverImage String
   categories String[]
   isPaid     Boolean  @default(false)
   content    String

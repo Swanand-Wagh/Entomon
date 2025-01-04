@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Register } from '@/modules/auth';
+import { Register } from '@/features/auth/components';
 
 const RegisterPage = () => {
   return (

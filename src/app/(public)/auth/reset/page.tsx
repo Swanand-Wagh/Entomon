@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Reset } from '@/modules/auth';
+import { Reset } from '@/features/auth/components';
 
 const ResetPage = () => {
   return (

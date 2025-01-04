@@ -1,5 +1,4 @@
-import NextAuth from 'next-auth';
-import { NextResponse } from 'next/server';
+import { NextResponse, NextRequest } from 'next/server';
 
 import {
   AUTH_ROUTES,
@@ -8,22 +7,34 @@ import {
   ROUTE_MAPPINGS,
   API_AUTH_PREFIX,
   DEFAULT_LOGIN_REDIRECT,
-} from '@/common/lib/routes';
-import authConfig from '@/auth.config';
+} from '@/lib/routes';
+import { getToken } from 'next-auth/jwt';
 
 type routeMapping = keyof typeof ROUTE_MAPPINGS;
 
-const { auth } = NextAuth(authConfig);
+interface CustomToken {
+  name: string | null | undefined;
+  email: string | null | undefined;
+  picture: string | null | undefined;
+  sub: string | undefined;
+  iat: number | undefined;
+  exp: number | undefined;
+  jti: string | undefined;
+  role?: string; // Add the role property
+  [key: string]: unknown;
+}
 
-export default auth(async (req) => {
-  const { auth: session, nextUrl } = req;
-  const pathname = nextUrl.pathname;
+export async function middleware(req: NextRequest) {
+  const token = (await getToken({ req, secret: process.env.AUTH_SECRET })) as CustomToken;
+  const role = token?.role;
+  const isLoggedIn = !!token;
 
-  const isLoggedIn = !!session;
-  const role = session?.user?.role;
+  const nextUrl = req.nextUrl;
+  const pathname = nextUrl.pathname as routeMapping;
 
+  // Handle route mappings
   if (pathname in ROUTE_MAPPINGS) {
-    return NextResponse.redirect(new URL(ROUTE_MAPPINGS[pathname as routeMapping], nextUrl));
+    return NextResponse.redirect(new URL(ROUTE_MAPPINGS[pathname], nextUrl));
   }
 
   // Allow API auth routes
@@ -31,7 +42,7 @@ export default auth(async (req) => {
     return NextResponse.next();
   }
 
-  // Prevent user role access to admin routes
+  // Prevent 'USER' role from accessing admin routes
   if (role === 'USER' && ADMIN_ROUTES.test(pathname)) {
     return NextResponse.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl));
   }
@@ -48,7 +59,7 @@ export default auth(async (req) => {
   }
 
   return NextResponse.next();
-});
+}
 
 export const config = {
   matcher: [

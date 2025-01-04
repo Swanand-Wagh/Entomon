@@ -1,22 +1,20 @@
 import React from 'react';
 
-import { getAllUsers } from '@/common/data/admin/users';
-import { columns } from '@/modules/admin/components/users';
-import { DataTable } from '@/common/components/custom/table';
+import { DataTable } from '@/components/custom/table';
+import { columns } from '@/features/users/components';
+import { getAllUserData } from '@/features/users/server/action';
 
 const AdminUsersPage = async () => {
-  const data = await getAllUsers();
-
-  const users = data.map((user) => ({
-    name: user.name,
-    email: user.email,
-    role: user.role,
-    emailVerified: !!user.emailVerified,
-  }));
+  const users = await getAllUserData();
+  const allUsers =
+    users?.data?.map((user) => ({
+      ...user,
+      emailVerified: !!user.emailVerified,
+    })) || [];
 
   return (
     <>
-      <DataTable columns={columns} data={users} filterField="name" />
+      <DataTable columns={columns} data={allUsers} filterField="name" />
     </>
   );
 };
