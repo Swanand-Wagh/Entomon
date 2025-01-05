@@ -32,6 +32,9 @@ export async function middleware(req: NextRequest) {
   console.info('Logged in:', !!token);
   const isLoggedIn = !!token;
 
+  console.log('Headers:', req.headers);
+  console.log('Cookies:', req.cookies);
+
   const nextUrl = req.nextUrl;
   const pathname = nextUrl.pathname as routeMapping;
 
