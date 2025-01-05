@@ -70,7 +70,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       if (!token.sub) return token;
       const user = await userService.getUserById(token.sub);
       token.role = user.role;
-      console.log('TOKEN - ', token);
       return token;
     },
 

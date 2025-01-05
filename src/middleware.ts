@@ -13,7 +13,12 @@ import { getToken } from 'next-auth/jwt';
 type routeMapping = keyof typeof ROUTE_MAPPINGS;
 
 export async function middleware(req: NextRequest) {
-  const token = await getToken({ req, secret: process.env.AUTH_SECRET });
+  const token = await getToken({
+    req,
+    secret: process.env.AUTH_SECRET,
+    secureCookie: true,
+    cookieName: process.env.NODE_ENV !== 'production' ? 'authjs.session-token' : '__Secure-authjs.session-token',
+  });
   const role = token?.role;
   console.info('Role:', role);
   console.info('Token:', token);
