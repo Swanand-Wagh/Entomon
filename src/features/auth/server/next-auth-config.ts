@@ -1,14 +1,16 @@
 import 'server-only';
+
 import { prisma } from '@/db/prisma';
-import NextAuth, { CredentialsSignin, DefaultSession, NextAuthConfig } from 'next-auth';
-import Google from 'next-auth/providers/google';
-import Credentials from 'next-auth/providers/credentials';
+import { userService } from '@/features/users/server/service';
+import { ErrorResponse } from '@/types/errors';
 import { PrismaAdapter } from '@auth/prisma-adapter';
+import { UserRole } from '@prisma/client';
+import NextAuth, { CredentialsSignin, DefaultSession, NextAuthConfig } from 'next-auth';
+import Credentials from 'next-auth/providers/credentials';
+import Google from 'next-auth/providers/google';
 import { login2FASchema, loginWithCredsSchema } from '../schema/auth';
 import { authService } from './service';
-import { userService } from '@/features/users/server/service';
-import { UserRole } from '@prisma/client';
-import { ErrorResponse } from '@/types/errors';
+import { SYSTEM_ENTRYPOINTS } from 'next/dist/shared/lib/constants';
 
 declare module 'next-auth' {
   interface Session {
@@ -68,6 +70,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       if (!token.sub) return token;
       const user = await userService.getUserById(token.sub);
       token.role = user.role;
+      console.log('TOKEN - ', token);
       return token;
     },
 

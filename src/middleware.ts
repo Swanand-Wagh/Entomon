@@ -12,20 +12,8 @@ import { getToken } from 'next-auth/jwt';
 
 type routeMapping = keyof typeof ROUTE_MAPPINGS;
 
-interface CustomToken {
-  name: string | null | undefined;
-  email: string | null | undefined;
-  picture: string | null | undefined;
-  sub: string | undefined;
-  iat: number | undefined;
-  exp: number | undefined;
-  jti: string | undefined;
-  role?: string; // Add the role property
-  [key: string]: unknown;
-}
-
 export async function middleware(req: NextRequest) {
-  const token = (await getToken({ req, secret: process.env.AUTH_SECRET })) as CustomToken;
+  const token = await getToken({ req, secret: process.env.AUTH_SECRET });
   const role = token?.role;
   console.info('Role:', role);
   console.info('Token:', token);

@@ -1,4 +1,4 @@
-// // import 'server-only';
+import 'server-only';
 
 import { ErrorResponse } from '@/types/errors';
 import { CredentialsSignin, NextAuthConfig } from 'next-auth';
