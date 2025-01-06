@@ -25,7 +25,7 @@ export const NewPasswordForm = () => {
       password: '',
     },
   });
-
+  console.log('token', token);
   const onSubmit = (values: z.infer<typeof newPasswordSchema>) => {
     if (token) execute({ ...values, token });
   };
