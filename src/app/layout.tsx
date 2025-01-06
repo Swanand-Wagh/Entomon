@@ -30,6 +30,7 @@ export default async function RootLayout({
       <html lang="en">
         <ToastProvider>
           <body className={`${plus_jakarta_sans.className} ${inter.className}`} suppressHydrationWarning={true}>
+            <SpeedInsights />
             <Toaster />
             {children}
           </body>
