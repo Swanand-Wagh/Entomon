@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 import { auth } from '@/features/auth/server/next-auth-config';
 import { SessionProvider } from 'next-auth/react';
