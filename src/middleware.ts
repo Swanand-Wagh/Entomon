@@ -19,14 +19,9 @@ export async function middleware(req: NextRequest) {
     secureCookie: true,
     cookieName: process.env.NODE_ENV !== 'production' ? 'authjs.session-token' : '__Secure-authjs.session-token',
   });
-  const role = token?.role;
-  console.info('Role:', role);
-  console.info('Token:', token);
-  console.info('Logged in:', !!token);
-  const isLoggedIn = !!token;
 
-  console.log('Headers:', req.headers);
-  console.log('Cookies:', req.cookies);
+  const role = token?.role;
+  const isLoggedIn = !!token;
 
   const nextUrl = req.nextUrl;
   const pathname = nextUrl.pathname as routeMapping;

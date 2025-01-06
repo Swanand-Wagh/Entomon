@@ -10,7 +10,6 @@ import Credentials from 'next-auth/providers/credentials';
 import Google from 'next-auth/providers/google';
 import { login2FASchema, loginWithCredsSchema } from '../schema/auth';
 import { authService } from './service';
-import { SYSTEM_ENTRYPOINTS } from 'next/dist/shared/lib/constants';
 
 declare module 'next-auth' {
   interface Session {

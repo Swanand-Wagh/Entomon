@@ -25,7 +25,7 @@ export default async function RootLayout({
   const session = await auth();
 
   return (
-    <SessionProvider session={session}>
+    <SessionProvider session={session} refetchOnWindowFocus={false}>
       <html lang="en">
         <ToastProvider>
           <body className={`${plus_jakarta_sans.className} ${inter.className}`} suppressHydrationWarning={true}>
