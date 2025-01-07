@@ -1,18 +1,14 @@
 'use server';
 
-import { authActionClient } from '@/lib/action-clients';
+import { actionClient, authActionClient } from '@/lib/action-clients';
 import { blogService } from './service';
 import { z } from 'zod';
 import { blogSchema, updateBlogSchema } from '../schema/blog';
 import { revalidatePath } from 'next/cache';
 
-export const getAllBlogsData = authActionClient
-  .metadata({
-    roleGate: 'USER',
-  })
-  .action(async () => {
-    return await blogService.getAllBlogsData();
-  });
+export const getAllBlogsData = actionClient.action(async () => {
+  return await blogService.getAllBlogsData();
+});
 
 export const getAllBlogsDataByUser = authActionClient
   .metadata({
@@ -23,10 +19,7 @@ export const getAllBlogsDataByUser = authActionClient
     return await blogService.getAllBlogsDataByUser(sessionUser.id);
   });
 
-export const getBlogBySlug = authActionClient
-  .metadata({
-    roleGate: 'USER',
-  })
+export const getBlogBySlug = actionClient
   .schema(
     z.object({
       slug: z.string(),

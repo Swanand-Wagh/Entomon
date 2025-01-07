@@ -1,13 +1,14 @@
 import React from 'react';
 import Image from 'next/image';
+import { Comments } from './Comments';
 import DOMPurify from 'isomorphic-dompurify';
 import { BlogDataWithContentType } from '../types/blog';
 
-type ViewBlogProps = {
+type SingleBlogProps = {
   data: BlogDataWithContentType | null;
 };
 
-export const ViewBlog = ({ data }: ViewBlogProps) => {
+export const SingleBlog = ({ data }: SingleBlogProps) => {
   if (!data) {
     return (
       <div className="mx-auto max-w-3xl px-4 py-8 text-center">
@@ -67,6 +68,8 @@ export const ViewBlog = ({ data }: ViewBlogProps) => {
             <strong>Last Updated:</strong> {updatedAt ? new Date(updatedAt).toLocaleDateString() : 'N/A'}
           </p>
         </div>
+
+        <Comments />
       </main>
     </div>
   );
