@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 import { Badge } from '@/components/ui/badge';
 import { EventDataType } from '../types/event';
-import { Button } from '@/components/ui/button';
+import { ButtonLink } from '@/components/custom/ButtonLink';
 import { CalendarIcon, MapPinIcon, TagIcon } from 'lucide-react';
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
 
@@ -54,7 +54,7 @@ export const EventList = ({ events }: EventListProps) => {
           </CardContent>
 
           <CardFooter className="bg-gray-50 p-4">
-            <Button className="w-full">View Event</Button>
+            <ButtonLink name="View Event" url={`/events/${event.id}`} />
           </CardFooter>
         </Card>
       ))}
