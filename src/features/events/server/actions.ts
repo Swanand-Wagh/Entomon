@@ -1,22 +1,15 @@
 'use server';
 
-import { authActionClient } from '@/lib/action-clients';
+import { actionClient, authActionClient } from '@/lib/action-clients';
 import { eventService } from './service';
 import { z } from 'zod';
 import { createEventSchema, updateEventSchema } from '../schema/event';
 
-const getEvents = authActionClient
-  .metadata({
-    roleGate: 'USER',
-  })
-  .action(async () => {
-    return await eventService.getEvents();
-  });
+export const getEvents = actionClient.action(async () => {
+  return await eventService.getEvents();
+});
 
-const getEventById = authActionClient
-  .metadata({
-    roleGate: 'USER',
-  })
+export const getEventById = actionClient
   .schema(
     z.object({
       id: z.string(),
@@ -26,7 +19,7 @@ const getEventById = authActionClient
     return await eventService.getEventById(data.parsedInput.id);
   });
 
-const createEvent = authActionClient
+export const createEvent = authActionClient
   .metadata({
     roleGate: 'ADMIN',
   })
@@ -35,7 +28,7 @@ const createEvent = authActionClient
     return await eventService.createEvent(data.parsedInput);
   });
 
-const updateEvent = authActionClient
+export const updateEvent = authActionClient
   .metadata({
     roleGate: 'ADMIN',
   })
@@ -44,7 +37,7 @@ const updateEvent = authActionClient
     return await eventService.updateEvent(data.parsedInput.id, data.parsedInput);
   });
 
-const deleteEvent = authActionClient
+export const deleteEvent = authActionClient
   .metadata({
     roleGate: 'ADMIN',
   })
@@ -56,11 +49,3 @@ const deleteEvent = authActionClient
   .action(async (data) => {
     return await eventService.deleteEvent(data.parsedInput.id);
   });
-
-export const eventActions = {
-  getEvents,
-  getEventById,
-  createEvent,
-  updateEvent,
-  deleteEvent,
-};

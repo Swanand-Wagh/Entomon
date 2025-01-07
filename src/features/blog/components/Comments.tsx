@@ -10,7 +10,7 @@ import { Button } from '@/components/ui/button';
 import { useAction } from 'next-safe-action/hooks';
 import { Textarea } from '@/components/ui/textarea';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
 
 type Comment = {
   id: number;
@@ -58,7 +58,7 @@ const initialComments: Comment[] = [
   },
 ];
 
-export const Comments = () => {
+export const Comments = ({ isAuthenticated }: { isAuthenticated: boolean }) => {
   const [showMore, setShowMore] = useState(false);
   //   const { execute, result, isPending, hasSucceeded, hasErrored } = useAction();
 
@@ -131,7 +131,7 @@ export const Comments = () => {
             )}
           />
 
-          <Button type="submit" className="mt-2">
+          <Button type="submit" className="mt-2" disabled={!isAuthenticated}>
             Post Comment
           </Button>
         </form>

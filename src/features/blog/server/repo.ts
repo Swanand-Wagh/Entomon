@@ -23,7 +23,6 @@ async function getAllBlogSlugs(): Promise<string[]> {
   });
 
   return slugs.map((slug) => slug.slug);
-
 }
 
 async function getBlogDataById(blogId: string) {
@@ -43,7 +42,10 @@ async function getBlogDataById(blogId: string) {
   });
 }
 
-type BlogSpecificFields = Pick<Blog, 'title' | 'slug' | 'categories' | 'isPaid' | 'author' | 'updatedAt' | 'coverImage'>;
+type BlogSpecificFields = Pick<
+  Blog,
+  'title' | 'slug' | 'categories' | 'isPaid' | 'author' | 'updatedAt' | 'coverImage'
+>;
 
 async function selectFromAllBlogs(): Promise<BlogSpecificFields[]> {
   return await prisma.blog.findMany({

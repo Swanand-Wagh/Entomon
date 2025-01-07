@@ -4,7 +4,7 @@ import { blogRepo } from '@/features/blog/server/repo';
 import { SingleBlog } from '@/features/blog/components';
 import { getBlogBySlug } from '@/features/blog/server/actions';
 
-export const revalidate = 3600;
+export const revalidate = 300;
 
 export async function generateStaticParams() {
   const slugs = await blogRepo.getAllBlogSlugs();

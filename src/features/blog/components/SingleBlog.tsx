@@ -1,6 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 import { Comments } from './Comments';
+import { isAuthenicated } from '@/lib/auth';
 import DOMPurify from 'isomorphic-dompurify';
 import { BlogDataWithContentType } from '../types/blog';
 
@@ -8,7 +9,7 @@ type SingleBlogProps = {
   data: BlogDataWithContentType | null;
 };
 
-export const SingleBlog = ({ data }: SingleBlogProps) => {
+export const SingleBlog = async ({ data }: SingleBlogProps) => {
   if (!data) {
     return (
       <div className="mx-auto max-w-3xl px-4 py-8 text-center">
@@ -21,6 +22,7 @@ export const SingleBlog = ({ data }: SingleBlogProps) => {
     );
   }
 
+  const isAuthenticated = await isAuthenicated();
   const { title, coverImage, categories, isPaid, content, updatedAt } = data;
 
   return (
@@ -69,7 +71,7 @@ export const SingleBlog = ({ data }: SingleBlogProps) => {
           </p>
         </div>
 
-        <Comments />
+        <Comments isAuthenticated={isAuthenticated} />
       </main>
     </div>
   );
