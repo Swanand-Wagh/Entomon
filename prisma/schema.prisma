@@ -1,6 +1,5 @@
 generator client {
   provider        = "prisma-client-js"
-  previewFeatures = ["omitApi"]
 }
 
 datasource db {
@@ -85,9 +84,10 @@ model Event {
   id          String      @id @default(auto()) @map("_id") @db.ObjectId
   title       String
   slug        String      @unique
-  coverImage  String?
+  coverImage  String
   description String
   price       String
+  categories  String[]
   location    String
   date        DateTime
   status      EventStatus @default(UPCOMING)

@@ -1,13 +1,14 @@
-import { emailSchema } from '@/constants/email';
-import { EventStatus } from '@prisma/client';
 import { z } from 'zod';
+import { EventStatus } from '@prisma/client';
+import { emailSchema } from '@/constants/email';
 
 const createEventSchema = z.object({
   title: z.string(),
   slug: z.string(),
-  coverImage: z.string().nullable().optional(),
+  coverImage: z.string(),
   description: z.string(),
   price: z.string(),
+  categories: z.tuple([z.string()]).or(z.array(z.string())),
   location: z.string(),
   date: z.date(),
   status: z.nativeEnum(EventStatus),
@@ -17,7 +18,8 @@ const updateEventSchema = z.object({
   id: z.string(),
   title: z.string().optional(),
   slug: z.string().optional(),
-  coverImage: z.string().nullable().optional(),
+  coverImage: z.string(),
+  categories: z.tuple([z.string()]).or(z.array(z.string())),
   description: z.string().optional(),
   price: z.string().optional(),
   location: z.string().optional(),
