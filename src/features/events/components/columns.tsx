@@ -8,6 +8,7 @@ import { ActionsCell } from '@/components/custom/table/cell-actions';
 
 export type AdminEventsColumns = {
   id: string;
+  userId: string;
   title: string;
   slug: string;
   location: string;

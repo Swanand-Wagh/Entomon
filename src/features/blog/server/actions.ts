@@ -1,10 +1,10 @@
 'use server';
 
-import { actionClient, authActionClient } from '@/lib/action-clients';
-import { blogService } from './service';
-import { z } from 'zod';
-import { blogSchema, updateBlogSchema } from '../schema/blog';
 import { revalidatePath } from 'next/cache';
+import { z } from 'zod';
+import { blogService } from './service';
+import { blogSchema, updateBlogSchema } from '../schema/blog';
+import { actionClient, authActionClient } from '@/lib/action-clients';
 
 export const getAllBlogsData = actionClient.action(async () => {
   return await blogService.getAllBlogsData();

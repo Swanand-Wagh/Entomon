@@ -1,14 +1,17 @@
+'use client';
+
 import { useState } from 'react';
 import Link from 'next/link';
+import { useSession } from 'next-auth/react';
 
 import { Icon } from '@/constants/icons';
-import { CustomModal } from '../CustomModal';
 import { Row } from '@tanstack/react-table';
-import { AdminBlogsColumns } from '@/features/blog/components/columns';
-import { AdminCoursesColumns } from '@/features/courses/components/columns';
-import { AdminEventsColumns } from '@/features/events/components/columns';
+import { CustomModal } from '../CustomModal';
 import { useAction } from 'next-safe-action/hooks';
 import { deleteBlogAdmin } from '@/features/blog/server/actions';
+import { AdminBlogsColumns } from '@/features/blog/components/columns';
+import { AdminEventsColumns } from '@/features/events/components/columns';
+import { AdminCoursesColumns } from '@/features/courses/components/columns';
 
 type ActionProps = {
   row: Row<AdminBlogsColumns | AdminCoursesColumns | AdminEventsColumns>;
@@ -43,11 +46,16 @@ const DeleteAction = ({ row, route }: ActionProps) => {
   );
 };
 
-const EditAction = ({ row, route }: ActionProps) => (
-  <Link href={`/admin/${route}/edit/${encodeURIComponent(row.original.slug)}`}>
-    <Icon name="edit" className="h-5 w-5 cursor-pointer" />
-  </Link>
-);
+const EditAction = ({ row, route }: ActionProps) => {
+  const session = useSession();
+  if (row.original.userId === session.data?.user.id)
+    return (
+      <Link href={`/admin/${route}/edit/${encodeURIComponent(row.original.slug)}`}>
+        <Icon name="edit" className="h-5 w-5 cursor-pointer" />
+      </Link>
+    );
+  return null;
+};
 
 const ACTION_COMPONENTS = {
   delete: DeleteAction,

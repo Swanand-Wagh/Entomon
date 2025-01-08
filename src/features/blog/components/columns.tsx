@@ -11,6 +11,8 @@ export type AdminBlogsColumns = {
   slug: string;
   categories: string[];
   isPaid: boolean;
+  userId: string;
+  author: string;
 };
 
 export const AdminBlogsColumns: ColumnDef<AdminBlogsColumns>[] = [
@@ -40,6 +42,11 @@ export const AdminBlogsColumns: ColumnDef<AdminBlogsColumns>[] = [
   {
     accessorKey: 'isPaid',
     header: 'Is Paid',
+    enableHiding: true,
+  },
+  {
+    accessorKey: 'author',
+    header: ({ column }) => <SortColumnButton column={column} label="Author" />,
     enableHiding: true,
   },
   {

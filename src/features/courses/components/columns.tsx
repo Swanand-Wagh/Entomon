@@ -8,6 +8,7 @@ import { ActionsCell } from '@/components/custom/table/cell-actions';
 
 export type AdminCoursesColumns = {
   id: string;
+  userId: string;
   title: string;
   slug: string;
   price: string;
