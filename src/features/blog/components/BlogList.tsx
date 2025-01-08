@@ -44,7 +44,9 @@ export const BlogList = ({ blogs }: BlogListProps) => {
             </div>
             <div className="flex items-center text-sm text-gray-500">
               <CalendarIcon className="mr-2 h-4 w-4" />
-              Updated {new Date(blog.updatedAt).toDateString()}
+              {blog.updatedAt
+                ? `Updated ${new Date(blog.updatedAt).toLocaleDateString()}`
+                : `Published ${new Date(blog.createdAt).toLocaleDateString()}`}
             </div>
           </CardContent>
 

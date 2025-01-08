@@ -39,8 +39,12 @@ const EventsPage = async () => {
 
   return (
     <>
-      <h1>Events</h1>
-      <EventList events={sampleEvent} />
+      <section className="w-full py-10">
+        <div className="container gap-8 px-4 md:px-6">
+          <h2 className="text-3xl font-bold tracking-tight p-2">Events</h2>
+          <EventList events={sampleEvent} />
+        </div>
+      </section>
     </>
   );
 };

@@ -81,7 +81,7 @@ export const Comments = ({ isAuthenticated }: { isAuthenticated: boolean }) => {
   };
 
   return (
-    <section className="mt-12">
+    <section className="mt-12 border-t pt-8">
       <h2 className="mb-4 text-xl font-bold">Comments</h2>
 
       <div className="space-y-6">

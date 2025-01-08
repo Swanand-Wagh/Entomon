@@ -15,7 +15,7 @@ export async function generateStaticParams() {
 
 const ViewEventPage = async ({ params }: { params: Promise<{ eventID: string }> }) => {
   const eventID = (await params).eventID;
-  const event = await getEventById({ id: eventID });
+  // const event = await getEventById({ id: eventID });
 
   const sampleEvent: EventDataType = {
     id: '1',
@@ -32,10 +32,10 @@ const ViewEventPage = async ({ params }: { params: Promise<{ eventID: string }> 
     updatedAt: '2023-05-01T00:00:00Z',
   };
 
-  if (!event?.data) {
-    // redirect to 404 page
-    return;
-  }
+  // if (!event?.data) {
+  //   // redirect to 404 page
+  //   return;
+  // }
 
   return (
     <>

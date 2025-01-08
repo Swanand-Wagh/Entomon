@@ -44,7 +44,7 @@ async function getBlogDataById(blogId: string) {
 
 type BlogSpecificFields = Pick<
   Blog,
-  'title' | 'slug' | 'categories' | 'isPaid' | 'author' | 'updatedAt' | 'coverImage'
+  'title' | 'slug' | 'categories' | 'isPaid' | 'author' | 'createdAt' | 'updatedAt' | 'coverImage'
 >;
 
 async function selectFromAllBlogs(): Promise<BlogSpecificFields[]> {
@@ -56,6 +56,7 @@ async function selectFromAllBlogs(): Promise<BlogSpecificFields[]> {
       categories: true,
       isPaid: true,
       author: true,
+      createdAt: true,
       updatedAt: true,
     },
   });
@@ -73,6 +74,7 @@ async function selectFromAllBlogsByUser(userId: string): Promise<BlogSpecificFie
       categories: true,
       isPaid: true,
       author: true,
+      createdAt: true,
       updatedAt: true,
     },
   });

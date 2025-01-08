@@ -24,6 +24,7 @@ export type BlogDataType = {
   categories: string[];
   isPaid: boolean;
   author: string;
+  createdAt: Date;
   updatedAt: Date;
 };
 
@@ -35,6 +36,6 @@ export type BlogDataWithContentType = {
   author: string;
   isPaid: boolean;
   content: string;
-  createdAt?: Date;
-  updatedAt?: Date;
+  createdAt: Date;
+  updatedAt: Date;
 };

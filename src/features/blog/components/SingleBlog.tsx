@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { Comments } from './Comments';
 import { isAuthenicated } from '@/lib/auth';
 import DOMPurify from 'isomorphic-dompurify';
+import { Badge } from '@/components/ui/badge';
 import { BlogDataWithContentType } from '../types/blog';
 
 type SingleBlogProps = {
@@ -23,56 +24,53 @@ export const SingleBlog = async ({ data }: SingleBlogProps) => {
   }
 
   const isAuthenticated = await isAuthenicated();
-  const { title, coverImage, categories, isPaid, content, updatedAt } = data;
-
   return (
-    <div className="min-h-screen bg-gray-100">
-      <header className="relative h-80 w-full bg-gray-800">
-        {coverImage && (
-          <Image
-            fill
-            alt={title}
-            src={coverImage}
-            style={{ objectFit: 'cover' }}
-            className="absolute inset-0 opacity-70"
-          />
-        )}
-        <div className="relative z-10 flex h-full flex-col items-center justify-center bg-black bg-opacity-50 text-white">
-          <h1 className="text-center text-4xl font-bold">{title}</h1>
-          {isPaid && (
-            <span className="mt-4 rounded-md bg-red-500 px-4 py-1 text-sm font-medium text-white shadow">
-              Paid Content
-            </span>
+    <article className="mx-auto max-w-4xl px-4 py-8">
+      <header className="mb-8">
+        <div className="flex items-center justify-between">
+          <h1 className="mb-4 text-4xl font-bold">{data.title}</h1>
+          {data.isPaid ? (
+            <Badge variant="destructive" className="mb-4">
+              Premium Content
+            </Badge>
+          ) : (
+            <Badge variant="default" className="mb-4">
+              Free Content
+            </Badge>
           )}
         </div>
-      </header>
 
-      <main className="mx-auto -mt-10 max-w-4xl rounded-lg bg-white px-6 py-10 shadow-md">
-        <div className="mb-6 flex flex-wrap gap-3">
-          {categories.map((category, index) => (
-            <span key={index} className="rounded-md bg-blue-500 px-3 py-1 text-sm font-medium text-white">
+        <div className="mb-4 flex items-center justify-between text-sm text-gray-500">
+          <span>By {data.author}</span>
+          <span>
+            {data.updatedAt
+              ? `Updated ${new Date(data.updatedAt).toLocaleDateString()}`
+              : `Published ${new Date(data.createdAt).toLocaleDateString()}`}
+          </span>
+        </div>
+
+        <div className="mb-4 flex gap-2">
+          {data.categories.map((category, index) => (
+            <Badge key={index} variant="secondary">
               {category}
-            </span>
+            </Badge>
           ))}
         </div>
 
-        <article className="prose max-w-none prose-headings:text-gray-900 prose-a:text-blue-600 prose-a:underline">
-          <div className="text-gray-800">
-            <div className="prose mx-auto" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(content) }} />
-          </div>
-        </article>
+        {data.coverImage && (
+          <Image
+            width={1200}
+            height={630}
+            alt={data.title}
+            src={data.coverImage}
+            className="aspect-video w-full rounded-lg object-cover"
+          />
+        )}
+      </header>
 
-        <div className="mt-10 flex flex-col space-y-2 border-t border-gray-200 pt-4 text-sm text-gray-600">
-          <p>
-            <strong>Author:</strong> {data.author}
-          </p>
-          <p>
-            <strong>Last Updated:</strong> {updatedAt ? new Date(updatedAt).toLocaleDateString() : 'N/A'}
-          </p>
-        </div>
+      <div className="prose mb-12 max-w-none" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(data.content) }} />
 
-        <Comments isAuthenticated={isAuthenticated} />
-      </main>
-    </div>
+      <Comments isAuthenticated={isAuthenticated} />
+    </article>
   );
 };
