@@ -11,6 +11,8 @@ type SingleBlogProps = {
 };
 
 export const SingleBlog = async ({ data }: SingleBlogProps) => {
+  const isAuthenticated = await isAuthenicated();
+
   if (!data) {
     return (
       <div className="mx-auto max-w-3xl px-4 py-8 text-center">
@@ -23,7 +25,6 @@ export const SingleBlog = async ({ data }: SingleBlogProps) => {
     );
   }
 
-  const isAuthenticated = await isAuthenicated();
   return (
     <article className="mx-auto max-w-4xl px-4 py-8">
       <header className="mb-8">

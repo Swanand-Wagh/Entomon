@@ -40,7 +40,7 @@ const ViewEventPage = async ({ params }: { params: Promise<{ eventID: string }> 
   return (
     <>
       <Suspense fallback={<Loading />}>
-        <SingleEvent event={sampleEvent} />
+        <SingleEvent data={sampleEvent} />
       </Suspense>
     </>
   );

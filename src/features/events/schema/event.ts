@@ -1,3 +1,4 @@
+import { emailSchema } from '@/constants/email';
 import { EventStatus } from '@prisma/client';
 import { z } from 'zod';
 
@@ -24,8 +25,24 @@ const updateEventSchema = z.object({
   status: z.nativeEnum(EventStatus).optional(),
 });
 
+const phoneRegex = /^(\+?[1-9]\d{0,2}[\s.-]?)?(\(?\d{3}\)?[\s.-]?)?\d{3}[\s.-]?\d{4}$/;
+
+const eventRegistrationSchema = z.object({
+  email: emailSchema,
+  name: z
+    .string()
+    .min(1, { message: 'Name is required.' })
+    .max(20, { message: 'Name must not exceed 20 characters.' })
+    .regex(/^[A-Za-z]+$/, {
+      message: 'Name can only contain alphabets.',
+    }),
+  phone: z.string().refine((val) => phoneRegex.test(val), {
+    message: 'Invalid phone number.',
+  }),
+});
+
 type CreateEvent = z.infer<typeof createEventSchema>;
 type UpdateEvent = z.infer<typeof updateEventSchema>;
 
-export { createEventSchema, updateEventSchema };
+export { createEventSchema, updateEventSchema, eventRegistrationSchema };
 export type { CreateEvent, UpdateEvent };
