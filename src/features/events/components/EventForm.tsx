@@ -1,6 +1,6 @@
 import { MultiSelect } from '@/components/ui/multi-select';
 import { FormError, FormSuccess } from '@/components/custom';
-import { Form, FormControl, FormField, FormItem, FormLabel } from '@/components/ui/form';
+import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
 
 import NextImage from 'next/image';
 import { Controller } from 'react-hook-form';
@@ -22,7 +22,7 @@ const eventCategories = [
 export const EventForm = ({
   form,
   onSubmit,
-  handleResetBlog,
+  handleResetEvent,
   handleCoverImageChange,
   coverImagePreview,
   handleContainerClick,
@@ -201,7 +201,7 @@ export const EventForm = ({
 
                 <Button
                   type="button"
-                  onClick={handleResetBlog}
+                  onClick={handleResetEvent}
                   className="w-full rounded-md bg-red-200 p-2 font-semibold text-black hover:bg-red-100"
                 >
                   Reset

@@ -17,16 +17,16 @@ const createEventSchema = z.object({
 
 const updateEventSchema = z.object({
   id: z.string(),
-  title: z.string().optional(),
-  slug: z.string().optional(),
+  title: z.string(),
+  slug: z.string(),
   coverImage: z.string(),
   categories: z.tuple([z.string()]).or(z.array(z.string())),
-  description: z.string().optional(),
-  price: z.string().optional(),
-  location: z.string().optional(),
+  description: z.string(),
+  price: z.string(),
+  location: z.string(),
   startDate: z.date(),
   endDate: z.date(),
-  status: z.nativeEnum(EventStatus).optional(),
+  status: z.nativeEnum(EventStatus),
 });
 
 const phoneRegex = /^(\+?[1-9]\d{0,2}[\s.-]?)?(\(?\d{3}\)?[\s.-]?)?\d{3}[\s.-]?\d{4}$/;

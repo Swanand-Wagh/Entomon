@@ -20,7 +20,7 @@ export type EventDataType = {
 export type EventFormProps<TFormValues extends FieldValues> = {
   form: UseFormReturn<TFormValues>;
   onSubmit: (values: TFormValues) => void;
-  handleResetBlog: () => void;
+  handleResetEvent: () => void;
   handleCoverImageChange: (file: File) => void;
   coverImagePreview: string | null;
   handleContainerClick: () => void;

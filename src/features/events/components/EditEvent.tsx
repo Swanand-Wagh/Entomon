@@ -19,33 +19,21 @@ import CharacterCount from '@tiptap/extension-character-count';
 import { z } from 'zod';
 import { EventForm } from './EventForm';
 import { useForm } from 'react-hook-form';
-import { createEvent } from '../server/actions';
 import { convertFileToBase64 } from '@/lib/base64';
 import { useAction } from 'next-safe-action/hooks';
-import { createEventSchema } from '../schema/event';
+import { createEventSchema, UpdateEvent } from '../schema/event';
 import { zodResolver } from '@hookform/resolvers/zod';
 
-export const CreateEvent = () => {
+export const EditEvent = ({ data }: { data: UpdateEvent }) => {
   const router = useRouter();
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [coverImagePreview, setCoverImagePreview] = useState<string | null>('');
-  const { execute, result, isPending, hasSucceeded } = useAction(createEvent);
+  //   const { execute, result, isPending, hasSucceeded } = useAction();
 
   const form = useForm<z.infer<typeof createEventSchema>>({
     resolver: zodResolver(createEventSchema),
-    defaultValues: {
-      title: '',
-      slug: '',
-      coverImage: '',
-      categories: [],
-      description: '',
-      location: '',
-      startDate: new Date(),
-      endDate: new Date(),
-      price: '',
-      status: 'UPCOMING',
-    },
+    defaultValues: data,
   });
 
   const editor = useEditor({
@@ -85,20 +73,21 @@ export const CreateEvent = () => {
 
   const handleResetEvent = () => {
     form.clearErrors();
-    form.reset();
-    editor?.commands.clearContent();
-    setCoverImagePreview(null);
+
+    form.reset(data);
+    editor?.commands.setContent(data.description);
+    setCoverImagePreview(data.coverImage || null);
   };
 
   const onSubmit = (values: z.infer<typeof createEventSchema>) => {
-    execute(values);
+    // execute(values);
   };
 
-  if (!isPending && hasSucceeded) {
-    setTimeout(() => {
-      router.push('/admin/events');
-    }, 500);
-  }
+  //   if (!isPending && hasSucceeded) {
+  //     setTimeout(() => {
+  //       router.push('/admin/events');
+  //     }, 500);
+  //   }
 
   const handleContainerClick = () => fileInputRef.current?.click();
 
