@@ -25,7 +25,16 @@ async function updateEvent(id: string, data: UpdateEvent) {
   if (!event) {
     throw new ErrorResponse('Event not found');
   }
-  return await eventRepo.updateEvent(id, data);
+  return await eventRepo.updateEvent(id, {
+    title: data.title,
+    coverImage: data.coverImage,
+    description: data.description,
+    price: data.price,
+    categories: data.categories,
+    location: data.location,
+    startDate: data.startDate,
+    endDate: data.endDate,
+  });
 }
 
 async function deleteEvent(id: string) {
