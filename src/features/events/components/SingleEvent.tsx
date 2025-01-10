@@ -1,11 +1,13 @@
 import React from 'react';
+
+import Link from 'next/link';
 import Image from 'next/image';
+import { format } from 'date-fns';
 import DOMPurify from 'isomorphic-dompurify';
 import { Badge } from '@/components/ui/badge';
 import { EventDataType } from '../types/event';
 import { RegistrationForm } from './RegistrationForm';
 import { CalendarIcon, MapPinIcon, TagIcon } from 'lucide-react';
-import Link from 'next/link';
 
 type SingleEventProps = {
   data: EventDataType | null;
@@ -54,7 +56,9 @@ export const SingleEvent = async ({ data }: SingleEventProps) => {
             <span className="text-sm text-gray-500">By Entomon Institute</span>
             <div className="mb-2 mt-4 flex items-center text-sm text-gray-500">
               <CalendarIcon className="mr-2 h-4 w-4" />
-              {new Date(data.date).toDateString()}
+              {data.startDate === data.endDate
+                ? format(data.startDate, 'PPP')
+                : `${format(data.startDate, 'PPP')} - ${format(data.endDate, 'PPP')}`}
             </div>
             <div className="mb-2 flex items-center text-sm text-gray-500">
               <MapPinIcon className="mr-2 h-4 w-4" />
@@ -64,7 +68,7 @@ export const SingleEvent = async ({ data }: SingleEventProps) => {
             </div>
             <div className="mb-8 flex items-center text-sm text-gray-500">
               <TagIcon className="mr-2 h-4 w-4" />
-              {data.price}
+              ₹{data.price}
             </div>
 
             <div className="my-4 flex gap-2">

@@ -1,8 +1,9 @@
 'use server';
 
-import { actionClient, authActionClient } from '@/lib/action-clients';
-import { eventService } from './service';
+import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
+import { eventService } from './service';
+import { actionClient, authActionClient } from '@/lib/action-clients';
 import { createEventSchema, updateEventSchema } from '../schema/event';
 
 export const getEvents = actionClient.action(async () => {
@@ -25,7 +26,9 @@ export const createEvent = authActionClient
   })
   .schema(createEventSchema)
   .action(async (data) => {
-    return await eventService.createEvent(data.parsedInput);
+    await eventService.createEvent(data.parsedInput);
+    revalidatePath('/admin/events');
+    return { success: 'Event created successfully' };
   });
 
 export const updateEvent = authActionClient
@@ -34,7 +37,9 @@ export const updateEvent = authActionClient
   })
   .schema(updateEventSchema)
   .action(async (data) => {
-    return await eventService.updateEvent(data.parsedInput.id, data.parsedInput);
+    await eventService.updateEvent(data.parsedInput.id, data.parsedInput);
+    revalidatePath('/admin/events');
+    return { success: 'Event updated successfully' };
   });
 
 export const deleteEvent = authActionClient
@@ -47,5 +52,7 @@ export const deleteEvent = authActionClient
     })
   )
   .action(async (data) => {
-    return await eventService.deleteEvent(data.parsedInput.id);
+    await eventService.deleteEvent(data.parsedInput.id);
+    revalidatePath('/admin/events');
+    return { success: 'Event deleted successfully' };
   });

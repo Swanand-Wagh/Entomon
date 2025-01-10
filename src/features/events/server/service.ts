@@ -1,7 +1,7 @@
 import 'server-only';
 
-import { ErrorResponse } from '@/types/errors';
 import { eventRepo } from './repo';
+import { ErrorResponse } from '@/types/errors';
 import { CreateEvent, UpdateEvent } from '../schema/event';
 
 async function getEvents() {

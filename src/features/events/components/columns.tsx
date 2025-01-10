@@ -1,12 +1,12 @@
 'use client';
 
+import { format } from 'date-fns';
+import { EventDataType } from '../types/event';
 import { ColumnDef } from '@tanstack/react-table';
 import { SortColumnButton } from '@/components/custom/table';
 import { SlugLink } from '@/components/custom/table/slug-link';
 import { SingleBadge } from '@/components/custom/table/cell-badge';
 import { ActionsCell } from '@/components/custom/table/cell-actions';
-import { EventDataType } from '../types/event';
-import { format } from 'date-fns';
 
 export const AdminEventsColumns: ColumnDef<EventDataType>[] = [
   {
@@ -54,6 +54,6 @@ export const AdminEventsColumns: ColumnDef<EventDataType>[] = [
   {
     id: 'actions',
     header: 'Actions',
-    cell: ({ row }) => <ActionsCell route="events" row={row} actions={['edit', 'delete']} />,
+    cell: ({ row }) => <ActionsCell row={row} actions={['editEvent', 'deleteEvent']} />,
   },
 ];

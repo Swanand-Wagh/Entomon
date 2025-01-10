@@ -2,9 +2,9 @@ import React, { Suspense } from 'react';
 
 import { Loading } from '@/components/custom';
 import { eventRepo } from '@/features/events/server/repo';
+import { EventDataType } from '@/features/events/types/event';
 import { getEventById } from '@/features/events/server/actions';
 import { SingleEvent } from '@/features/events/components/SingleEvent';
-import { EventDataType } from '@/features/events/types/event';
 
 export const revalidate = 300;
 

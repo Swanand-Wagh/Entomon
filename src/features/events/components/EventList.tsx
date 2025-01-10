@@ -35,15 +35,16 @@ export const EventList = ({ events }: EventListProps) => {
             <p className="mb-4 text-sm text-gray-600">{event.description}</p>
             <div className="mb-2 flex items-center text-sm text-gray-500">
               <CalendarIcon className="mr-2 h-4 w-4" />
-              {`${format(event.startDate, 'PPP')} - ${format(event.endDate, 'PPP')}`}
+              {event.startDate === event.endDate
+                ? format(event.startDate, 'PPP')
+                : `${format(event.startDate, 'PPP')} - ${format(event.endDate, 'PPP')}`}
             </div>
             <div className="mb-2 flex items-center text-sm text-gray-500">
               <MapPinIcon className="mr-2 h-4 w-4" />
               {event.location}
             </div>
             <div className="mb-2 flex items-center text-sm text-gray-500">
-              <TagIcon className="mr-2 h-4 w-4" />
-              {event.price}
+              <TagIcon className="mr-2 h-4 w-4" />₹{event.price}
             </div>
             <div className="mt-2 flex flex-wrap gap-2">
               {event.categories.map((category) => (

@@ -52,6 +52,6 @@ export const AdminBlogsColumns: ColumnDef<AdminBlogsColumns>[] = [
   {
     id: 'actions',
     header: 'Actions',
-    cell: ({ row }) => <ActionsCell route="blogs" row={row} actions={['edit', 'delete']} />,
+    cell: ({ row }) => <ActionsCell row={row} actions={['editBlog', 'deleteBlog']} />,
   },
 ];
