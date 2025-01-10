@@ -22,7 +22,7 @@ export const EventList = ({ events }: EventListProps) => {
   return (
     <div className="flex flex-wrap gap-8">
       {events.map((event) => (
-        <Card key={event.slug} className="w-full max-w-sm overflow-hidden">
+        <Card key={event.id} className="w-full max-w-sm overflow-hidden">
           <CardHeader className="p-0">
             <div className="relative h-48 w-full">
               <Image src={event.coverImage} alt={event.title} layout="fill" objectFit="cover" />

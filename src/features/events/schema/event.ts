@@ -4,7 +4,6 @@ import { emailSchema } from '@/constants/email';
 
 const createEventSchema = z.object({
   title: z.string(),
-  slug: z.string(),
   coverImage: z.string(),
   description: z.string(),
   price: z.string(),
@@ -18,7 +17,6 @@ const createEventSchema = z.object({
 const updateEventSchema = z.object({
   id: z.string(),
   title: z.string(),
-  slug: z.string(),
   coverImage: z.string(),
   categories: z.tuple([z.string()]).or(z.array(z.string())),
   description: z.string(),

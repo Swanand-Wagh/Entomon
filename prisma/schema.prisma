@@ -83,7 +83,6 @@ enum EventStatus {
 model Event {
   id          String      @id @default(auto()) @map("_id") @db.ObjectId
   title       String
-  slug        String      @unique
   coverImage  String
   description String
   price       String

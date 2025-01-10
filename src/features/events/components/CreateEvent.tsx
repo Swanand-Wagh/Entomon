@@ -36,7 +36,6 @@ export const CreateEvent = () => {
     resolver: zodResolver(createEventSchema),
     defaultValues: {
       title: '',
-      slug: '',
       coverImage: '',
       categories: [],
       description: '',

@@ -12,7 +12,6 @@ export type EventDataType = {
   price: string;
   categories: string[];
   status: 'UPCOMING' | 'COMPLETED' | 'CANCELLED';
-  slug: string;
   createdAt: string;
   updatedAt: string;
 };
