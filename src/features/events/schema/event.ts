@@ -10,7 +10,8 @@ const createEventSchema = z.object({
   price: z.string(),
   categories: z.tuple([z.string()]).or(z.array(z.string())),
   location: z.string(),
-  date: z.date(),
+  startDate: z.date(),
+  endDate: z.date(),
   status: z.nativeEnum(EventStatus),
 });
 
@@ -23,7 +24,8 @@ const updateEventSchema = z.object({
   description: z.string().optional(),
   price: z.string().optional(),
   location: z.string().optional(),
-  date: z.date().optional(),
+  startDate: z.date(),
+  endDate: z.date(),
   status: z.nativeEnum(EventStatus).optional(),
 });
 

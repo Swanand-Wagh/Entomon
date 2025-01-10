@@ -17,28 +17,34 @@ import Placeholder from '@tiptap/extension-placeholder';
 import CharacterCount from '@tiptap/extension-character-count';
 
 import { z } from 'zod';
-import { BlogForm } from './BlogForm';
+import { EventForm } from './EventForm';
 import { useForm } from 'react-hook-form';
-import { updateBlog } from '../server/actions';
-import { useAction } from 'next-safe-action/hooks';
 import { convertFileToBase64 } from '@/lib/base64';
+import { useAction } from 'next-safe-action/hooks';
+import { createEventSchema } from '../schema/event';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { UpdateBlogType, blogSchema } from '../schema/blog';
 
-type EditBlogProps = {
-  data: UpdateBlogType;
-};
-
-export const EditBlog = ({ data }: EditBlogProps) => {
+export const CreateEvent = () => {
   const router = useRouter();
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-  const [coverImagePreview, setCoverImagePreview] = useState<string | null>(data.coverImage ?? '');
-  const { execute, result, isPending, hasSucceeded } = useAction(updateBlog);
+  const [coverImagePreview, setCoverImagePreview] = useState<string | null>('');
+  //   const { execute, result, isPending, hasSucceeded } = useAction();
 
-  const form = useForm<z.infer<typeof blogSchema>>({
-    resolver: zodResolver(blogSchema),
-    defaultValues: data,
+  const form = useForm<z.infer<typeof createEventSchema>>({
+    resolver: zodResolver(createEventSchema),
+    defaultValues: {
+      title: '',
+      slug: '',
+      coverImage: '',
+      categories: [],
+      description: '',
+      location: '',
+      startDate: new Date(),
+      endDate: new Date(),
+      price: '',
+      status: 'UPCOMING',
+    },
   });
 
   const editor = useEditor({
@@ -60,16 +66,8 @@ export const EditBlog = ({ data }: EditBlogProps) => {
       TextAlign.configure({ types: ['heading', 'paragraph', 'image'] }),
       Placeholder.configure({ placeholder: 'Write something …' }),
     ],
-    content: data.content,
+    content: '',
   });
-
-  const handleResetBlog = () => {
-    form.clearErrors();
-
-    form.reset(data);
-    editor?.commands.setContent(data.content);
-    setCoverImagePreview(data.coverImage || null);
-  };
 
   const handleCoverImageChange = useCallback(
     async (file: File) => {
@@ -84,29 +82,36 @@ export const EditBlog = ({ data }: EditBlogProps) => {
     [form]
   );
 
-  const onSubmit = (values: z.infer<typeof blogSchema>) => {
-    execute({ ...values, id: data.id });
+  const handleResetBlog = () => {
+    form.clearErrors();
+    form.reset();
+    editor?.commands.clearContent();
+    setCoverImagePreview(null);
   };
 
-  if (!isPending && hasSucceeded) {
-    setTimeout(() => {
-      router.push('/admin/blogs');
-    }, 500);
-  }
+  const onSubmit = (values: z.infer<typeof createEventSchema>) => {
+    // execute(values);
+  };
+
+  //   if (!isPending && hasSucceeded) {
+  //     setTimeout(() => {
+  //       router.push('/admin/events');
+  //     }, 500);
+  //   }
 
   const handleContainerClick = () => fileInputRef.current?.click();
 
   return (
-    <BlogForm
+    <EventForm
       form={form}
       editor={editor}
-      isEditing={true}
+      isEditing={false}
       onSubmit={onSubmit}
-      isPending={isPending}
+      isPending={false}
       fileInputRef={fileInputRef}
-      success={result?.data?.success}
+      success={''}
       handleResetBlog={handleResetBlog}
-      error={result.serverError?.toString()}
+      error={''}
       coverImagePreview={coverImagePreview}
       handleContainerClick={handleContainerClick}
       handleCoverImageChange={handleCoverImageChange}

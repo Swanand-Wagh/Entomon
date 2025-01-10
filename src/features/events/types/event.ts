@@ -1,8 +1,12 @@
+import { Editor } from '@tiptap/react';
+import { UseFormReturn, FieldValues } from 'react-hook-form';
+
 export type EventDataType = {
   id: string;
   title: string;
   description: string;
-  date: Date;
+  startDate: Date;
+  endDate: Date;
   location: string;
   coverImage: string;
   price: string;
@@ -11,4 +15,20 @@ export type EventDataType = {
   slug: string;
   createdAt: string;
   updatedAt: string;
+};
+
+export type EventFormProps<TFormValues extends FieldValues> = {
+  form: UseFormReturn<TFormValues>;
+  onSubmit: (values: TFormValues) => void;
+  handleResetBlog: () => void;
+  handleCoverImageChange: (file: File) => void;
+  coverImagePreview: string | null;
+  handleContainerClick: () => void;
+  isPending: boolean;
+  error?: string;
+  success?: string;
+  editor: Editor | null;
+  fileInputRef: React.RefObject<HTMLInputElement | null>;
+  isEditing: boolean;
+  isSubmitDisabled?: boolean;
 };
