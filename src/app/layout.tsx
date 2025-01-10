@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 
 import { auth } from '@/features/auth/server/next-auth-config';
@@ -30,6 +31,7 @@ export default async function RootLayout({
       <html lang="en">
         <ToastProvider>
           <body className={`${plus_jakarta_sans.className} ${inter.className}`} suppressHydrationWarning={true}>
+            <Analytics />
             <SpeedInsights />
             <Toaster />
             {children}
