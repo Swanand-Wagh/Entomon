@@ -8,16 +8,6 @@ import { ActionsCell } from '@/components/custom/table/cell-actions';
 import { EventDataType } from '../types/event';
 import { format } from 'date-fns';
 
-export type AdminEventsColumns = {
-  id: string;
-  title: string;
-  location: string;
-  startDate: string;
-  endDate: Date;
-  price: Date;
-  status: 'UPCOMING' | 'COMPLETED' | 'CANCELLED';
-};
-
 export const AdminEventsColumns: ColumnDef<EventDataType>[] = [
   {
     accessorKey: 'title',

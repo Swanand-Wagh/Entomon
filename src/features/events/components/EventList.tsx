@@ -1,6 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 
+import { format } from 'date-fns';
 import { Badge } from '@/components/ui/badge';
 import { EventDataType } from '../types/event';
 import { ButtonLink } from '@/components/custom/ButtonLink';
@@ -34,7 +35,7 @@ export const EventList = ({ events }: EventListProps) => {
             <p className="mb-4 text-sm text-gray-600">{event.description}</p>
             <div className="mb-2 flex items-center text-sm text-gray-500">
               <CalendarIcon className="mr-2 h-4 w-4" />
-              {new Date(event.date).toDateString()}
+              {`${format(event.startDate, 'PPP')} - ${format(event.endDate, 'PPP')}`}
             </div>
             <div className="mb-2 flex items-center text-sm text-gray-500">
               <MapPinIcon className="mr-2 h-4 w-4" />
