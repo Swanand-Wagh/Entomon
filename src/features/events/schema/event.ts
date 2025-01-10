@@ -3,12 +3,17 @@ import { EventStatus } from '@prisma/client';
 import { emailSchema } from '@/constants/email';
 
 const createEventSchema = z.object({
-  title: z.string(),
-  coverImage: z.string(),
+  title: z.string().min(1, 'Title is required'),
+  coverImage: z.string().min(1, { message: 'Cover image is required.' }),
   description: z.string(),
-  price: z.string(),
-  categories: z.tuple([z.string()]).or(z.array(z.string())),
-  location: z.string(),
+  price: z
+    .string()
+    .min(1)
+    .regex(/^\d+(\.\d{1,2})?$/, 'Invalid price format'),
+  categories: z
+    .array(z.string().min(1, { message: 'Category must not be empty.' }))
+    .nonempty({ message: 'At least one category is required.' }),
+  location: z.string().min(1, 'Location is required'),
   startDate: z.date(),
   endDate: z.date(),
   status: z.nativeEnum(EventStatus),
@@ -16,12 +21,17 @@ const createEventSchema = z.object({
 
 const updateEventSchema = z.object({
   id: z.string(),
-  title: z.string(),
-  coverImage: z.string(),
-  categories: z.tuple([z.string()]).or(z.array(z.string())),
+  title: z.string().min(1, 'Title is required'),
+  coverImage: z.string().min(1, { message: 'Cover image is required.' }),
+  categories: z
+    .array(z.string().min(1, { message: 'Category must not be empty.' }))
+    .nonempty({ message: 'At least one category is required.' }),
   description: z.string(),
-  price: z.string(),
-  location: z.string(),
+  price: z
+    .string()
+    .min(1)
+    .regex(/^\d+(\.\d{1,2})?$/, 'Invalid price format'),
+  location: z.string().min(1, 'Location is required'),
   startDate: z.date(),
   endDate: z.date(),
   status: z.nativeEnum(EventStatus),

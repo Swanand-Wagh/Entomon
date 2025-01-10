@@ -109,9 +109,9 @@ export const CreateEvent = () => {
       onSubmit={onSubmit}
       isPending={false}
       fileInputRef={fileInputRef}
-      success={''}
+      success={result?.data?.success}
       handleResetEvent={handleResetEvent}
-      error={''}
+      error={result.serverError?.toString()}
       coverImagePreview={coverImagePreview}
       handleContainerClick={handleContainerClick}
       handleCoverImageChange={handleCoverImageChange}

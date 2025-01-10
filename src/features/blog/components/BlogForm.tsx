@@ -6,10 +6,10 @@ import NextImage from 'next/image';
 import { Controller } from 'react-hook-form';
 import { BlogFormProps } from '../types/blog';
 import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
 import { BlogFormType } from '../schema/blog';
-import { TextEditor } from '@/components/custom/editor';
 import { Switch } from '@/components/ui/switch';
+import { Button } from '@/components/ui/button';
+import { TextEditor } from '@/components/custom/editor';
 
 const blogCategories = [
   { label: 'Technology', value: 'Technology', checked: false },
@@ -49,10 +49,16 @@ export const BlogForm = ({
               <FormField
                 name="title"
                 control={form.control}
-                render={({ field }) => (
+                render={({ field, fieldState }) => (
                   <FormItem>
                     <FormControl className="rounded-md border-gray-300">
-                      <Input {...field} type="text" disabled={isPending} placeholder="Blog Title" />
+                      <Input
+                        {...field}
+                        type="text"
+                        disabled={isPending}
+                        placeholder="Blog Title"
+                        className={fieldState.invalid ? 'border-red-500' : ''}
+                      />
                     </FormControl>
                   </FormItem>
                 )}
@@ -61,7 +67,7 @@ export const BlogForm = ({
               <FormField
                 name="slug"
                 control={form.control}
-                render={({ field }) => (
+                render={({ field, fieldState }) => (
                   <FormItem>
                     <FormControl className="rounded-md border-gray-300">
                       <Input
@@ -75,6 +81,7 @@ export const BlogForm = ({
                         onBlur={(e) => {
                           form.setValue('slug', e.target.value.trim().replace(/^-+|-+$/g, ''));
                         }}
+                        className={fieldState.invalid ? 'border-red-500' : ''}
                       />
                     </FormControl>
                   </FormItem>
@@ -84,7 +91,7 @@ export const BlogForm = ({
               <Controller
                 name="categories"
                 control={form.control}
-                render={({ field }) => (
+                render={({ field, fieldState }) => (
                   <FormItem>
                     <FormControl className="rounded-md border-gray-300">
                       <MultiSelect
@@ -93,7 +100,7 @@ export const BlogForm = ({
                         disabled={isPending}
                         options={blogCategories}
                         placeholder="Select categories..."
-                        className="rounded-md border-gray-300 text-gray-500"
+                        className={fieldState.invalid ? 'border-red-500' : 'rounded-md border-gray-300 text-gray-500'}
                       />
                     </FormControl>
                   </FormItem>
@@ -101,42 +108,46 @@ export const BlogForm = ({
               />
 
               {/* Cover Image Section */}
-              <div
-                onClick={handleContainerClick}
-                className="relative flex h-40 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 hover:border-gray-400"
-              >
-                <Controller
-                  name="coverImage"
-                  control={form.control}
-                  render={() => (
-                    <>
-                      <Input
-                        type="file"
-                        accept="image/*"
-                        ref={fileInputRef}
-                        className="hidden"
-                        onChange={(e) => {
-                          const file = e.target.files?.[0];
-                          if (file) {
-                            handleCoverImageChange(file);
-                          }
-                        }}
+              <Controller
+                name="coverImage"
+                control={form.control}
+                rules={{ required: 'Cover image is required.' }}
+                render={({ field, fieldState }) => (
+                  <div
+                    onClick={handleContainerClick}
+                    className={`relative flex h-40 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed ${
+                      fieldState.error ? 'border-red-500' : 'border-gray-300 hover:border-gray-400'
+                    }`}
+                  >
+                    <Input
+                      type="file"
+                      accept="image/*"
+                      ref={fileInputRef}
+                      className="hidden"
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        if (file) {
+                          handleCoverImageChange(file);
+                          form.setValue('coverImage', file.name);
+                        }
+                      }}
+                    />
+                    {coverImagePreview ? (
+                      <NextImage
+                        width={160}
+                        height={160}
+                        alt="Cover Preview"
+                        src={coverImagePreview}
+                        className="absolute inset-0 h-full w-full rounded-lg object-cover"
                       />
-                      {coverImagePreview ? (
-                        <NextImage
-                          width={160}
-                          height={160}
-                          alt="Cover Preview"
-                          src={coverImagePreview}
-                          className="absolute inset-0 h-full w-full rounded-lg object-cover"
-                        />
-                      ) : (
-                        <span className="text-gray-500">Click to upload cover image</span>
-                      )}
-                    </>
-                  )}
-                />
-              </div>
+                    ) : (
+                      <span className={`text-sm ${fieldState.error ? 'text-red-500' : 'text-gray-500'}`}>
+                        {fieldState.error?.message || 'Click to upload cover image'}
+                      </span>
+                    )}
+                  </div>
+                )}
+              />
 
               <FormField
                 control={form.control}

@@ -65,6 +65,7 @@ export const deleteBlog = authActionClient
   .action(async (data) => {
     let sessionUser = data.ctx.session.user;
     await blogService.deleteBlog(sessionUser.id, data.parsedInput.slug);
+    revalidatePath('/user/blogs');
     return { success: 'Blog deleted successfully' };
   });
 
@@ -79,5 +80,6 @@ export const deleteBlogAdmin = authActionClient
   )
   .action(async (data) => {
     await blogService.deleteBlogAdmin(data.parsedInput.slug);
+    revalidatePath('/admin/blogs');
     return { success: 'Blog deleted successfully' };
   });

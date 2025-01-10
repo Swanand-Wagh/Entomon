@@ -50,6 +50,7 @@ export const AdminEventsColumns: ColumnDef<EventDataType>[] = [
     enableHiding: true,
     enableSorting: true,
     header: ({ column }) => <SortColumnButton column={column} label="Price" />,
+    cell: ({ row }) => `₹${row.original.price}`,
   },
   {
     id: 'actions',

@@ -49,10 +49,16 @@ export const EventForm = ({
               <FormField
                 name="title"
                 control={form.control}
-                render={({ field }) => (
+                render={({ field, fieldState }) => (
                   <FormItem>
                     <FormControl className="rounded-md border-gray-300">
-                      <Input {...field} type="text" disabled={isPending} placeholder="Event Title" />
+                      <Input
+                        {...field}
+                        type="text"
+                        disabled={isPending}
+                        placeholder="Event Title"
+                        className={fieldState.invalid ? 'border-red-500' : ''}
+                      />
                     </FormControl>
                   </FormItem>
                 )}
@@ -61,10 +67,17 @@ export const EventForm = ({
               <FormField
                 name="price"
                 control={form.control}
-                render={({ field }) => (
+                render={({ field, fieldState }) => (
                   <FormItem>
                     <FormControl className="rounded-md border-gray-300">
-                      <Input {...field} type="number" min="0" disabled={isPending} placeholder="Price" />
+                      <Input
+                        min="0"
+                        {...field}
+                        type="number"
+                        placeholder="Price"
+                        disabled={isPending}
+                        className={fieldState.invalid ? 'border-red-500' : ''}
+                      />
                     </FormControl>
                   </FormItem>
                 )}
@@ -73,10 +86,16 @@ export const EventForm = ({
               <FormField
                 name="location"
                 control={form.control}
-                render={({ field }) => (
+                render={({ field, fieldState }) => (
                   <FormItem>
                     <FormControl className="rounded-md border-gray-300">
-                      <Input {...field} type="text" disabled={isPending} placeholder="Location" />
+                      <Input
+                        {...field}
+                        type="text"
+                        disabled={isPending}
+                        placeholder="Location"
+                        className={fieldState.invalid ? 'border-red-500' : ''}
+                      />
                     </FormControl>
                   </FormItem>
                 )}
@@ -117,7 +136,7 @@ export const EventForm = ({
               <Controller
                 name="categories"
                 control={form.control}
-                render={({ field }) => (
+                render={({ field, fieldState }) => (
                   <FormItem>
                     <FormControl className="rounded-md border-gray-300">
                       <MultiSelect
@@ -126,7 +145,7 @@ export const EventForm = ({
                         disabled={isPending}
                         options={eventCategories}
                         placeholder="Select categories..."
-                        className="rounded-md border-gray-300 text-gray-500"
+                        className={`rounded-md border-gray-300 text-gray-500 ${fieldState.invalid ? 'border-red-500' : ''}`}
                       />
                     </FormControl>
                   </FormItem>
@@ -134,42 +153,46 @@ export const EventForm = ({
               />
 
               {/* Cover Image Section */}
-              <div
-                onClick={handleContainerClick}
-                className="relative flex h-40 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 hover:border-gray-400"
-              >
-                <Controller
-                  name="coverImage"
-                  control={form.control}
-                  render={() => (
-                    <>
-                      <Input
-                        type="file"
-                        accept="image/*"
-                        ref={fileInputRef}
-                        className="hidden"
-                        onChange={(e) => {
-                          const file = e.target.files?.[0];
-                          if (file) {
-                            handleCoverImageChange(file);
-                          }
-                        }}
+              <Controller
+                name="coverImage"
+                control={form.control}
+                rules={{ required: 'Cover image is required.' }}
+                render={({ field, fieldState }) => (
+                  <div
+                    onClick={handleContainerClick}
+                    className={`relative flex h-40 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed ${
+                      fieldState.error ? 'border-red-500' : 'border-gray-300 hover:border-gray-400'
+                    }`}
+                  >
+                    <Input
+                      type="file"
+                      accept="image/*"
+                      ref={fileInputRef}
+                      className="hidden"
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        if (file) {
+                          handleCoverImageChange(file);
+                          form.setValue('coverImage', file.name);
+                        }
+                      }}
+                    />
+                    {coverImagePreview ? (
+                      <NextImage
+                        width={160}
+                        height={160}
+                        alt="Cover Preview"
+                        src={coverImagePreview}
+                        className="absolute inset-0 h-full w-full rounded-lg object-cover"
                       />
-                      {coverImagePreview ? (
-                        <NextImage
-                          width={160}
-                          height={160}
-                          alt="Cover Preview"
-                          src={coverImagePreview}
-                          className="absolute inset-0 h-full w-full rounded-lg object-cover"
-                        />
-                      ) : (
-                        <span className="text-gray-500">Click to upload cover image</span>
-                      )}
-                    </>
-                  )}
-                />
-              </div>
+                    ) : (
+                      <span className={`text-sm ${fieldState.error ? 'text-red-500' : 'text-gray-500'}`}>
+                        {fieldState.error?.message || 'Click to upload cover image'}
+                      </span>
+                    )}
+                  </div>
+                )}
+              />
 
               {/* Reset and Submit Buttons */}
               <div className="mt-2 flex w-full flex-col gap-2">
