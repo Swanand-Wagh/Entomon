@@ -4,9 +4,7 @@ const blogSchema = z.object({
   title: z.string().min(1, { message: 'Title is required.' }),
   slug: z.string().min(1, { message: 'Slug is required.' }),
   coverImage: z.string().min(1, { message: 'Cover image is required.' }),
-  categories: z
-    .array(z.string().min(1, { message: 'Category must not be empty.' }))
-    .nonempty({ message: 'At least one category is required.' }),
+  categories: z.array(z.string().min(1, { message: 'Category must not be empty.' })),
   isPaid: z.boolean(),
   content: z.string().min(10, { message: 'Content is required.' }),
   createdAt: z.date().optional(),
@@ -18,9 +16,7 @@ const updateBlogSchema = z.object({
   slug: z.string().min(1, { message: 'Slug is required.' }),
   title: z.string().min(1, { message: 'Title is required.' }),
   coverImage: z.string().min(1, { message: 'Cover image is required.' }),
-  categories: z
-    .array(z.string().min(1, { message: 'Category must not be empty.' }))
-    .nonempty({ message: 'At least one category is required.' }),
+  categories: z.array(z.string().min(1, { message: 'Category must not be empty.' })),
   isPaid: z.boolean(),
   content: z.string().min(1),
 });

@@ -10,9 +10,7 @@ const createEventSchema = z.object({
     .string()
     .min(1)
     .regex(/^\d+(\.\d{1,2})?$/, 'Invalid price format'),
-  categories: z
-    .array(z.string().min(1, { message: 'Category must not be empty.' }))
-    .nonempty({ message: 'At least one category is required.' }),
+  categories: z.array(z.string().min(1, { message: 'Category must not be empty.' })),
   location: z.string().min(1, 'Location is required'),
   startDate: z.date(),
   endDate: z.date(),
@@ -23,9 +21,7 @@ const updateEventSchema = z.object({
   id: z.string(),
   title: z.string().min(1, 'Title is required'),
   coverImage: z.string().min(1, { message: 'Cover image is required.' }),
-  categories: z
-    .array(z.string().min(1, { message: 'Category must not be empty.' }))
-    .nonempty({ message: 'At least one category is required.' }),
+  categories: z.array(z.string().min(1, { message: 'Category must not be empty.' })),
   description: z.string(),
   price: z
     .string()
