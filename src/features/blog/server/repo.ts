@@ -1,7 +1,6 @@
 import 'server-only';
 import { prisma } from '@/db/prisma';
 import { Blog, Prisma } from '@prisma/client';
-import { UpdateBlogType } from '../schema/blog';
 
 async function getAllBlogs(): Promise<Blog[]> {
   return await prisma.blog.findMany();
