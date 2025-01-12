@@ -7,9 +7,11 @@ import { getEventById } from '@/features/events/server/actions';
 import { SingleEvent } from '@/features/events/components/SingleEvent';
 
 export const revalidate = 300;
+export const dynamicParams = true;
 
 export async function generateStaticParams() {
   const eventIDs = await eventRepo.getAllEventIDs();
+  console.log(eventIDs);
   return eventIDs.map((id) => ({ id }));
 }
 

@@ -5,6 +5,7 @@ import { SingleBlog } from '@/features/blog/components';
 import { getBlogBySlug } from '@/features/blog/server/actions';
 
 export const revalidate = 300;
+export const dynamicParams = true;
 
 export async function generateStaticParams() {
   const slugs = await blogRepo.getAllBlogSlugs();
