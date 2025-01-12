@@ -15,9 +15,9 @@ export async function generateStaticParams() {
   return eventIDs.map((id) => ({ id }));
 }
 
-const ViewEventPage = async ({ params }: { params: Promise<{ eventID: string }> }) => {
-  const eventID = (await params).eventID;
-  const result = await getEventById({ id: eventID });
+const ViewEventPage = async ({ params }: { params: Promise<{ id: string }> }) => {
+  const id = (await params).id;
+  const result = await getEventById({ id });
   const event = {
     ...result?.data,
     createdAt: result?.data?.createdAt.toISOString(),
