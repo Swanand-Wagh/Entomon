@@ -13,17 +13,19 @@ enum UserRole {
 }
 
 model User {
-  id                 String          @id @default(auto()) @map("_id") @db.ObjectId
+  id                 String    @id @default(auto()) @map("_id") @db.ObjectId
   name               String
-  email              String          @unique
+  email              String    @unique
   emailVerified      DateTime?
   image              String?
   password           String?
-  role               UserRole        @default(USER)
-  accounts           Account[]
-  isTwoFactorEnabled Boolean         @default(false)
-  Payment            Payment[]
-  StripeCustomer     StripeCustomer?
+  isTwoFactorEnabled Boolean   @default(false)
+  role               UserRole  @default(USER)
+
+  accounts       Account[]
+  comments       BlogComment[]
+  Payment        Payment[]
+  StripeCustomer StripeCustomer?
 }
 
 model Account {
@@ -74,6 +76,20 @@ model Blog {
   content    String
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
+
+  comments BlogComment[]
+}
+
+model BlogComment {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @db.ObjectId
+  blogId    String   @db.ObjectId
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  blog   Blog @relation(fields: [blogId], references: [id], onDelete: Cascade)
+  author User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 enum EventStatus {
@@ -95,7 +111,8 @@ model Event {
   status      EventStatus @default(UPCOMING)
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
-  Payment     Payment[]
+
+  Payment Payment[]
 }
 
 enum CourseStatus {

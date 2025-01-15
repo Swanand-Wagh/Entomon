@@ -1,16 +1,19 @@
 import React from 'react';
+
 import Image from 'next/image';
 import { Comments } from './Comments';
 import { isAuthenicated } from '@/lib/auth';
 import DOMPurify from 'isomorphic-dompurify';
 import { Badge } from '@/components/ui/badge';
 import { BlogDataWithContentType } from '../types/blog';
+import { getAllBlogComments } from '../server/actions';
 
 type SingleBlogProps = {
-  data: BlogDataWithContentType | null;
+  data: BlogDataWithContentType;
 };
 
 export const SingleBlog = async ({ data }: SingleBlogProps) => {
+  const comments = await getAllBlogComments({ slug: data.slug });
   const isAuthenticated = await isAuthenicated();
 
   if (!data) {
@@ -71,7 +74,7 @@ export const SingleBlog = async ({ data }: SingleBlogProps) => {
 
       <div className="prose mb-12 max-w-none" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(data.content) }} />
 
-      <Comments isAuthenticated={isAuthenticated} />
+      <Comments isAuthenticated={isAuthenticated} blogSlug={data.slug} comments={comments?.data ?? []} />
     </article>
   );
 };

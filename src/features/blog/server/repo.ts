@@ -1,6 +1,6 @@
 import 'server-only';
 import { prisma } from '@/db/prisma';
-import { Blog, Prisma } from '@prisma/client';
+import { Blog, BlogComment, Prisma } from '@prisma/client';
 
 async function getAllBlogs(): Promise<Blog[]> {
   return await prisma.blog.findMany();
@@ -100,6 +100,55 @@ async function deleteBlog(blogId: string): Promise<Blog> {
   });
 }
 
+// -------------------------- Comments --------------------------
+
+async function getBlogCommentById(blogCommentId: string): Promise<BlogComment | null> {
+  return await prisma.blogComment.findUnique({
+    where: {
+      id: blogCommentId,
+    },
+  });
+}
+
+type CommentSpecificFields = { id: string; content: string; createdAt: Date; author: string };
+async function getAllBlogComments(blogId: string): Promise<CommentSpecificFields[]> {
+  const comments = await prisma.blogComment.findMany({
+    where: {
+      blogId,
+    },
+    include: {
+      author: {
+        select: {
+          name: true,
+        },
+      },
+    },
+  });
+
+  return comments.map((comment) => ({
+    id: comment.id,
+    content: comment.content,
+    createdAt: comment.createdAt,
+    author: comment.author.name,
+  }));
+}
+
+async function createBlogComment(data: { content: string; blogId: string; userId: string }): Promise<BlogComment> {
+  return await prisma.blogComment.create({
+    data: {
+      content: data.content,
+      blogId: data.blogId,
+      userId: data.userId,
+    },
+  });
+}
+
+async function deleteBlogComment(blogCommentId: string): Promise<BlogComment> {
+  return await prisma.blogComment.delete({
+    where: { id: blogCommentId },
+  });
+}
+
 export const blogRepo = {
   getAllBlogs,
   getBlogBySlug,
@@ -110,4 +159,8 @@ export const blogRepo = {
   createBlog,
   updateBlog,
   deleteBlog,
+  getBlogCommentById,
+  getAllBlogComments,
+  createBlogComment,
+  deleteBlogComment,
 };
