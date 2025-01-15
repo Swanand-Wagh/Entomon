@@ -40,7 +40,7 @@ export const RegisterForm = () => {
   if (!isPending && hasSucceeded) {
     setTimeout(() => {
       router.push('/auth/login');
-    }, 500);
+    }, 1200);
   }
 
   return (

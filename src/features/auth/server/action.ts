@@ -53,7 +53,7 @@ export const loginUser = actionClient.schema(loginSchema).action(async (data) =>
       const emailToken = await authService.generateEmailVerificationToken(existingUser);
       await sendVerificationEmail(existingUser.email, emailToken.token);
 
-      return { success: 'Email not verified. Confirmation email sent!' };
+      throw new ErrorResponse('Email not verified. Confirmation email sent!');
     }
   } else {
     await signIn('credentials', {
