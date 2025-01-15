@@ -36,6 +36,8 @@ export const LoginForm = () => {
   });
 
   const onSubmit = (values: z.infer<typeof loginSchema>) => {
+    form.clearErrors();
+    form.reset();
     execute({ ...values, callbackUrl });
   };
 

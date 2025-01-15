@@ -1,14 +1,14 @@
 import 'server-only';
 
-import { userService } from '@/features/users/server/service';
-import { ErrorResponse } from '@/types/errors';
-import { login2FASchema, loginWithCredsSchema, newPasswordSchema, registerSchema, resetSchema } from '../schema/auth';
 import { z } from 'zod';
-import { comparePasswordAndHash, genSixDigitCode, hashAndSaltPassword } from '@/lib/password';
 import { authRepo } from './repo';
-import { Token, User } from '@prisma/client';
 import { v4 as uuidv4 } from 'uuid';
+import { Token, User } from '@prisma/client';
+import { ErrorResponse } from '@/types/errors';
 import { sendPasswordResetEmail } from './mail';
+import { userService } from '@/features/users/server/service';
+import { comparePasswordAndHash, genSixDigitCode, hashAndSaltPassword } from '@/lib/password';
+import { login2FASchema, loginWithCredsSchema, newPasswordSchema, registerSchema, resetSchema } from '../schema/auth';
 
 // ---------------------------------------------- Auth with Creds ----------------------------------------------
 
