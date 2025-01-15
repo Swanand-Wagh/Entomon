@@ -14,15 +14,20 @@ import { revalidatePath } from 'next/cache';
 
 export const registerUser = actionClient.schema(registerSchema).action(async (data) => {
   const existingUser = await userService.getUserByEmail(data.parsedInput.email);
-  if (existingUser) {
+  if (existingUser && existingUser.emailVerified === null) {
     const emailToken = await authService.generateEmailVerificationToken(existingUser);
     await sendVerificationEmail(existingUser.email, emailToken.token);
+
+    return { success: 'Confirmation email sent!' };
+  } else if (existingUser && existingUser.emailVerified) {
+    return { error: 'User already exists, please login!' };
   } else {
     const user = await authService.register(data.parsedInput);
     const emailToken = await authService.generateEmailVerificationToken(user);
     await sendVerificationEmail(user.email, emailToken.token);
+
+    return { success: 'Confirmation email sent!' };
   }
-  return { success: 'Confirmation email sent!' };
 });
 
 export const loginUser = actionClient.schema(loginSchema).action(async (data) => {

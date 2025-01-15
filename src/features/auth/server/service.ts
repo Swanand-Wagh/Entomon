@@ -13,6 +13,7 @@ import { sendPasswordResetEmail } from './mail';
 // ---------------------------------------------- Auth with Creds ----------------------------------------------
 
 const TOKEN_EXPIRY_TIME = 300 * 1000;
+const _2FA_EXPIRY_TIME = 60 * 1000;
 
 async function register(data: z.infer<typeof registerSchema>): Promise<User> {
   const password = await hashAndSaltPassword(data.password);
@@ -52,7 +53,7 @@ async function generate2FAToken(user: User): Promise<Token> {
   return await authRepo.createToken({
     userId: user.id,
     type: 'TWO_FACTOR',
-    expiresAt: new Date(new Date().getTime() + TOKEN_EXPIRY_TIME),
+    expiresAt: new Date(new Date().getTime() + _2FA_EXPIRY_TIME),
     token: code,
   });
 }
