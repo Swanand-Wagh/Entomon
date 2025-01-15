@@ -21,16 +21,19 @@ export type Comment = {
   author: string;
   content: string;
   createdAt: Date;
+  userId: string;
 };
 
 export const Comments = ({
+  userId,
   comments,
-  isAuthenticated,
   blogSlug,
+  isAuthenticated,
 }: {
+  userId: string | null;
+  blogSlug: string;
   comments: Comment[];
   isAuthenticated: boolean;
-  blogSlug: string;
 }) => {
   const [showMore, setShowMore] = useState(false);
   const { execute } = useAction(createBlogComment);
@@ -71,7 +74,7 @@ export const Comments = ({
                   <span className="text-sm text-gray-500">{format(comment.createdAt, 'PPP')}</span>
                 </div>
 
-                <DeleteCommentButton comment={comment} />
+                {comment.userId === userId && <DeleteCommentButton comment={comment} />}
               </div>
 
               <p className="mt-1">{comment.content}</p>

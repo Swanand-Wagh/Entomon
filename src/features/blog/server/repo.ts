@@ -110,7 +110,7 @@ async function getBlogCommentById(blogCommentId: string): Promise<BlogComment | 
   });
 }
 
-type CommentSpecificFields = { id: string; content: string; createdAt: Date; author: string };
+type CommentSpecificFields = { id: string; content: string; createdAt: Date; author: string; userId: string };
 async function getAllBlogComments(blogId: string): Promise<CommentSpecificFields[]> {
   const comments = await prisma.blogComment.findMany({
     where: {
@@ -130,6 +130,7 @@ async function getAllBlogComments(blogId: string): Promise<CommentSpecificFields
     content: comment.content,
     createdAt: comment.createdAt,
     author: comment.author.name,
+    userId: comment.userId,
   }));
 }
 

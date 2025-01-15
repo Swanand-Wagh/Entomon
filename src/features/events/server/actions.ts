@@ -3,6 +3,7 @@
 import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
 import { eventService } from './service';
+import { ErrorResponse } from '@/types/errors';
 import { actionClient, authActionClient } from '@/lib/action-clients';
 import { createEventSchema, updateEventSchema } from '../schema/event';
 
@@ -26,6 +27,11 @@ export const createEvent = authActionClient
   })
   .schema(createEventSchema)
   .action(async (data) => {
+    let startDate = new Date(data.parsedInput.startDate).getDate();
+    let endDate = new Date(data.parsedInput.endDate).getDate();
+    if (startDate > endDate) {
+      throw new ErrorResponse('Start date must be before or same as end date');
+    }
     await eventService.createEvent(data.parsedInput);
     revalidatePath('/admin/events');
     return { success: 'Event created successfully' };
@@ -37,6 +43,11 @@ export const updateEvent = authActionClient
   })
   .schema(updateEventSchema)
   .action(async (data) => {
+    let startDate = new Date(data.parsedInput.startDate).getDate();
+    let endDate = new Date(data.parsedInput.endDate).getDate();
+    if (startDate > endDate) {
+      throw new ErrorResponse('Start date must be before or same as end date');
+    }
     await eventService.updateEvent(data.parsedInput.id, data.parsedInput);
     revalidatePath('/admin/events');
     return { success: 'Event updated successfully' };
