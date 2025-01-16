@@ -7,10 +7,10 @@ async function getAllEvents(): Promise<Event[]> {
   return await prisma.event.findMany();
 }
 
-async function getEventById(id: string): Promise<Event | null> {
+async function getEventBySlug(slug: string): Promise<Event | null> {
   return await prisma.event.findUnique({
     where: {
-      id,
+      slug,
     },
   });
 }
@@ -38,21 +38,21 @@ async function deleteEvent(id: string): Promise<Event> {
   });
 }
 
-async function getAllEventIDs(): Promise<string[]> {
+async function getAllEventSlugs(): Promise<string[]> {
   const eventIDs = await prisma.event.findMany({
     select: {
-      id: true,
+      slug: true,
     },
   });
 
-  return eventIDs.map((id) => id.id);
+  return eventIDs.map((event) => event.slug);
 }
 
 export const eventRepo = {
   getAllEvents,
-  getEventById,
   createEvent,
   updateEvent,
   deleteEvent,
-  getAllEventIDs,
+  getEventBySlug,
+  getAllEventSlugs,
 };

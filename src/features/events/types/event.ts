@@ -3,6 +3,7 @@ import { UseFormReturn, FieldValues } from 'react-hook-form';
 
 export type EventDataType = {
   id: string;
+  slug: string;
   title: string;
   description: string;
   startDate: Date;

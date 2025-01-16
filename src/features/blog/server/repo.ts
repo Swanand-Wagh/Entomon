@@ -1,10 +1,7 @@
 import 'server-only';
+
 import { prisma } from '@/db/prisma';
 import { Blog, BlogComment, Prisma } from '@prisma/client';
-
-async function getAllBlogs(): Promise<Blog[]> {
-  return await prisma.blog.findMany();
-}
 
 async function getBlogBySlug(slug: string): Promise<Blog | null> {
   return await prisma.blog.findUnique({
@@ -24,7 +21,7 @@ async function getAllBlogSlugs(): Promise<string[]> {
   return slugs.map((slug) => slug.slug);
 }
 
-async function getBlogDataById(blogId: string) {
+async function getBlogWithoutContentById(blogId: string) {
   return await prisma.blog.findUnique({
     where: {
       id: blogId,
@@ -41,12 +38,11 @@ async function getBlogDataById(blogId: string) {
   });
 }
 
-type BlogSpecificFields = Pick<
+export type BlogsWithoutContent = Pick<
   Blog,
   'userId' | 'title' | 'slug' | 'categories' | 'isPaid' | 'author' | 'createdAt' | 'updatedAt' | 'coverImage'
 >;
-
-async function selectFromAllBlogs(): Promise<BlogSpecificFields[]> {
+async function getBlogsWithoutContent(): Promise<BlogsWithoutContent[]> {
   return await prisma.blog.findMany({
     select: {
       userId: true,
@@ -62,7 +58,7 @@ async function selectFromAllBlogs(): Promise<BlogSpecificFields[]> {
   });
 }
 
-async function selectFromAllBlogsByUser(userId: string): Promise<BlogSpecificFields[]> {
+async function getBlogsByUserWithoutContent(userId: string): Promise<BlogsWithoutContent[]> {
   return await prisma.blog.findMany({
     where: {
       userId,
@@ -110,8 +106,8 @@ async function getBlogCommentById(blogCommentId: string): Promise<BlogComment | 
   });
 }
 
-type CommentSpecificFields = { id: string; content: string; createdAt: Date; author: string; userId: string };
-async function getAllBlogComments(blogId: string): Promise<CommentSpecificFields[]> {
+export type CommentsWithAuthor = { id: string; content: string; createdAt: Date; author: string; userId: string };
+async function getAllBlogComments(blogId: string): Promise<CommentsWithAuthor[]> {
   const comments = await prisma.blogComment.findMany({
     where: {
       blogId,
@@ -151,12 +147,11 @@ async function deleteBlogComment(blogCommentId: string): Promise<BlogComment> {
 }
 
 export const blogRepo = {
-  getAllBlogs,
   getBlogBySlug,
   getAllBlogSlugs,
-  selectFromAllBlogs,
-  getBlogDataById,
-  selectFromAllBlogsByUser,
+  getBlogsWithoutContent,
+  getBlogWithoutContentById,
+  getBlogsByUserWithoutContent,
   createBlog,
   updateBlog,
   deleteBlog,

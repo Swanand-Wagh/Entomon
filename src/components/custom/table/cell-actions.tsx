@@ -48,7 +48,7 @@ const EventDeleteAction = ({ row }: { row: Row<EventDataType> }) => {
 
   const handleDelete = () => {
     setDialogOpen(false);
-    execute({ id: row.original.id });
+    execute({ slug: row.original.slug });
   };
 
   return (
@@ -83,7 +83,7 @@ const BlogEditAction = ({ row }: { row: Row<AdminBlogsColumns> }) => {
 
 const EventEditAction = ({ row }: { row: Row<EventDataType> }) => {
   return (
-    <Link href={`/admin/events/edit/${encodeURIComponent(row.original.id)}`}>
+    <Link href={`/admin/events/edit/${encodeURIComponent(row.original.slug)}`}>
       <Icon name="edit" className="h-5 w-5 cursor-pointer" />
     </Link>
   );

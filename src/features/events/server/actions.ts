@@ -11,14 +11,14 @@ export const getEvents = actionClient.action(async () => {
   return await eventService.getEvents();
 });
 
-export const getEventById = actionClient
+export const getEventBySlug = actionClient
   .schema(
     z.object({
-      id: z.string(),
+      slug: z.string(),
     })
   )
   .action(async (data) => {
-    return await eventService.getEventById(data.parsedInput.id);
+    return await eventService.getEventBySlug(data.parsedInput.slug);
   });
 
 export const createEvent = authActionClient
@@ -29,9 +29,8 @@ export const createEvent = authActionClient
   .action(async (data) => {
     let startDate = new Date(data.parsedInput.startDate).getDate();
     let endDate = new Date(data.parsedInput.endDate).getDate();
-    if (startDate > endDate) {
-      throw new ErrorResponse('Start date must be before or same as end date');
-    }
+    if (startDate > endDate) throw new ErrorResponse('Start date must be before or same as end date');
+
     await eventService.createEvent(data.parsedInput);
     revalidatePath('/admin/events');
     return { success: 'Event created successfully' };
@@ -45,10 +44,9 @@ export const updateEvent = authActionClient
   .action(async (data) => {
     let startDate = new Date(data.parsedInput.startDate).getDate();
     let endDate = new Date(data.parsedInput.endDate).getDate();
-    if (startDate > endDate) {
-      throw new ErrorResponse('Start date must be before or same as end date');
-    }
-    await eventService.updateEvent(data.parsedInput.id, data.parsedInput);
+    if (startDate > endDate) throw new ErrorResponse('Start date must be before or same as end date');
+
+    await eventService.updateEvent(data.parsedInput.slug, data.parsedInput);
     revalidatePath('/admin/events');
     return { success: 'Event updated successfully' };
   });
@@ -59,11 +57,11 @@ export const deleteEvent = authActionClient
   })
   .schema(
     z.object({
-      id: z.string(),
+      slug: z.string(),
     })
   )
   .action(async (data) => {
-    await eventService.deleteEvent(data.parsedInput.id);
+    await eventService.deleteEvent(data.parsedInput.slug);
     revalidatePath('/admin/events');
     return { success: 'Event deleted successfully' };
   });

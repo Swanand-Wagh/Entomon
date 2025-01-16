@@ -1,22 +1,22 @@
 'use server';
 
-import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
 import { blogService } from './service';
-import { blogSchema, updateBlogSchema, createCommentSchema } from '../schema/blog';
+import { revalidatePath } from 'next/cache';
 import { actionClient, authActionClient } from '@/lib/action-clients';
+import { blogSchema, updateBlogSchema, createCommentSchema } from '../schema/blog';
 
-export const getAllBlogsData = actionClient.action(async () => {
-  return await blogService.getAllBlogsData();
+export const getBlogsWithoutContent = actionClient.action(async () => {
+  return await blogService.getBlogsWithoutContent();
 });
 
-export const getAllBlogsDataByUser = authActionClient
+export const getBlogsByUserWithoutContent = authActionClient
   .metadata({
     roleGate: 'USER',
   })
   .action(async (data) => {
     let sessionUser = data.ctx.session.user;
-    return await blogService.getAllBlogsDataByUser(sessionUser.id);
+    return await blogService.getBlogsByUserWithoutContent(sessionUser.id);
   });
 
 export const getBlogBySlug = actionClient

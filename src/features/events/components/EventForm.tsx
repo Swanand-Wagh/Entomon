@@ -65,6 +65,30 @@ export const EventForm = ({
               />
 
               <FormField
+                name="slug"
+                control={form.control}
+                render={({ field, fieldState }) => (
+                  <FormItem>
+                    <FormControl className="rounded-md border-gray-300">
+                      <Input
+                        {...field}
+                        type="text"
+                        disabled={isPending}
+                        placeholder="Slug"
+                        onChange={(e) => {
+                          field.onChange(e.target.value.replace(/\s+/g, '-').toLowerCase());
+                        }}
+                        onBlur={(e) => {
+                          form.setValue('slug', e.target.value.trim().replace(/^-+|-+$/g, ''));
+                        }}
+                        className={fieldState.invalid ? 'border-red-500' : ''}
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+
+              <FormField
                 name="price"
                 control={form.control}
                 render={({ field, fieldState }) => (

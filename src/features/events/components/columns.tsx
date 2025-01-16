@@ -14,7 +14,7 @@ export const AdminEventsColumns: ColumnDef<EventDataType>[] = [
     enableHiding: true,
     enableSorting: true,
     header: ({ column }) => <SortColumnButton column={column} label="Title" />,
-    cell: ({ row }) => <SlugLink route="events" value={row.getValue('title')} slug={row.original.id} />,
+    cell: ({ row }) => <SlugLink route="events" value={row.getValue('title')} slug={row.original.slug} />,
   },
   {
     accessorKey: 'location',
