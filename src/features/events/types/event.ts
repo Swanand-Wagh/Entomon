@@ -13,8 +13,8 @@ export type EventDataType = {
   price: string;
   categories: string[];
   status: 'UPCOMING' | 'COMPLETED' | 'CANCELLED';
-  createdAt: string;
-  updatedAt: string;
+  createdAt: Date;
+  updatedAt: Date;
 };
 
 export type EventFormProps<TFormValues extends FieldValues> = {

@@ -8,13 +8,13 @@ import { Icon } from '@/constants/icons';
 import { Row } from '@tanstack/react-table';
 import { CustomModal } from '../CustomModal';
 import { useAction } from 'next-safe-action/hooks';
-import { EventDataType } from '@/features/events/types/event';
 import { deleteEvent } from '@/features/events/server/actions';
 import { deleteBlogAdmin } from '@/features/blog/server/actions';
-import { AdminBlogsColumns } from '@/features/blog/components/columns';
+import { BlogTableColumnsType } from '@/features/blog/components/columns';
 import { AdminCoursesColumns } from '@/features/courses/components/columns';
+import { EventTableColumnsType } from '@/features/events/components/columns';
 
-const BlogDeleteAction = ({ row }: { row: Row<AdminBlogsColumns> }) => {
+const BlogDeleteAction = ({ row }: { row: Row<BlogTableColumnsType> }) => {
   const [isDialogOpen, setDialogOpen] = useState(false);
   const { execute } = useAction(deleteBlogAdmin);
 
@@ -42,7 +42,7 @@ const BlogDeleteAction = ({ row }: { row: Row<AdminBlogsColumns> }) => {
   );
 };
 
-const EventDeleteAction = ({ row }: { row: Row<EventDataType> }) => {
+const EventDeleteAction = ({ row }: { row: Row<EventTableColumnsType> }) => {
   const [isDialogOpen, setDialogOpen] = useState(false);
   const { execute } = useAction(deleteEvent);
 
@@ -70,7 +70,7 @@ const EventDeleteAction = ({ row }: { row: Row<EventDataType> }) => {
   );
 };
 
-const BlogEditAction = ({ row }: { row: Row<AdminBlogsColumns> }) => {
+const BlogEditAction = ({ row }: { row: Row<BlogTableColumnsType> }) => {
   const session = useSession();
   if (row.original.userId === session.data?.user.id)
     return (
@@ -81,7 +81,7 @@ const BlogEditAction = ({ row }: { row: Row<AdminBlogsColumns> }) => {
   return null;
 };
 
-const EventEditAction = ({ row }: { row: Row<EventDataType> }) => {
+const EventEditAction = ({ row }: { row: Row<EventTableColumnsType> }) => {
   return (
     <Link href={`/admin/events/edit/${encodeURIComponent(row.original.slug)}`}>
       <Icon name="edit" className="h-5 w-5 cursor-pointer" />
@@ -98,7 +98,7 @@ const ACTION_COMPONENTS = {
 
 type ActionsCellProps = {
   actions: ('deleteBlog' | 'editBlog' | 'deleteEvent' | 'editEvent')[];
-  row: Row<AdminBlogsColumns> | Row<AdminCoursesColumns> | Row<EventDataType>;
+  row: Row<BlogTableColumnsType> | Row<AdminCoursesColumns> | Row<EventTableColumnsType>;
 };
 
 export const ActionsCell = ({ actions, row }: ActionsCellProps) => {

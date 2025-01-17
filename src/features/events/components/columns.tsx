@@ -1,14 +1,23 @@
 'use client';
 
 import { format } from 'date-fns';
-import { EventDataType } from '../types/event';
 import { ColumnDef } from '@tanstack/react-table';
 import { SortColumnButton } from '@/components/custom/table';
 import { SlugLink } from '@/components/custom/table/slug-link';
 import { SingleBadge } from '@/components/custom/table/cell-badge';
 import { ActionsCell } from '@/components/custom/table/cell-actions';
 
-export const AdminEventsColumns: ColumnDef<EventDataType>[] = [
+export type EventTableColumnsType = {
+  title: string;
+  location: string;
+  slug: string;
+  startDate: Date;
+  endDate: Date;
+  status: string;
+  price: string;
+};
+
+export const EventTableColumns: ColumnDef<EventTableColumnsType>[] = [
   {
     accessorKey: 'title',
     enableHiding: true,

@@ -16,14 +16,9 @@ export async function generateStaticParams() {
 
 const ViewEventPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
   const slug = (await params).slug;
-  const result = await getEventBySlug({ slug });
-  const event = {
-    ...result?.data,
-    createdAt: result?.data?.createdAt.toISOString(),
-    updatedAt: result?.data?.updatedAt.toISOString(),
-  } as EventDataType;
+  const event = await getEventBySlug({ slug });
 
-  if (!event) {
+  if (!event?.data) {
     // redirect to 404 page
     return;
   }
@@ -31,7 +26,7 @@ const ViewEventPage = async ({ params }: { params: Promise<{ slug: string }> }) 
   return (
     <>
       <Suspense fallback={<Loading />}>
-        <SingleEvent data={event} />
+        <SingleEvent data={event.data} />
       </Suspense>
     </>
   );
