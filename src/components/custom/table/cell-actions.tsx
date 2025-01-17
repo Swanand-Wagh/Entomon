@@ -9,10 +9,10 @@ import { Row } from '@tanstack/react-table';
 import { CustomModal } from '../CustomModal';
 import { useAction } from 'next-safe-action/hooks';
 import { deleteBlogAdmin } from '@/features/blog/server/actions';
-import { deleteEvent, markEventAsCompleted, updateEvent } from '@/features/events/server/actions';
 import { BlogTableColumnsType } from '@/features/blog/components/columns';
 import { AdminCoursesColumns } from '@/features/courses/components/columns';
 import { EventTableColumnsType } from '@/features/events/components/columns';
+import { deleteEvent, markEventAsCompleted } from '@/features/events/server/actions';
 
 const BlogDeleteAction = ({ row }: { row: Row<BlogTableColumnsType> }) => {
   const [isDialogOpen, setDialogOpen] = useState(false);

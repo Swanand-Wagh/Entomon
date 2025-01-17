@@ -60,7 +60,7 @@ export const updateEvent = authActionClient
     let endDate = new Date(data.parsedInput.endDate).getDate();
     if (startDate > endDate) throw new ErrorResponse('Start date must be before or same as end date');
 
-    await eventService.updateEvent(data.parsedInput.slug, data.parsedInput);
+    await eventService.updateEvent(data.parsedInput);
     revalidatePath('/admin/events');
     return { success: 'Event updated successfully' };
   });

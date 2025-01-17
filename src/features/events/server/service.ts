@@ -34,8 +34,8 @@ async function createEvent(data: CreateEvent): Promise<Event> {
 }
 
 // admin can update an event
-async function updateEvent(slug: string, data: UpdateEvent): Promise<Event> {
-  let event = await eventRepo.getEventBySlug(slug);
+async function updateEvent(data: UpdateEvent): Promise<Event> {
+  let event = await eventRepo.getEventBySlug(data.slug);
   if (!event) throw new ErrorResponse('Event not found');
 
   return await eventRepo.updateEvent(data.id, {
