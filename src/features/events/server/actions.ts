@@ -80,3 +80,19 @@ export const deleteEvent = authActionClient
     revalidatePath('/admin/events');
     return { success: 'Event deleted successfully' };
   });
+
+// mark event as COMPLETED
+export const markEventAsCompleted = authActionClient
+  .metadata({
+    roleGate: 'ADMIN',
+  })
+  .schema(
+    z.object({
+      slug: z.string(),
+    })
+  )
+  .action(async (data) => {
+    await eventService.markEventAsCompleted(data.parsedInput.slug);
+    revalidatePath('/admin/events/[slug]');
+    return { success: 'Event Marked as Completed!' };
+  });

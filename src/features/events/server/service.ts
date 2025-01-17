@@ -59,6 +59,25 @@ async function deleteEvent(slug: string): Promise<Event> {
   return await eventRepo.deleteEvent(event.id);
 }
 
+// mark event as COMPLETED
+async function markEventAsCompleted(slug: string): Promise<Event> {
+  let event = await eventRepo.getEventBySlug(slug);
+  if (!event) throw new ErrorResponse('Event not found');
+
+  return await eventRepo.updateEvent(event.id, {
+    title: event.title,
+    coverImage: event.coverImage,
+    description: event.description,
+    slug: event.slug,
+    price: event.price,
+    categories: event.categories,
+    location: event.location,
+    startDate: event.startDate,
+    endDate: event.endDate,
+    status: 'COMPLETED',
+  });
+}
+
 export const eventService = {
   getEvents,
   createEvent,
@@ -67,4 +86,5 @@ export const eventService = {
   getEventBySlug,
   getUpcomingEvents,
   getCompletedEvents,
+  markEventAsCompleted,
 };

@@ -8,8 +8,8 @@ import { Icon } from '@/constants/icons';
 import { Row } from '@tanstack/react-table';
 import { CustomModal } from '../CustomModal';
 import { useAction } from 'next-safe-action/hooks';
-import { deleteEvent } from '@/features/events/server/actions';
 import { deleteBlogAdmin } from '@/features/blog/server/actions';
+import { deleteEvent, markEventAsCompleted, updateEvent } from '@/features/events/server/actions';
 import { BlogTableColumnsType } from '@/features/blog/components/columns';
 import { AdminCoursesColumns } from '@/features/courses/components/columns';
 import { EventTableColumnsType } from '@/features/events/components/columns';
@@ -89,15 +89,56 @@ const EventEditAction = ({ row }: { row: Row<EventTableColumnsType> }) => {
   );
 };
 
+const EventStatusChangeAction = ({ row }: { row: Row<EventTableColumnsType> }) => {
+  const [isDialogOpen, setDialogOpen] = useState(false);
+  const { execute } = useAction(markEventAsCompleted);
+
+  const handleStatusChange = () => {
+    if (row.original.status === 'UPCOMING') {
+      setDialogOpen(false);
+      execute({ slug: row.original.slug });
+    }
+    return;
+  };
+
+  return (
+    <>
+      <span
+        onClick={() => {
+          if (row.original.status === 'UPCOMING') setDialogOpen(true);
+        }}
+      >
+        <Icon
+          name="check"
+          className={`h-5 w-5 cursor-pointer ${
+            row.original.status === 'COMPLETED' ? 'cursor-not-allowed text-green-500' : 'text-yellow-500'
+          }`}
+        />
+      </span>
+      <CustomModal
+        open={isDialogOpen}
+        onConfirm={handleStatusChange}
+        onOpenChange={setDialogOpen}
+        confirmButtonVariant="default"
+        title="Mark Completed?"
+        confirmButtonLabel="Sure"
+        cancelButtonLabel="Cancel"
+        description="Are you sure you want to mark event as completed? This action cannot be undone!"
+      />
+    </>
+  );
+};
+
 const ACTION_COMPONENTS = {
   deleteBlog: BlogDeleteAction,
   editBlog: BlogEditAction,
   deleteEvent: EventDeleteAction,
   editEvent: EventEditAction,
+  changeEventStatus: EventStatusChangeAction,
 };
 
 type ActionsCellProps = {
-  actions: ('deleteBlog' | 'editBlog' | 'deleteEvent' | 'editEvent')[];
+  actions: ('deleteBlog' | 'editBlog' | 'deleteEvent' | 'editEvent' | 'changeEventStatus')[];
   row: Row<BlogTableColumnsType> | Row<AdminCoursesColumns> | Row<EventTableColumnsType>;
 };
 
