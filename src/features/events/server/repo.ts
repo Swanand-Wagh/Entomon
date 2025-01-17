@@ -46,6 +46,15 @@ async function getEventBySlug(slug: string): Promise<Event | null> {
   });
 }
 
+// returns a single event object based on ID
+async function getEventById(id: string): Promise<Event | null> {
+  return await prisma.event.findUnique({
+    where: {
+      id,
+    },
+  });
+}
+
 // create event operation
 async function createEvent(data: Prisma.EventCreateInput): Promise<Event> {
   return await prisma.event.create({
@@ -77,6 +86,7 @@ export const eventRepo = {
   createEvent,
   updateEvent,
   deleteEvent,
+  getEventById,
   getEventBySlug,
   getAllEventSlugs,
   getUpcomingEvents,

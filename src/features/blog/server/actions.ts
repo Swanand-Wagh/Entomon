@@ -41,7 +41,6 @@ export const createBlog = authActionClient
   .action(async (data) => {
     let sessionUser = data.ctx.session.user;
     await blogService.createBlog(sessionUser.id, data.parsedInput);
-    revalidatePath('/admin/blogs');
     return { success: 'Blog created successfully' };
   });
 
@@ -54,7 +53,6 @@ export const updateBlog = authActionClient
   .action(async (data) => {
     let sessionUser = data.ctx.session.user;
     await blogService.updateBlog(sessionUser.id, data.parsedInput);
-    revalidatePath('/admin/blogs');
     return { success: 'Blog updated successfully' };
   });
 

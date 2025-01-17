@@ -41,7 +41,7 @@ export const BlogForm = ({
           onSubmit={(e) => {
             e.preventDefault();
             form.setValue('content', editor?.getHTML() || '');
-            if (!isEditing) form.setValue('slug', generateSlug(form.getValues('title')));
+            form.setValue('slug', generateSlug(form.getValues('title')));
             form.handleSubmit(onSubmit)();
           }}
           className="flex h-screen w-full flex-col items-center gap-3 overflow-hidden"

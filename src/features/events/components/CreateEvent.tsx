@@ -95,9 +95,7 @@ export const CreateEvent = () => {
   };
 
   if (!isPending && hasSucceeded) {
-    setTimeout(() => {
-      router.push('/admin/events');
-    }, 500);
+    router.push('/admin/events');
   }
 
   const handleContainerClick = () => fileInputRef.current?.click();

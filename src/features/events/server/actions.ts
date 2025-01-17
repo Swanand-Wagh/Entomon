@@ -45,7 +45,6 @@ export const createEvent = authActionClient
     if (startDate > endDate) throw new ErrorResponse('Start date must be before or same as end date');
 
     await eventService.createEvent(data.parsedInput);
-    revalidatePath('/admin/events');
     return { success: 'Event created successfully' };
   });
 
@@ -61,7 +60,6 @@ export const updateEvent = authActionClient
     if (startDate > endDate) throw new ErrorResponse('Start date must be before or same as end date');
 
     await eventService.updateEvent(data.parsedInput);
-    revalidatePath('/admin/events');
     return { success: 'Event updated successfully' };
   });
 

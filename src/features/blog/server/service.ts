@@ -37,7 +37,7 @@ async function createBlog(userId: string, data: BlogFormType): Promise<Blog> {
 
 // user can update only their own blog
 async function updateBlog(userId: string, data: UpdateBlogType): Promise<Blog> {
-  let blog = await blogRepo.getBlogWithoutContentBySlug(data.slug);
+  let blog = await blogRepo.getBlogById(data.id);
   if (!blog) throw new ErrorResponse('Blog not found');
   if (blog.userId !== userId) throw new ErrorResponse('You are not authorized to update this blog');
 

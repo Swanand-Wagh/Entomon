@@ -1,8 +1,8 @@
 import React, { Suspense } from 'react';
 
+import { notFound } from 'next/navigation';
 import { Loading } from '@/components/custom';
 import { eventRepo } from '@/features/events/server/repo';
-import { EventDataType } from '@/features/events/types/event';
 import { getEventBySlug } from '@/features/events/server/actions';
 import { SingleEvent } from '@/features/events/components/SingleEvent';
 
@@ -19,8 +19,7 @@ const ViewEventPage = async ({ params }: { params: Promise<{ slug: string }> }) 
   const event = await getEventBySlug({ slug });
 
   if (!event?.data) {
-    // redirect to 404 page
-    return;
+    return notFound();
   }
 
   return (

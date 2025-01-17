@@ -34,7 +34,7 @@ export const EventForm = ({
           onSubmit={(e) => {
             e.preventDefault();
             form.setValue('description', editor?.getHTML() || '');
-            if (!isEditing) form.setValue('slug', generateSlug(form.getValues('title')));
+            form.setValue('slug', generateSlug(form.getValues('title')));
             form.handleSubmit(onSubmit)();
           }}
           className="flex h-screen w-full flex-col items-center gap-3 overflow-hidden"
