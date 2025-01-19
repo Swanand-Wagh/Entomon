@@ -35,8 +35,8 @@ export const EventList = ({ events }: EventListProps) => {
             <div className="mb-2 flex items-center text-sm text-gray-500">
               <CalendarIcon className="mr-2 h-4 w-4" />
               {event.startDate === event.endDate
-                ? format(event.startDate, 'PPP')
-                : `${format(event.startDate, 'PPP')} - ${format(event.endDate, 'PPP')}`}
+                ? format(event.startDate, 'dd MMM yyyy')
+                : `${format(event.startDate, 'dd MMM yyyy')} - ${format(event.endDate, 'dd MMM yyyy')}`}
             </div>
             <div className="mb-2 flex items-center text-sm text-gray-500">
               <MapPinIcon className="mr-2 h-4 w-4" />

@@ -73,7 +73,7 @@ export const Comments = ({
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-2">
                   <h3 className="font-semibold">{comment.author}</h3>
-                  <span className="text-sm text-gray-500">{format(comment.createdAt, 'PPP')}</span>
+                  <span className="text-sm text-gray-500">{format(comment.createdAt, 'dd MMM yyyy')}</span>
                 </div>
 
                 {(comment.userId === userId || role === 'ADMIN') && (

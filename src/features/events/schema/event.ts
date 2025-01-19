@@ -29,7 +29,8 @@ const updateEventSchema = z.object({
   price: z
     .string()
     .min(1)
-    .regex(/^\d+(\.\d{1,2})?$/, 'Invalid price format').optional(),
+    .regex(/^\d+(\.\d{1,2})?$/, 'Invalid price format')
+    .optional(),
   location: z.string().min(1, 'Location is required').optional(),
   startDate: z.date().optional(),
   endDate: z.date().optional(),
@@ -45,8 +46,24 @@ const eventRegistrationSchema = z.object({
   }),
 });
 
+const eventUnregistrationSchema = z.object({
+  eventSlug: z.string().min(1, { message: 'Event slug is required.' }),
+  phone: z
+    .string()
+    .refine((val) => phoneRegex.test(val), {
+      message: 'Invalid phone number.',
+    })
+    .optional(),
+});
+
 type CreateEvent = z.infer<typeof createEventSchema>;
 type UpdateEvent = z.infer<typeof updateEventSchema>;
 
-export { getEventByStatusSchema, createEventSchema, updateEventSchema, eventRegistrationSchema };
+export {
+  getEventByStatusSchema,
+  createEventSchema,
+  updateEventSchema,
+  eventRegistrationSchema,
+  eventUnregistrationSchema,
+};
 export type { CreateEvent, UpdateEvent };

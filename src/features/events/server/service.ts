@@ -85,6 +85,10 @@ async function getEventRegistrationsByEventId(slug: string): Promise<EventRegist
   return await eventRepo.getEventRegistrationsByEventId(event.id);
 }
 
+async function getEventRegistrationByUserId(userId: string): Promise<EventRegistration[]> {
+  return await eventRepo.getEventRegistrationByUserId(userId);
+}
+
 async function deleteEventRegistration(slug: string, userId: string): Promise<EventRegistration> {
   let event = await eventRepo.getEventBySlug(slug);
   if (!event) {
@@ -102,5 +106,6 @@ export const eventService = {
   getEventsByStatus,
   registerUserForEvent,
   getEventRegistrationsByEventId,
+  getEventRegistrationByUserId,
   deleteEventRegistration,
 };

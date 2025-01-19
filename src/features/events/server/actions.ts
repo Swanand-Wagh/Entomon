@@ -66,6 +66,7 @@ export const registerUserForEvent = authActionClient
   .schema(eventRegistrationSchema)
   .action(async (data) => {
     await eventService.registerUserForEvent(data.ctx.session.user.id, data.parsedInput);
+    revalidatePath(`/events/${data.parsedInput.eventSlug}`);
     return { success: 'User registered successfully' };
   });
 
@@ -80,12 +81,13 @@ export const unregisterUserForEvent = authActionClient
   )
   .action(async (data) => {
     await eventService.deleteEventRegistration(data.parsedInput.slug, data.ctx.session.user.id);
+    revalidatePath(`/events/${data.parsedInput.slug}`);
     return { success: 'User unregistered successfully' };
   });
 
 export const getEventRegistrationsByEventId = authActionClient
   .metadata({
-    roleGate: 'USER',
+    roleGate: 'ADMIN',
   })
   .schema(
     z.object({
@@ -94,4 +96,17 @@ export const getEventRegistrationsByEventId = authActionClient
   )
   .action(async (data) => {
     return await eventService.getEventRegistrationsByEventId(data.parsedInput.slug);
+  });
+
+export const getEventRegistrationByUserId = authActionClient
+  .metadata({
+    roleGate: 'USER',
+  })
+  .schema(
+    z.object({
+      userId: z.string(),
+    })
+  )
+  .action(async (data) => {
+    return await eventService.getEventRegistrationByUserId(data.parsedInput.userId);
   });
