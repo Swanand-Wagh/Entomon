@@ -19,13 +19,14 @@ import CharacterCount from '@tiptap/extension-character-count';
 import { z } from 'zod';
 import { EventForm } from './EventForm';
 import { useForm } from 'react-hook-form';
+import { EventDataType } from '../types/event';
 import { updateEvent } from '../server/actions';
 import { convertFileToBase64 } from '@/lib/base64';
 import { useAction } from 'next-safe-action/hooks';
+import { createEventSchema } from '../schema/event';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { createEventSchema, UpdateEvent } from '../schema/event';
 
-export const EditEvent = ({ data }: { data: UpdateEvent }) => {
+export const EditEvent = ({ data }: { data: EventDataType }) => {
   const router = useRouter();
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);

@@ -1,28 +1,19 @@
 'use server';
 
-import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
 import { eventService } from './service';
-import { ErrorResponse } from '@/types/errors';
+import { revalidatePath } from 'next/cache';
 import { actionClient, authActionClient } from '@/lib/action-clients';
-import { createEventSchema, updateEventSchema } from '../schema/event';
+import { createEventSchema, eventRegistrationSchema, getEventByStatusSchema, updateEventSchema } from '../schema/event';
 
-// returns all events
 export const getEvents = actionClient.action(async () => {
   return await eventService.getEvents();
 });
 
-// returns all upcoming events
-export const getUpcomingEvents = actionClient.action(async () => {
-  return await eventService.getUpcomingEvents();
+export const getEventsByStatus = actionClient.schema(getEventByStatusSchema).action(async (data) => {
+  return await eventService.getEventsByStatus(data.parsedInput);
 });
 
-// returns all completed events
-export const getCompletedEvents = actionClient.action(async () => {
-  return await eventService.getCompletedEvents();
-});
-
-// returns a single event object based on slug
 export const getEventBySlug = actionClient
   .schema(
     z.object({
@@ -33,37 +24,26 @@ export const getEventBySlug = actionClient
     return await eventService.getEventBySlug(data.parsedInput.slug);
   });
 
-// admin can create an event
 export const createEvent = authActionClient
   .metadata({
     roleGate: 'ADMIN',
   })
   .schema(createEventSchema)
   .action(async (data) => {
-    let startDate = new Date(data.parsedInput.startDate).getDate();
-    let endDate = new Date(data.parsedInput.endDate).getDate();
-    if (startDate > endDate) throw new ErrorResponse('Start date must be before or same as end date');
-
     await eventService.createEvent(data.parsedInput);
     return { success: 'Event created successfully' };
   });
 
-// admin can update an event
 export const updateEvent = authActionClient
   .metadata({
     roleGate: 'ADMIN',
   })
   .schema(updateEventSchema)
   .action(async (data) => {
-    let startDate = new Date(data.parsedInput.startDate).getDate();
-    let endDate = new Date(data.parsedInput.endDate).getDate();
-    if (startDate > endDate) throw new ErrorResponse('Start date must be before or same as end date');
-
     await eventService.updateEvent(data.parsedInput);
     return { success: 'Event updated successfully' };
   });
 
-// admin can delete an event
 export const deleteEvent = authActionClient
   .metadata({
     roleGate: 'ADMIN',
@@ -79,10 +59,19 @@ export const deleteEvent = authActionClient
     return { success: 'Event deleted successfully' };
   });
 
-// mark event as COMPLETED
-export const markEventAsCompleted = authActionClient
+export const registerUserForEvent = authActionClient
   .metadata({
-    roleGate: 'ADMIN',
+    roleGate: 'USER',
+  })
+  .schema(eventRegistrationSchema)
+  .action(async (data) => {
+    await eventService.registerUserForEvent(data.ctx.session.user.id, data.parsedInput);
+    return { success: 'User registered successfully' };
+  });
+
+export const unregisterUserForEvent = authActionClient
+  .metadata({
+    roleGate: 'USER',
   })
   .schema(
     z.object({
@@ -90,7 +79,19 @@ export const markEventAsCompleted = authActionClient
     })
   )
   .action(async (data) => {
-    await eventService.markEventAsCompleted(data.parsedInput.slug);
-    revalidatePath('/admin/events/[slug]');
-    return { success: 'Event Marked as Completed!' };
+    await eventService.deleteEventRegistration(data.parsedInput.slug, data.ctx.session.user.id);
+    return { success: 'User unregistered successfully' };
+  });
+
+export const getEventRegistrationsByEventId = authActionClient
+  .metadata({
+    roleGate: 'USER',
+  })
+  .schema(
+    z.object({
+      slug: z.string(),
+    })
+  )
+  .action(async (data) => {
+    return await eventService.getEventRegistrationsByEventId(data.parsedInput.slug);
   });

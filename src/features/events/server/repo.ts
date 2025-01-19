@@ -1,9 +1,9 @@
 import 'server-only';
 
 import { prisma } from '@/db/prisma';
-import { Event, Prisma } from '@prisma/client';
+import { EventWithoutDescriptionType } from '../types/event';
+import { Event, EventRegistration, EventStatus, Prisma } from '@prisma/client';
 
-// returns all event slugs only (ISR)
 async function getAllEventSlugs(): Promise<string[]> {
   const eventIDs = await prisma.event.findMany({
     select: {
@@ -14,30 +14,47 @@ async function getAllEventSlugs(): Promise<string[]> {
   return eventIDs.map((event) => event.slug);
 }
 
-// returns all events
-async function getAllEvents(): Promise<Event[]> {
-  return await prisma.event.findMany();
-}
-
-// returns all UPCOMING events
-async function getUpcomingEvents(): Promise<Event[]> {
+async function getAllEvents(): Promise<EventWithoutDescriptionType[]> {
   return await prisma.event.findMany({
-    where: {
-      status: 'UPCOMING',
+    select: {
+      id: true,
+      title: true,
+      status: true,
+      slug: true,
+      location: true,
+      startDate: true,
+      endDate: true,
+      coverImage: true,
+      price: true,
+      categories: true,
+      createdAt: true,
+      updatedAt: true,
     },
   });
 }
 
-// returns all COMPLETED events
-async function getCompletedEvents(): Promise<Event[]> {
+async function getEventsByStatus(status: EventStatus): Promise<EventWithoutDescriptionType[]> {
   return await prisma.event.findMany({
     where: {
-      status: 'COMPLETED',
+      status,
+    },
+    select: {
+      id: true,
+      title: true,
+      status: true,
+      slug: true,
+      location: true,
+      startDate: true,
+      endDate: true,
+      coverImage: true,
+      price: true,
+      categories: true,
+      createdAt: true,
+      updatedAt: true,
     },
   });
 }
 
-// returns a single event object based on slug
 async function getEventBySlug(slug: string): Promise<Event | null> {
   return await prisma.event.findUnique({
     where: {
@@ -46,7 +63,6 @@ async function getEventBySlug(slug: string): Promise<Event | null> {
   });
 }
 
-// returns a single event object based on ID
 async function getEventById(id: string): Promise<Event | null> {
   return await prisma.event.findUnique({
     where: {
@@ -55,14 +71,12 @@ async function getEventById(id: string): Promise<Event | null> {
   });
 }
 
-// create event operation
 async function createEvent(data: Prisma.EventCreateInput): Promise<Event> {
   return await prisma.event.create({
     data,
   });
 }
 
-// update event operation
 async function updateEvent(id: string, data: Prisma.EventUpdateInput): Promise<Event> {
   return await prisma.event.update({
     where: {
@@ -72,11 +86,37 @@ async function updateEvent(id: string, data: Prisma.EventUpdateInput): Promise<E
   });
 }
 
-// delete event operation
 async function deleteEvent(id: string): Promise<Event> {
   return await prisma.event.delete({
     where: {
       id,
+    },
+  });
+}
+
+// -------------------------- Registration --------------------------
+
+async function registerUserForEvent(data: Prisma.EventRegistrationUncheckedCreateInput): Promise<EventRegistration> {
+  return await prisma.eventRegistration.create({
+    data,
+  });
+}
+
+async function getEventRegistrationsByEventId(eventId: string): Promise<EventRegistration[]> {
+  return await prisma.eventRegistration.findMany({
+    where: {
+      eventId,
+    },
+  });
+}
+
+async function deleteEventRegistration(eventId: string, userId: string): Promise<EventRegistration> {
+  return await prisma.eventRegistration.delete({
+    where: {
+      eventId_userId: {
+        eventId,
+        userId,
+      },
     },
   });
 }
@@ -89,6 +129,8 @@ export const eventRepo = {
   getEventById,
   getEventBySlug,
   getAllEventSlugs,
-  getUpcomingEvents,
-  getCompletedEvents,
+  getEventsByStatus,
+  registerUserForEvent,
+  getEventRegistrationsByEventId,
+  deleteEventRegistration,
 };

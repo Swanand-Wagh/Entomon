@@ -22,10 +22,11 @@ model User {
   isTwoFactorEnabled Boolean   @default(false)
   role               UserRole  @default(USER)
 
-  accounts       Account[]
-  comments       BlogComment[]
-  Payment        Payment[]
-  StripeCustomer StripeCustomer?
+  accounts          Account[]
+  comments          BlogComment[]
+  Payment           Payment[]
+  StripeCustomer    StripeCustomer?
+  EventRegistration EventRegistration[]
 }
 
 model Account {
@@ -113,51 +114,20 @@ model Event {
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
 
-  Payment Payment[]
+  Payment           Payment[]
+  EventRegistration EventRegistration[]
 }
 
-enum CourseStatus {
-  DRAFT
-  PUBLISHED
-  ARCHIVED
-}
+model EventRegistration {
+  id      String @id @default(auto()) @map("_id") @db.ObjectId
+  eventId String @db.ObjectId
+  userId  String @db.ObjectId
+  phone   String
 
-model Course {
-  id          String    @id @default(auto()) @map("_id") @db.ObjectId
-  title       String
-  slug        String    @unique
-  coverImage  String?
-  price       String
-  duration    String
-  description String
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  Chapter     Chapter[]
-}
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  event Event @relation(fields: [eventId], references: [id], onDelete: Cascade)
 
-model Chapter {
-  id          String       @id @default(auto()) @map("_id") @db.ObjectId
-  title       String
-  slug        String       @unique
-  description String
-  freePreview Boolean      @default(true)
-  video       String
-  courseId    String       @db.ObjectId
-  course      Course       @relation(fields: [courseId], references: [id], onDelete: Cascade)
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
-  attachments Attachment[]
-}
-
-model Attachment {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  name      String
-  size      Int
-  url       String
-  chapterId String   @db.ObjectId
-  chapter   Chapter  @relation(fields: [chapterId], references: [id], onDelete: Cascade)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  @@unique([eventId, userId])
 }
 
 model Payment {

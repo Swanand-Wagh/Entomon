@@ -8,6 +8,7 @@ import { SingleBadge } from '@/components/custom/table/cell-badge';
 import { ActionsCell } from '@/components/custom/table/cell-actions';
 
 export type EventTableColumnsType = {
+  id: string;
   title: string;
   location: string;
   slug: string;

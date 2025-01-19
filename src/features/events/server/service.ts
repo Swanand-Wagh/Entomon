@@ -1,26 +1,21 @@
 import 'server-only';
 
+import { z } from 'zod';
 import { eventRepo } from './repo';
-import { Event } from '@prisma/client';
+import { generateSlug } from '@/lib/slugify';
 import { ErrorResponse } from '@/types/errors';
-import { CreateEvent, UpdateEvent } from '../schema/event';
+import { Event, EventRegistration } from '@prisma/client';
+import { EventWithoutDescriptionType } from '../types/event';
+import { CreateEvent, eventRegistrationSchema, getEventByStatusSchema, UpdateEvent } from '../schema/event';
 
-// returns all events
-async function getEvents(): Promise<Event[]> {
+async function getEvents(): Promise<EventWithoutDescriptionType[]> {
   return await eventRepo.getAllEvents();
 }
 
-// returns all events
-async function getUpcomingEvents(): Promise<Event[]> {
-  return await eventRepo.getUpcomingEvents();
+async function getEventsByStatus(data: z.infer<typeof getEventByStatusSchema>): Promise<EventWithoutDescriptionType[]> {
+  return await eventRepo.getEventsByStatus(data.status);
 }
 
-// returns all events
-async function getCompletedEvents(): Promise<Event[]> {
-  return await eventRepo.getCompletedEvents();
-}
-
-// returns a single event object based on slug
 async function getEventBySlug(slug: string): Promise<Event | null> {
   let event = await eventRepo.getEventBySlug(slug);
   if (!event) throw new ErrorResponse('Event not found');
@@ -28,21 +23,30 @@ async function getEventBySlug(slug: string): Promise<Event | null> {
   return event;
 }
 
-// admin can create an event
 async function createEvent(data: CreateEvent): Promise<Event> {
-  return await eventRepo.createEvent(data);
+  let startDate = new Date(data.startDate).getDate();
+  let endDate = new Date(data.endDate).getDate();
+  if (startDate > endDate) throw new ErrorResponse('Start date must be before or same as end date');
+
+  let slug = generateSlug(data.title);
+  return await eventRepo.createEvent({ ...data, slug });
 }
 
-// admin can update an event
 async function updateEvent(data: UpdateEvent): Promise<Event> {
   let event = await eventRepo.getEventById(data.id);
   if (!event) throw new ErrorResponse('Event not found');
 
+  let startDate = data.startDate ? new Date(data.startDate).getDate() : event.startDate;
+  let endDate = data.endDate ? new Date(data.endDate).getDate() : event.endDate;
+  if (startDate > endDate) throw new ErrorResponse('Start date must be before or same as end date');
+
+  let slug = data.title ? generateSlug(data.title) : event.slug;
   return await eventRepo.updateEvent(data.id, {
     title: data.title,
     coverImage: data.coverImage,
     description: data.description,
-    slug: data.slug,
+    slug: slug,
+    status: data.status,
     price: data.price,
     categories: data.categories,
     location: data.location,
@@ -51,7 +55,6 @@ async function updateEvent(data: UpdateEvent): Promise<Event> {
   });
 }
 
-// admin can delete an event
 async function deleteEvent(slug: string): Promise<Event> {
   let event = await eventRepo.getEventBySlug(slug);
   if (!event) throw new ErrorResponse('Event not found');
@@ -59,23 +62,35 @@ async function deleteEvent(slug: string): Promise<Event> {
   return await eventRepo.deleteEvent(event.id);
 }
 
-// mark event as COMPLETED
-async function markEventAsCompleted(slug: string): Promise<Event> {
-  let event = await eventRepo.getEventBySlug(slug);
-  if (!event) throw new ErrorResponse('Event not found');
+// -------------------------- Registration --------------------------
 
-  return await eventRepo.updateEvent(event.id, {
-    title: event.title,
-    coverImage: event.coverImage,
-    description: event.description,
-    slug: event.slug,
-    price: event.price,
-    categories: event.categories,
-    location: event.location,
-    startDate: event.startDate,
-    endDate: event.endDate,
-    status: 'COMPLETED',
+async function registerUserForEvent(
+  userId: string,
+  data: z.infer<typeof eventRegistrationSchema>
+): Promise<EventRegistration> {
+  let event = await eventRepo.getEventBySlug(data.eventSlug);
+  if (!event) throw new ErrorResponse('Event not found');
+  return await eventRepo.registerUserForEvent({
+    eventId: event.id,
+    userId: userId,
+    phone: data.phone,
   });
+}
+
+async function getEventRegistrationsByEventId(slug: string): Promise<EventRegistration[]> {
+  let event = await eventRepo.getEventBySlug(slug);
+  if (!event) {
+    throw new ErrorResponse('Event not found');
+  }
+  return await eventRepo.getEventRegistrationsByEventId(event.id);
+}
+
+async function deleteEventRegistration(slug: string, userId: string): Promise<EventRegistration> {
+  let event = await eventRepo.getEventBySlug(slug);
+  if (!event) {
+    throw new ErrorResponse('Event not found');
+  }
+  return await eventRepo.deleteEventRegistration(event.id, userId);
 }
 
 export const eventService = {
@@ -84,7 +99,8 @@ export const eventService = {
   updateEvent,
   deleteEvent,
   getEventBySlug,
-  getUpcomingEvents,
-  getCompletedEvents,
-  markEventAsCompleted,
+  getEventsByStatus,
+  registerUserForEvent,
+  getEventRegistrationsByEventId,
+  deleteEventRegistration,
 };

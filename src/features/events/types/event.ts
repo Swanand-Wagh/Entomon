@@ -17,6 +17,21 @@ export type EventDataType = {
   updatedAt: Date;
 };
 
+export type EventWithoutDescriptionType = {
+  id: string;
+  slug: string;
+  title: string;
+  startDate: Date;
+  endDate: Date;
+  location: string;
+  coverImage: string;
+  price: string;
+  categories: string[];
+  status: 'UPCOMING' | 'COMPLETED' | 'CANCELLED';
+  createdAt: Date;
+  updatedAt: Date;
+};
+
 export type EventFormProps<TFormValues extends FieldValues> = {
   form: UseFormReturn<TFormValues>;
   onSubmit: (values: TFormValues) => void;

@@ -18,17 +18,20 @@ export type BlogFormProps<TFormValues extends FieldValues> = {
 };
 
 export type BlogDataType = {
-  slug: string;
+  id: string;
+  userId: string;
   title: string;
+  slug: string;
   coverImage: string;
   categories: string[];
-  isPaid: boolean;
   author: string;
+  isPaid: boolean;
   createdAt: Date;
   updatedAt: Date;
 };
 
 export type BlogDataWithContentType = {
+  id: string;
   title: string;
   slug: string;
   coverImage: string;
