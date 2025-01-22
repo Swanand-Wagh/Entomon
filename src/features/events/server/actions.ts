@@ -110,3 +110,16 @@ export const getEventRegistrationByUserId = authActionClient
   .action(async (data) => {
     return await eventService.getEventRegistrationByUserId(data.parsedInput.userId);
   });
+
+export const getEntireEventRegistrationByUserId = authActionClient
+  .metadata({
+    roleGate: 'USER',
+  })
+  .schema(
+    z.object({
+      userId: z.string(),
+    })
+  )
+  .action(async (data) => {
+    return await eventService.getEntireEventRegistrationByUserId(data.parsedInput.userId);
+  });

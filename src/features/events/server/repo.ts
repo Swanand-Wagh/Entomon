@@ -118,6 +118,49 @@ async function getEventRegistrationByUserId(userId: string): Promise<EventRegist
   });
 }
 
+export type EventDetails = {
+  id: string;
+  title: string;
+  slug: string;
+  location: string;
+  startDate: Date;
+  endDate: Date;
+  price: string;
+  status: EventStatus;
+};
+async function getEntireEventRegistrationByUserId(userId: string): Promise<EventDetails[]> {
+  const registrations = await prisma.eventRegistration.findMany({
+    where: {
+      userId,
+    },
+    include: {
+      event: {
+        select: {
+          id: true,
+          title: true,
+          slug: true,
+          location: true,
+          startDate: true,
+          endDate: true,
+          price: true,
+          status: true,
+        },
+      },
+    },
+  });
+
+  return registrations.map((registration) => ({
+    id: registration.event.id,
+    title: registration.event.title,
+    slug: registration.event.slug,
+    location: registration.event.location,
+    startDate: registration.event.startDate,
+    endDate: registration.event.endDate,
+    price: registration.event.price,
+    status: registration.event.status,
+  }));
+}
+
 async function deleteEventRegistration(eventId: string, userId: string): Promise<EventRegistration> {
   return await prisma.eventRegistration.delete({
     where: {
@@ -139,7 +182,8 @@ export const eventRepo = {
   getAllEventSlugs,
   getEventsByStatus,
   registerUserForEvent,
+  deleteEventRegistration,
   getEventRegistrationsByEventId,
   getEventRegistrationByUserId,
-  deleteEventRegistration,
+  getEntireEventRegistrationByUserId,
 };

@@ -1,7 +1,7 @@
 import 'server-only';
 
 import { z } from 'zod';
-import { eventRepo } from './repo';
+import { EventDetails, eventRepo } from './repo';
 import { generateSlug } from '@/lib/slugify';
 import { ErrorResponse } from '@/types/errors';
 import { Event, EventRegistration } from '@prisma/client';
@@ -89,6 +89,10 @@ async function getEventRegistrationByUserId(userId: string): Promise<EventRegist
   return await eventRepo.getEventRegistrationByUserId(userId);
 }
 
+async function getEntireEventRegistrationByUserId(userId: string): Promise<EventDetails[]> {
+  return await eventRepo.getEntireEventRegistrationByUserId(userId);
+}
+
 async function deleteEventRegistration(slug: string, userId: string): Promise<EventRegistration> {
   let event = await eventRepo.getEventBySlug(slug);
   if (!event) {
@@ -105,7 +109,8 @@ export const eventService = {
   getEventBySlug,
   getEventsByStatus,
   registerUserForEvent,
+  deleteEventRegistration,
   getEventRegistrationsByEventId,
   getEventRegistrationByUserId,
-  deleteEventRegistration,
+  getEntireEventRegistrationByUserId,
 };
