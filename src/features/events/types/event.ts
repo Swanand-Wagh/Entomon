@@ -36,7 +36,7 @@ export type EventFormProps<TFormValues extends FieldValues> = {
   form: UseFormReturn<TFormValues>;
   onSubmit: (values: TFormValues) => void;
   handleResetEvent: () => void;
-  handleCoverImageChange: (file: File) => void;
+  setCoverImagePreview: (base64CoverImage: string) => void;
   coverImagePreview: string | null;
   handleContainerClick: () => void;
   isPending: boolean;
