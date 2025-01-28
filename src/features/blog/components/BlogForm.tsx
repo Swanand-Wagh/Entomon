@@ -175,7 +175,7 @@ export const BlogForm = ({
 
             {/* Text Editor */}
             <div className="w-3/4">
-              <RichTextEditor editor={editor} />
+              <RichTextEditor editor={editor} error={form.formState.errors.content?.message || null} />
             </div>
           </div>
         </form>

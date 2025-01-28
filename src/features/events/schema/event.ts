@@ -8,7 +8,7 @@ const getEventByStatusSchema = z.object({
 const createEventSchema = z.object({
   title: z.string().min(1, 'Title is required'),
   coverImage: z.string().min(1, { message: 'Cover image is required.' }),
-  description: z.string(),
+  description: z.string().min(10, { message: 'Description is required.' }),
   price: z
     .string()
     .min(1)
@@ -25,7 +25,7 @@ const updateEventSchema = z.object({
   title: z.string().min(1, 'Title is required').optional(),
   coverImage: z.string().min(1, { message: 'Cover image is required.' }).optional(),
   categories: z.array(z.string().min(1, { message: 'Category must not be empty.' })).optional(),
-  description: z.string().optional(),
+  description: z.string().min(10, { message: 'Description is required.' }).optional(),
   price: z
     .string()
     .min(1)

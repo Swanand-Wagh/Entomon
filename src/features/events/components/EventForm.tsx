@@ -222,7 +222,7 @@ export const EventForm = ({
 
             {/* Text Editor */}
             <div className="w-3/4">
-              <RichTextEditor editor={editor} />
+              <RichTextEditor editor={editor} error={form.formState.errors.description?.message || null} />
             </div>
           </div>
         </form>
