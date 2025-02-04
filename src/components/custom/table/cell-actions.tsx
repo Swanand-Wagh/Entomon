@@ -75,7 +75,7 @@ const BlogEditAction = ({ row }: { row: Row<BlogTableColumnsType> }) => {
   const session = useSession();
   if (row.original.userId === session.data?.user.id)
     return (
-      <Link href={`/admin/blogs/edit/${encodeURIComponent(row.original.slug)}`}>
+      <Link href={`/${session.data.user.role.toLocaleLowerCase()}/blogs/edit/${encodeURIComponent(row.original.slug)}`}>
         <Icon name="edit" className="h-5 w-5 cursor-pointer" />
       </Link>
     );
