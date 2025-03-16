@@ -103,7 +103,7 @@ export const Comments = ({
               </div>
             </div>
             <div>
-              <DeleteCommentButton comment={comment} role={role} />
+              {(comment.userId === userId || role === 'ADMIN') && <DeleteCommentButton comment={comment} role={role} />}
             </div>
           </div>
         ))}
