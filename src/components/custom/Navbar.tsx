@@ -18,6 +18,16 @@ import { Sheet, SheetContent, SheetDescription, SheetTitle, SheetTrigger } from 
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { currentUser } from '@/lib/auth';
 import { DropdownNavItem } from './DropdownNavItem';
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+  navigationMenuTriggerStyle,
+} from '../ui/navigation-menu';
+import { ListItem } from './NavigationMenuListItem';
 
 const DropdownLink = ({ url, name, description }: NavbarOption) => (
   <Link
@@ -41,28 +51,32 @@ export const Navbar = async () => {
           <span className="text-lg font-semibold">Entomon Institute</span>
         </Link>
 
-        <nav className="hidden items-center gap-6 lg:flex">
-          {NAVBAR.map((item) => {
-            if (item.type === 'Link')
-              return (
-                <Link
-                  key={item.name}
-                  prefetch={false}
-                  href={item.url ?? ''}
-                  className="text-sm font-medium transition-colors hover:text-primary"
-                >
-                  {item.name}
-                </Link>
-              );
-            if (item.type === 'Dropdown') return <DropdownNavItem key={item.name} item={item} />;
-            if (item.type === 'Button') return <ButtonLink key={item.name} name={item.name} url={item.url ?? ''} />;
+        <NavigationMenu className="hidden items-center gap-6 lg:flex">
+          <NavigationMenuList className="flex items-center gap-6">
+            {NAVBAR.map((item) => {
+              if (item.type === 'Link')
+                return (
+                  <NavigationMenuItem key={crypto.randomUUID()}>
+                    <Link
+                      prefetch={false}
+                      href={item.url ?? ''}
+                      className="text-sm font-medium transition-colors hover:text-primary"
+                    >
+                      {item.name}
+                    </Link>
+                  </NavigationMenuItem>
+                );
+              if (item.type === 'Dropdown') return <DropdownNavItem key={crypto.randomUUID()} item={item} />;
+              if (item.type === 'Button')
+                return <ButtonLink key={crypto.randomUUID()} name={item.name} url={item.url ?? ''} />;
 
-            return null;
-          })}
+              return null;
+            })}
+          </NavigationMenuList>
 
           <SearchInput />
           {user ? <UserNav user={user as User} /> : <ButtonLink url="/auth/login" name="Login/Register" />}
-        </nav>
+        </NavigationMenu>
 
         <Sheet>
           <SheetTrigger asChild>
