@@ -68,7 +68,11 @@ export const Navbar = async () => {
                 );
               if (item.type === 'Dropdown') return <DropdownNavItem key={crypto.randomUUID()} item={item} />;
               if (item.type === 'Button')
-                return <ButtonLink key={crypto.randomUUID()} name={item.name} url={item.url ?? ''} />;
+                return (
+                  <NavigationMenuItem key={crypto.randomUUID()}>
+                    <ButtonLink name={item.name} url={item.url ?? ''} />
+                  </NavigationMenuItem>
+                );
 
               return null;
             })}

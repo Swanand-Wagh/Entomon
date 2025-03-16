@@ -87,8 +87,8 @@ export const Comments = ({
       </Form>
       <div className="space-y-6">
         {comments.slice(0, showMore ? comments.length : 3).map((comment) => (
-          <div key={comment.id} className="flex space-x-4">
-            <div className="flex space-x-2">
+          <div key={comment.id} className="flex w-full space-x-4">
+            <div className="flex flex-1 space-x-2">
               <Avatar className="h-8 w-8">
                 <AvatarFallback>{initials(comment.author)}</AvatarFallback>
               </Avatar>

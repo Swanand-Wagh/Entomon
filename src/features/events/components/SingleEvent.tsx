@@ -70,8 +70,8 @@ export const SingleEvent = async ({ data }: SingleEventProps) => {
             ))}
           </div>
         </div>
-        <div className="flex gap-8">
-          <div className="basis-4/6">
+        <div className="mb-8 lg:flex lg:gap-8">
+          <div className="lg:basis-4/6">
             {data.coverImage && (
               <Image
                 width={1200}
@@ -81,54 +81,62 @@ export const SingleEvent = async ({ data }: SingleEventProps) => {
                 className="mb-8 aspect-video w-full rounded-lg object-cover"
               />
             )}
-
-            <div
-              className="prose mb-12 max-w-none"
-              dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(data.description) }}
-            />
           </div>
-
-          <div className="basis-2/6">
-            <div className="flex items-center gap-1 text-sm text-gray-500">
-              <span className="flex items-center justify-center rounded-full bg-secondary p-2">
-                <UserIcon className="h-4 w-4" />
-              </span>{' '}
-              Entomon Institute
-            </div>
-            <div className="my-4 h-[1px] w-full bg-gray-100"></div>
-            <div className="mb-2 flex items-center justify-between gap-4">
+          <div className="sm:flex sm:gap-8 lg:block lg:basis-2/6">
+            <div className="sm:flex-1">
               <div className="flex items-center gap-1 text-sm text-gray-500">
+                <span className="flex items-center justify-center rounded-full bg-secondary p-2">
+                  <UserIcon className="h-4 w-4" />
+                </span>{' '}
+                Entomon Institute
+              </div>
+              <div className="my-4 h-[1px] w-full bg-gray-100"></div>
+              <div className="mb-4 flex items-center gap-1 text-sm text-gray-500">
+                <div
+                  className={`flex w-max items-center gap-1 rounded-full pr-2 text-sm text-gray-500 ${getPriceTextBgColor(data.price)}`}
+                >
+                  <span
+                    className={`flex items-center justify-center rounded-full p-2 ${getPriceTagBgColor(data.price)}`}
+                  >
+                    <TagIcon className="h-4 w-4" />
+                  </span>
+                  <span className={`font-semibold ${getPriceTextColor(data.price)}`}>
+                    {parseInt(data.price) === 0 ? 'Free Event' : `₹ ${data.price}`}
+                  </span>
+                </div>
+              </div>
+              <div className="flex flex-col gap-2">
+                <div className="flex items-center gap-1 text-sm text-gray-500">
+                  <span className="flex items-center justify-center rounded-full bg-secondary p-2">
+                    <CalendarIcon className="h-4 w-4" />
+                  </span>{' '}
+                  {data.startDate === data.endDate
+                    ? format(data.startDate, 'dd MMM yyyy')
+                    : `${format(data.startDate, 'dd MMM yyyy')} - ${format(data.endDate, 'dd MMM yyyy')}`}
+                </div>
+                <div className="flex items-center gap-1 text-sm text-gray-500">
+                  <span className="flex items-center justify-center rounded-full bg-secondary p-2">
+                    <MapPinIcon className="h-4 w-4" />
+                  </span>{' '}
+                  <Link target="_blank" href="/">
+                    {data.location}
+                  </Link>
+                </div>
+              </div>
+            </div>
+            <div className="mt-8 sm:mt-0 sm:flex-1 lg:mt-8">
+              <div className="flex items-center gap-1 text-sm font-medium">
                 <span className="flex items-center justify-center rounded-full bg-secondary p-2">
                   <CalendarIcon className="h-4 w-4" />
                 </span>{' '}
-                {data.startDate === data.endDate
-                  ? format(data.startDate, 'dd MMM yyyy')
-                  : `${format(data.startDate, 'dd MMM yyyy')} - ${format(data.endDate, 'dd MMM yyyy')}`}
+                Attend This Event
               </div>
-              <div className="flex items-center gap-1 text-sm text-gray-500">
-                <span className="flex items-center justify-center rounded-full bg-secondary p-2">
-                  <MapPinIcon className="h-4 w-4" />
-                </span>{' '}
-                <Link target="_blank" href="/">
-                  {data.location}
-                </Link>
-              </div>
+              <div className="my-4 h-[1px] w-full bg-gray-100"></div>
+              <RegistrationForm slug={data.slug} isAuthenticated={!!user} isRegistered={!!isRegistered} />
             </div>
-            <div className="mb-8 flex items-center gap-1 text-sm text-gray-500">
-              <div
-                className={`flex w-max items-center gap-1 rounded-full pr-2 text-sm text-gray-500 ${getPriceTextBgColor(data.price)}`}
-              >
-                <span className={`flex items-center justify-center rounded-full p-2 ${getPriceTagBgColor(data.price)}`}>
-                  <TagIcon className="h-4 w-4" />
-                </span>
-                <span className={`font-semibold ${getPriceTextColor(data.price)}`}>
-                  {parseInt(data.price) === 0 ? 'Free Event' : `₹ ${data.price}`}
-                </span>
-              </div>
-            </div>
-            <RegistrationForm slug={data.slug} isAuthenticated={!!user} isRegistered={!!isRegistered} />
           </div>
         </div>
+        <div className="prose max-w-none" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(data.description) }} />
       </div>
     </article>
   );

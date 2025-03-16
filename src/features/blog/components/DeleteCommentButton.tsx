@@ -50,7 +50,7 @@ export const DeleteCommentButton: React.FC<Readonly<DeleteButtonProps>> = ({ com
                 Are you sure you want to delete this comment? This action cannot be undone.
               </DialogDescription>
             </DialogHeader>
-            <DialogFooter className="xs:flex xs:flex-row xs:justify-end mt-8 grid gap-3">
+            <DialogFooter className="mt-8 grid gap-3 xs:flex xs:flex-row xs:justify-end">
               <DialogClose asChild>
                 <Button onClick={() => setDeleteDialogOpen(false)}>Cancel</Button>
               </DialogClose>
@@ -64,7 +64,7 @@ export const DeleteCommentButton: React.FC<Readonly<DeleteButtonProps>> = ({ com
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <button>
-            <HiOutlineDotsVertical className="text-3xl" />
+            <HiOutlineDotsVertical className="text-lg" />
           </button>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-56">
