@@ -1,19 +1,36 @@
 import 'server-only';
 
 import { z } from 'zod';
-import { EventDetails, eventRepo } from './repo';
+import { EventDetails, EventRegistrationWithUser, eventRepo } from './repo';
 import { generateSlug } from '@/lib/slugify';
 import { ErrorResponse } from '@/types/errors';
-import { Event, EventRegistration } from '@prisma/client';
+import { Event, EventRegistration, EventStatus } from '@prisma/client';
 import { EventWithoutDescriptionType } from '../types/event';
 import { CreateEvent, eventRegistrationSchema, getEventByStatusSchema, UpdateEvent } from '../schema/event';
+import { endOfDay, startOfDay } from '@/lib/dates';
 
 async function getEvents(): Promise<EventWithoutDescriptionType[]> {
   return await eventRepo.getAllEvents();
 }
 
+async function updateEventStatusBasedOnDates(event: Event): Promise<EventStatus> {
+  const currentDate = new Date();
+  if (event.startDate <= startOfDay(currentDate)) return 'COMPLETED';
+  return event.status;
+}
+
 async function getEventsByStatus(data: z.infer<typeof getEventByStatusSchema>): Promise<EventWithoutDescriptionType[]> {
-  return await eventRepo.getEventsByStatus(data.status);
+  const events = await eventRepo.getEventsByStatus(data.status);
+  // Only check status updates for UPCOMING and PAUSED events
+  const eventsToCheck = events.filter((event) => event.status === 'UPCOMING' || event.status === 'PAUSED');
+
+  for (const event of eventsToCheck) {
+    const correctStatus = await updateEventStatusBasedOnDates(event as Event);
+    if (correctStatus !== event.status) {
+      await eventRepo.updateEvent(event.id, { status: correctStatus });
+    }
+  }
+  return events;
 }
 
 async function getEventBySlug(slug: string): Promise<Event | null> {
@@ -24,8 +41,11 @@ async function getEventBySlug(slug: string): Promise<Event | null> {
 }
 
 async function createEvent(data: CreateEvent): Promise<Event> {
-  let startDate = new Date(data.startDate).getDate();
-  let endDate = new Date(data.endDate).getDate();
+  let startDate = startOfDay(new Date(data.startDate));
+  let endDate = endOfDay(new Date(data.endDate));
+
+  let currentDate = startOfDay(new Date());
+  if (startDate < currentDate) throw new ErrorResponse('Start date cannot be in the past');
   if (startDate > endDate) throw new ErrorResponse('Start date must be before or same as end date');
 
   let slug = generateSlug(data.title);
@@ -36,11 +56,19 @@ async function updateEvent(data: UpdateEvent): Promise<Event> {
   let event = await eventRepo.getEventById(data.id);
   if (!event) throw new ErrorResponse('Event not found');
 
-  let startDate = data.startDate ? new Date(data.startDate).getDate() : event.startDate;
-  let endDate = data.endDate ? new Date(data.endDate).getDate() : event.endDate;
-  if (startDate > endDate) throw new ErrorResponse('Start date must be before or same as end date');
+  if (event.status === 'COMPLETED' && data.startDate && data.endDate) {
+    if (startOfDay(data.startDate) !== event.startDate || endOfDay(data.endDate) !== event.endDate) {
+      throw new ErrorResponse('Cannot change start or end date of a completed/ongoing event');
+    }
+  }
 
-  let slug = data.title ? generateSlug(data.title) : event.slug;
+  if (data.startDate && data.endDate) {
+    let currentDate = startOfDay(new Date());
+    if (data.startDate < currentDate) throw new ErrorResponse('Start date cannot be in the past');
+    if (data.startDate > data.endDate) throw new ErrorResponse('Start date must be before or same as end date');
+  }
+
+  let slug = data.title ? (data.title === event.title ? event.slug : generateSlug(data.title)) : event.slug;
   return await eventRepo.updateEvent(data.id, {
     title: data.title,
     coverImage: data.coverImage,
@@ -70,6 +98,15 @@ async function registerUserForEvent(
 ): Promise<EventRegistration> {
   let event = await eventRepo.getEventBySlug(data.eventSlug);
   if (!event) throw new ErrorResponse('Event not found');
+
+  if (event.status === 'COMPLETED') {
+    throw new ErrorResponse('Cannot register for an event that is completed');
+  }
+
+  if (event.status === 'PAUSED') {
+    throw new ErrorResponse('Cannot register for an event that is paused');
+  }
+
   return await eventRepo.registerUserForEvent({
     eventId: event.id,
     userId: userId,
@@ -77,7 +114,7 @@ async function registerUserForEvent(
   });
 }
 
-async function getEventRegistrationsByEventId(slug: string): Promise<EventRegistration[]> {
+async function getEventRegistrationsByEventId(slug: string): Promise<EventRegistrationWithUser[]> {
   let event = await eventRepo.getEventBySlug(slug);
   if (!event) {
     throw new ErrorResponse('Event not found');
@@ -98,6 +135,12 @@ async function deleteEventRegistration(slug: string, userId: string): Promise<Ev
   if (!event) {
     throw new ErrorResponse('Event not found');
   }
+
+  const currentDate = new Date();
+  if (currentDate >= event.startDate) {
+    throw new ErrorResponse('Cannot unregister from an event that has already started');
+  }
+
   return await eventRepo.deleteEventRegistration(event.id, userId);
 }
 

@@ -1,5 +1,7 @@
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import NextImage from 'next/image';
+import { useRouter } from 'next/navigation';
+import { useCurrentRole } from '@/hooks/use-current-role';
 
 import { Controller } from 'react-hook-form';
 import { Input } from '@/components/ui/input';
@@ -12,7 +14,11 @@ import { DatePicker } from '@/components/ui/DatePicker';
 import { MultiSelect } from '@/components/ui/multi-select';
 import { FormError, FormSuccess } from '@/components/custom';
 import { RichTextEditor } from '@/components/custom/editor';
-import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
+import { Form, FormControl, FormField, FormItem, FormLabel } from '@/components/ui/form';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { ArrowLeft } from 'lucide-react';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { EventStatus } from '@prisma/client';
 
 export const EventForm = ({
   form,
@@ -28,6 +34,10 @@ export const EventForm = ({
   isEditing,
   setCoverImagePreview,
 }: EventFormProps<CreateEvent>) => {
+  const router = useRouter();
+  const [showImagePreview, setShowImagePreview] = useState(false);
+  const role = useCurrentRole();
+
   const handleCoverImageChange = useCallback(
     async (file: File) => {
       try {
@@ -41,192 +51,266 @@ export const EventForm = ({
     [form]
   );
 
+  const handleBack = useCallback(() => {
+    router.push('/admin/events');
+  }, [router]);
+
   return (
     <>
+      {/* Form Status Messages */}
+      <div className="fixed right-4 top-4 z-50">
+        <FormError message={error} />
+        <FormSuccess message={success} />
+      </div>
+
       <Form {...form}>
         <form
+          id="eventForm"
           onSubmit={(e) => {
             e.preventDefault();
             form.setValue('description', editor?.getHTML() || '');
             form.handleSubmit(onSubmit)();
           }}
-          className="flex h-screen w-full flex-col items-center gap-3 overflow-hidden"
+          className="flex w-full min-w-0 flex-col gap-6 pb-24"
         >
-          <div className="flex w-full gap-8">
-            <div className="flex w-1/4 flex-col gap-4">
-              <FormField
-                name="title"
-                control={form.control}
-                render={({ field, fieldState }) => (
-                  <FormItem>
-                    <FormControl className="rounded-md border-gray-300">
-                      <Input
-                        {...field}
-                        type="text"
-                        disabled={isPending}
-                        placeholder="Event Title"
-                        className={fieldState.invalid ? 'border-red-500' : ''}
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
+          {/* Basic Event Information */}
+          <div className="flex w-full flex-col gap-6">
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+              <div className="space-y-4">
+                <h2 className="text-lg font-semibold text-gray-700">Basic Information</h2>
+                <FormField
+                  name="title"
+                  control={form.control}
+                  render={({ field, fieldState }) => (
+                    <FormItem>
+                      <FormLabel className="text-sm font-medium text-gray-600">Title</FormLabel>
+                      <FormControl>
+                        <Input
+                          {...field}
+                          type="text"
+                          disabled={isPending}
+                          placeholder="Event Title"
+                          className={fieldState.invalid ? 'border-red-500' : ''}
+                        />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
 
-              <FormField
-                name="price"
-                control={form.control}
-                render={({ field, fieldState }) => (
-                  <FormItem>
-                    <FormControl className="rounded-md border-gray-300">
-                      <Input
-                        min="0"
-                        {...field}
-                        type="number"
-                        placeholder="Price"
-                        disabled={isPending}
-                        className={fieldState.invalid ? 'border-red-500' : ''}
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
+                <FormField
+                  name="location"
+                  control={form.control}
+                  render={({ field, fieldState }) => (
+                    <FormItem>
+                      <FormLabel className="text-sm font-medium text-gray-600">Location</FormLabel>
+                      <FormControl>
+                        <Input
+                          {...field}
+                          type="text"
+                          disabled={isPending}
+                          placeholder="Location"
+                          className={fieldState.invalid ? 'border-red-500' : ''}
+                        />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
 
-              <FormField
-                name="location"
-                control={form.control}
-                render={({ field, fieldState }) => (
-                  <FormItem>
-                    <FormControl className="rounded-md border-gray-300">
-                      <Input
-                        {...field}
-                        type="text"
-                        disabled={isPending}
-                        placeholder="Location"
-                        className={fieldState.invalid ? 'border-red-500' : ''}
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
+                <FormField
+                  name="price"
+                  control={form.control}
+                  render={({ field, fieldState }) => (
+                    <FormItem>
+                      <FormLabel className="text-sm font-medium text-gray-600">Price</FormLabel>
+                      <FormControl>
+                        <Input
+                          min="0"
+                          {...field}
+                          type="number"
+                          placeholder="Price"
+                          disabled={isPending}
+                          className={fieldState.invalid ? 'border-red-500' : ''}
+                        />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
 
-              <FormField
-                name="startDate"
-                control={form.control}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl className="rounded-md border-gray-300">
-                      <DatePicker
-                        {...field}
-                        selected={field.value ? new Date(field.value) : undefined}
-                        onSelect={(date) => field.onChange(date)}
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                name="endDate"
-                control={form.control}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl className="rounded-md border-gray-300">
-                      <DatePicker
-                        {...field}
-                        selected={field.value ? new Date(field.value) : undefined}
-                        onSelect={(date) => field.onChange(date)}
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-
-              <Controller
-                name="categories"
-                control={form.control}
-                render={({ field, fieldState }) => (
-                  <FormItem>
-                    <FormControl className="rounded-md border-gray-300">
-                      <MultiSelect
-                        {...field}
-                        maxSelect={3}
-                        disabled={isPending}
-                        options={eventCategories}
-                        placeholder="Select categories..."
-                        className={`rounded-md border-gray-300 text-gray-500 ${fieldState.invalid ? 'border-red-500' : ''}`}
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-
-              {/* Cover Image Section */}
-              <Controller
-                name="coverImage"
-                control={form.control}
-                rules={{ required: 'Cover image is required.' }}
-                render={({ field, fieldState }) => (
-                  <div
-                    onClick={handleContainerClick}
-                    className={`relative flex h-40 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed ${
-                      fieldState.error ? 'border-red-500' : 'border-gray-300 hover:border-gray-400'
-                    }`}
-                  >
-                    <Input
-                      type="file"
-                      accept="image/*"
-                      ref={fileInputRef}
-                      className="hidden"
-                      onChange={(e) => {
-                        const file = e.target.files?.[0];
-                        if (file) {
-                          handleCoverImageChange(file);
-                          form.setValue('coverImage', file.name);
-                        }
-                      }}
-                    />
-                    {coverImagePreview ? (
-                      <NextImage
-                        width={160}
-                        height={160}
-                        alt="Cover Preview"
-                        src={coverImagePreview}
-                        className="absolute inset-0 h-full w-full rounded-lg object-cover"
-                      />
-                    ) : (
-                      <span className={`text-sm ${fieldState.error ? 'text-red-500' : 'text-gray-500'}`}>
-                        {fieldState.error?.message || 'Click to upload cover image'}
-                      </span>
+                {role === 'ADMIN' && (
+                  <FormField
+                    name="status"
+                    control={form.control}
+                    render={({ field, fieldState }) => (
+                      <FormItem>
+                        <FormLabel className="text-sm font-medium text-gray-600">Status</FormLabel>
+                        <Select disabled={isPending} onValueChange={field.onChange} defaultValue={field.value}>
+                          <FormControl>
+                            <SelectTrigger className={fieldState.invalid ? 'border-red-500' : ''}>
+                              <SelectValue placeholder="Select status" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            {Object.values(EventStatus).map((status) => (
+                              <SelectItem key={status} value={status}>
+                                {status}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </FormItem>
                     )}
-                  </div>
+                  />
                 )}
-              />
 
-              {/* Reset and Submit Buttons */}
-              <div className="mt-2 flex w-full flex-col gap-2">
-                <FormError message={error} />
-                <FormSuccess message={success} />
+                {/* Cover Image Section */}
+                <div className="space-y-2">
+                  <FormLabel className="text-sm font-medium text-gray-600">Cover Image</FormLabel>
+                  <Controller
+                    name="coverImage"
+                    control={form.control}
+                    rules={{ required: 'Cover image is required.' }}
+                    render={({ field, fieldState }) => (
+                      <FormItem>
+                        <div className="flex items-center gap-2">
+                          <Button
+                            type="button"
+                            variant="outline"
+                            onClick={handleContainerClick}
+                            className={`${fieldState.error ? 'border-red-500 hover:border-red-600' : ''}`}
+                          >
+                            Upload Image
+                            <Input
+                              type="file"
+                              accept="image/*"
+                              ref={fileInputRef}
+                              className="hidden"
+                              onChange={(e) => {
+                                const file = e.target.files?.[0];
+                                if (file) {
+                                  handleCoverImageChange(file);
+                                  form.setValue('coverImage', file.name);
+                                }
+                              }}
+                            />
+                          </Button>
+                          <Button
+                            type="button"
+                            variant="secondary"
+                            disabled={!coverImagePreview}
+                            onClick={() => setShowImagePreview(true)}
+                          >
+                            Preview
+                          </Button>
+                          {fieldState.error && <span className="text-sm text-red-500">{fieldState.error.message}</span>}
+                          {coverImagePreview && <span className="text-sm text-gray-600">✓ Image selected</span>}
+                        </div>
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              </div>
 
-                <Button
-                  type="button"
-                  onClick={handleResetEvent}
-                  className="w-full rounded-md bg-red-200 p-2 font-semibold text-black hover:bg-red-100"
-                >
-                  Reset
-                </Button>
-                <Button type="submit" className="w-full rounded-md p-2 font-semibold text-white">
-                  {isEditing ? 'Update Event' : 'Create Event'}
-                </Button>
+              <div className="space-y-4">
+                <h2 className="text-lg font-semibold text-gray-700">Date & Time</h2>
+                <FormField
+                  name="startDate"
+                  control={form.control}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-sm font-medium text-gray-600">Start Date</FormLabel>
+                      <FormControl>
+                        <DatePicker
+                          {...field}
+                          selected={field.value ? new Date(field.value) : undefined}
+                          onSelect={(date) => field.onChange(date)}
+                        />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  name="endDate"
+                  control={form.control}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-sm font-medium text-gray-600">End Date</FormLabel>
+                      <FormControl>
+                        <DatePicker
+                          {...field}
+                          selected={field.value ? new Date(field.value) : undefined}
+                          onSelect={(date) => field.onChange(date)}
+                        />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+
+                <Controller
+                  name="categories"
+                  control={form.control}
+                  render={({ field, fieldState }) => (
+                    <FormItem>
+                      <FormLabel className="text-sm font-medium text-gray-600">Categories</FormLabel>
+                      <FormControl>
+                        <MultiSelect
+                          {...field}
+                          maxSelect={3}
+                          disabled={isPending}
+                          options={eventCategories}
+                          placeholder="Select categories..."
+                          className={`rounded-md border-gray-300 text-gray-500 ${fieldState.invalid ? 'border-red-500' : ''}`}
+                        />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
               </div>
             </div>
 
-            {/* Text Editor */}
-            <div className="w-3/4">
-              <RichTextEditor editor={editor} error={form.formState.errors.description?.message || null} />
+            {/* Description Editor */}
+            <div className="space-y-4">
+              <h2 className="text-lg font-semibold text-gray-700">Event Description</h2>
+              <div className="min-w-0 overflow-hidden">
+                <RichTextEditor editor={editor} error={form.formState.errors.description?.message || null} />
+              </div>
             </div>
           </div>
         </form>
+
+        {/* Form Actions */}
+        <div className="fixed bottom-0 left-0 right-0 border-t bg-white py-4 shadow-lg">
+          <div className="mx-auto flex max-w-[1400px] items-center justify-end gap-4 px-6">
+            <Button type="button" variant="ghost" onClick={handleBack} className="flex items-center gap-2">
+              <ArrowLeft className="h-4 w-4" />
+              Back
+            </Button>
+            <Button type="submit" form="eventForm" className="px-6">
+              {isEditing ? 'Update Event' : 'Create Event'}
+            </Button>
+          </div>
+        </div>
       </Form>
+
+      {/* Image Preview Dialog */}
+      <Dialog open={showImagePreview} onOpenChange={setShowImagePreview}>
+        <DialogContent className="p-0 sm:max-w-[900px]">
+          <DialogHeader className="sr-only">
+            <DialogTitle>Event Cover Image Preview</DialogTitle>
+          </DialogHeader>
+          {coverImagePreview && (
+            <div className="relative aspect-video w-full">
+              <NextImage
+                fill
+                src={coverImagePreview}
+                alt="Cover Preview"
+                className="object-contain"
+                sizes="(max-width: 900px) 100vw, 900px"
+              />
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </>
   );
 };

@@ -18,7 +18,7 @@ import { RxMixerHorizontal } from 'react-icons/rx';
 import { BsArrowDown, BsArrowUp } from 'react-icons/bs';
 import { FiChevronsLeft, FiChevronsRight } from 'react-icons/fi';
 import { SiGmail, SiLinkedin, SiGoogleanalytics } from 'react-icons/si';
-import { FaFacebookSquare, FaUserNinja, FaBlog, FaRegEdit } from 'react-icons/fa';
+import { FaFacebookSquare, FaUserNinja, FaBlog, FaRegEdit, FaPause, FaPlay, FaCheckCircle } from 'react-icons/fa';
 import {
   MdMenuBook,
   MdEventNote,
@@ -27,6 +27,7 @@ import {
   MdOutlineAddCircle,
   MdOutlineFileDownload,
 } from 'react-icons/md';
+import { FaSquareInstagram } from 'react-icons/fa6';
 
 type IconProps = {
   name: keyof typeof ICONS;
@@ -35,8 +36,12 @@ type IconProps = {
 
 export const ICONS = {
   blog: FaBlog,
+  instagram: FaSquareInstagram,
   gmail: SiGmail,
   edit: FaRegEdit,
+  pause: FaPause,
+  unpause: FaPlay,
+  completed: FaCheckCircle,
   search: IoSearch,
   hamburger: IoMenu,
   user: FaUserNinja,
