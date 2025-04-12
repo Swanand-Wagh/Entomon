@@ -7,20 +7,6 @@ import { ActionsCell } from '@/components/custom/table/cell-actions';
 import { MultipleBadges } from '@/components/custom/table/cell-badge';
 import { useSession } from 'next-auth/react';
 
-interface ActionsCellWrapperProps {
-  row: any;
-}
-
-const ActionsCellWrapper: React.FC<ActionsCellWrapperProps> = ({ row }) => {
-  const { data: session } = useSession();
-  const userId = session?.user?.id;
-
-  if (row.original.userId === userId) {
-    return <ActionsCell row={row} actions={['editBlog', 'deleteBlog']} />;
-  }
-  return <ActionsCell row={row} actions={['deleteBlog']} />;
-};
-
 export type BlogTableColumnsType = {
   title: string;
   slug: string;
@@ -60,6 +46,14 @@ export const BlogTableColumns: ColumnDef<BlogTableColumnsType>[] = [
   {
     id: 'actions',
     header: 'Actions',
-    cell: ({ row }) => <ActionsCellWrapper row={row} />,
+    cell: ({ row }) => {
+      const session = useSession();
+      const userId = session.data?.user.id;
+
+      if (row.original.userId === userId) {
+        return <ActionsCell row={row} actions={['editBlog', 'deleteBlog']} />;
+      }
+      return <ActionsCell row={row} actions={['deleteBlog']} />;
+    },
   },
 ];
