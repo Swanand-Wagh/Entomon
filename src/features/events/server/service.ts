@@ -15,6 +15,7 @@ async function getEvents(): Promise<EventWithoutDescriptionType[]> {
 
 async function updateEventStatusBasedOnDates(event: Event): Promise<EventStatus> {
   const currentDate = new Date();
+  console.log(event.startDate, startOfDay(currentDate));
   if (event.startDate <= startOfDay(currentDate)) return 'COMPLETED';
   return event.status;
 }
@@ -45,11 +46,11 @@ async function createEvent(data: CreateEvent): Promise<Event> {
   let endDate = endOfDay(new Date(data.endDate));
 
   let currentDate = startOfDay(new Date());
-  if (startDate < currentDate) throw new ErrorResponse('Start date cannot be in the past');
+  if (startDate <= currentDate) throw new ErrorResponse('Start date should be in the future');
   if (startDate > endDate) throw new ErrorResponse('Start date must be before or same as end date');
 
   let slug = generateSlug(data.title);
-  return await eventRepo.createEvent({ ...data, slug });
+  return await eventRepo.createEvent({ ...data, slug, startDate, endDate });
 }
 
 async function updateEvent(data: UpdateEvent): Promise<Event> {
@@ -105,6 +106,12 @@ async function registerUserForEvent(
 
   if (event.status === 'PAUSED') {
     throw new ErrorResponse('Cannot register for an event that is paused');
+  }
+
+  // Check if the user is already registered for the event
+  let existingRegistration = await eventRepo.getEventRegistrationByUserId(userId);
+  if (existingRegistration) {
+    throw new ErrorResponse('User is already registered for this event');
   }
 
   return await eventRepo.registerUserForEvent({

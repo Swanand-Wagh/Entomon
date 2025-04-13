@@ -4,6 +4,7 @@ import * as z from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FormError, FormSuccess } from '@/components/custom';
+import { useEffect } from 'react';
 
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -12,26 +13,25 @@ import { eventRegistrationSchema } from '../schema/event';
 import { registerUserForEvent, unregisterUserForEvent } from '../server/actions';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { useRouter } from 'next/navigation';
+import { EventDataType } from '../types/event';
+import { useRazorpayPayment } from '@/features/razorpay/hooks/useRazorpayPayment';
+import { RefundMessage } from '@/features/events/components/RefundMessage';
 
 export const RegistrationForm = ({
-  slug,
+  userId,
   isRegistered,
   isAuthenticated,
-  status,
+  eventData,
 }: {
-  slug: string;
+  userId: string;
   isRegistered: boolean;
   isAuthenticated: boolean;
-  status: string;
+  eventData: EventDataType;
 }) => {
+  const { slug, id, price, status } = eventData;
+  const isPaid = parseInt(price) > 0;
   const router = useRouter();
   const { execute: register, result: registerResult, isPending: isRegistering } = useAction(registerUserForEvent);
-
-  const {
-    execute: unregister,
-    result: unregisterResult,
-    isPending: isUnregistering,
-  } = useAction(unregisterUserForEvent);
 
   const form = useForm<z.infer<typeof eventRegistrationSchema>>({
     resolver: zodResolver(eventRegistrationSchema),
@@ -41,12 +41,36 @@ export const RegistrationForm = ({
     },
   });
 
-  const onRegisterSubmit = (values: z.infer<typeof eventRegistrationSchema>) => {
+  const { isProcessing, paymentStatus, handlePayment } = useRazorpayPayment({
+    eventRegistration: form.getValues(),
+    eventId: eventData.id,
+    userId,
+    amount: parseInt(eventData.price),
+  });
+
+  const {
+    execute: unregister,
+    result: unregisterResult,
+    isPending: isUnregistering,
+  } = useAction(unregisterUserForEvent);
+
+  const onRegisterSubmit = async (values: z.infer<typeof eventRegistrationSchema>) => {
     form.clearErrors();
     form.reset();
-    register(values);
-    router.refresh();
+    if (isPaid) {
+      handlePayment();
+    } else {
+      register(values);
+      router.refresh();
+    }
   };
+
+  useEffect(() => {
+    if (paymentStatus === 'success') {
+      console.log('Payment successful');
+      router.refresh();
+    }
+  }, [paymentStatus, router]);
 
   const onUnregisterSubmit = () => {
     unregister({ slug });
@@ -54,6 +78,10 @@ export const RegistrationForm = ({
   };
 
   if (isRegistered) {
+    // Message box only to show "please contact admin for refund"
+    if (isPaid) {
+      return <RefundMessage />;
+    }
     return (
       <>
         <FormError message={unregisterResult.serverError?.toString()} />
