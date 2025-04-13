@@ -17,7 +17,7 @@ const inter = Inter({ subsets: ['latin'], preload: true });
 
 export const metadata: Metadata = {
   title: 'Entomon Institute of Invertebrates Zoology',
-  description: 'Welcome to Entomon Institute - Igniting Curiosity, Empowering Minds!',
+  description: 'Welcome to Entomon Institute - Igniting Curiosity, Empowering Minds!!!',
 };
 
 export default async function RootLayout({
