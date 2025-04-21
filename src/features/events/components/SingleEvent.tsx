@@ -74,6 +74,7 @@ export const SingleEvent = async ({ data }: SingleEventProps) => {
           <div className="lg:basis-4/6">
             {data.coverImage && (
               <Image
+                priority
                 width={1200}
                 height={630}
                 alt={data.title}

@@ -2,6 +2,8 @@ import React from 'react';
 import { getBlogsWithoutContent } from '@/features/blog/server/actions';
 import { BlogListLayout } from '@/features/blog/components/BlogListLayout';
 
+export const revalidate = 300;
+
 const BlogsPage = async () => {
   const blogs = await getBlogsWithoutContent();
 

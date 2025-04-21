@@ -67,6 +67,7 @@ export const SingleBlog = async ({ data }: SingleBlogProps) => {
         </div>
         {data.coverImage && (
           <Image
+            priority
             width={1200}
             height={630}
             alt={data.title}

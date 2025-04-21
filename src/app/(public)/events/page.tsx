@@ -2,6 +2,8 @@ import React from 'react';
 import { EventListLayout } from '@/features/events/components/EventListLayout';
 import { getEventsByStatus } from '@/features/events/server/actions';
 
+export const revalidate = 300;
+
 const EventsPage = async () => {
   const events = await getEventsByStatus({ status: ['UPCOMING', 'PAUSED'] });
 

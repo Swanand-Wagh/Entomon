@@ -35,7 +35,7 @@ export const EventList: React.FC<Readonly<EventListProps>> = ({ events }) => {
         <Card key={event.id} className="flex w-full max-w-sm flex-col overflow-hidden">
           <CardHeader className="p-0">
             <div className="relative h-48 w-full">
-              <Image src={event.coverImage} alt={event.title} fill style={{ objectFit: 'cover' }} />
+              <Image src={event.coverImage} alt={event.title} fill style={{ objectFit: 'cover' }} priority />
               <Badge className={`absolute right-2 top-2 ${statusColor[event.status]}`}>{event.status}</Badge>
             </div>
             <div className="flex flex-wrap gap-2 p-4 pb-0">
