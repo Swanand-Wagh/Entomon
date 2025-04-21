@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import butterfly from '@/assets/butterfly.jpg';
+import butterfly from '@/assets/butterfly.webp';
 
 export const About = () => {
   return (

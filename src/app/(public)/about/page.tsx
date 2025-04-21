@@ -1,9 +1,8 @@
 import Image from 'next/image';
 
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import { Leaf, Fish, Bug, Brain } from 'lucide-react';
 import { BugIcon } from '@/components/custom';
-import bugImage from '@/assets/hero-img.jpg';
+import bugImage from '@/assets/hero-img.webp';
 
 export default function AboutPage() {
   const teamMembers = [
@@ -71,8 +70,8 @@ export default function AboutPage() {
               <Image
                 src={bugImage}
                 alt="Entomon Institute building"
-                layout="fill"
-                objectFit="cover"
+                fill
+                style={{ objectFit: 'cover' }}
                 className="rounded-lg shadow-lg"
               />
             </div>

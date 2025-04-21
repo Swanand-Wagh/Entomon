@@ -1,8 +1,15 @@
 import Link from 'next/link';
+import Image from 'next/image';
+import heroBg from '@/assets/hero-bg.webp';
 
 export const Hero = () => {
   return (
-    <section className="relative w-full bg-[url('https://wallpapercat.com/w/full/2/d/7/1044282-1920x1080-desktop-1080p-beetle-background-image.jpg')] bg-cover bg-center bg-no-repeat py-24 md:py-32 lg:py-40">
+    <section className="relative w-full py-24 md:py-32 lg:py-40">
+      {/* Background Image */}
+      <div className="absolute inset-0 -z-10">
+        <Image src={heroBg} alt="Beetle background" fill style={{ objectFit: 'cover' }} priority />
+      </div>
+
       <div className="container px-4 md:px-6">
         <div className="max-w-3xl space-y-4">
           <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl">

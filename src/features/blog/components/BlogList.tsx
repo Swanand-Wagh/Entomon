@@ -18,7 +18,7 @@ export const BlogList = ({ blogs }: BlogListProps) => {
         <Card key={blog.slug} className="flex w-full max-w-sm flex-col overflow-hidden">
           <CardHeader className="p-0">
             <div className="relative h-48 w-full">
-              <Image src={blog.coverImage} alt={blog.title} layout="fill" objectFit="cover" />
+              <Image src={blog.coverImage} alt={blog.title} fill style={{ objectFit: 'cover' }} />
               {blog.isPaid ? (
                 <Badge className="absolute right-2 top-2 bg-yellow-500" variant="secondary">
                   <LockIcon className="mr-1 h-3 w-3" />

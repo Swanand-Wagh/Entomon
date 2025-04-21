@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { Icon } from '@/constants/icons';
-import logo from '@/assets/entomon-logo.png';
+import logo from '@/assets/entomon-logo.webp';
 
 export const FOOTER_LINKS = [
   { id: 1, href: '/about', label: 'About' },

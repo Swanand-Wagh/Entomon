@@ -19,7 +19,7 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/component
 import { currentUser } from '@/lib/auth';
 import { DropdownNavItem } from './DropdownNavItem';
 import { NavigationMenu, NavigationMenuItem, NavigationMenuList } from '../ui/navigation-menu';
-import logo from '@/assets/entomon-logo.png';
+import logo from '@/assets/entomon-logo.webp';
 
 const DropdownLink = ({ url, name, description }: NavbarOption) => (
   <Link
