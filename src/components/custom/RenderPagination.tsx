@@ -22,15 +22,18 @@ export const RenderPagination: React.FC<Readonly<RenderPaginationProps>> = memo(
     : parseInt(searchParams.get('page') ?? '1');
   const totalPages = Math.ceil((totalItems === 0 ? 1 : totalItems) / itemsPerPage);
 
-  const handlePageClick = useCallback((page: number) => {
-    let query: URLSearchParams;
+  const handlePageClick = useCallback(
+    (page: number) => {
+      let query: URLSearchParams;
 
-    if (searchParams.size === 0) query = new URLSearchParams();
-    else query = new URLSearchParams(searchParams.toString());
+      if (searchParams.size === 0) query = new URLSearchParams();
+      else query = new URLSearchParams(searchParams.toString());
 
-    query.set('page', page.toString());
-    router.push(`${pathname}?${query.toString()}`, { scroll: false });
-  }, [pathname, router, searchParams]);
+      query.set('page', page.toString());
+      router.push(`${pathname}?${query.toString()}`, { scroll: false });
+    },
+    [pathname, router, searchParams]
+  );
 
   const getPaginationRange = useCallback(() => {
     const range: PaginationItem[] = [];

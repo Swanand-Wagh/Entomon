@@ -69,12 +69,7 @@ export const NewPasswordForm = () => {
 
         {!isPending && hasErrored && <FormError message={result.serverError?.toString()} />}
         {!isPending && hasSucceeded && <FormSuccess message={result?.data?.success} />}
-        <Button 
-          type="submit" 
-          isLoading={isPending}
-          loadingText="Resetting password..." 
-          className="w-full"
-        >
+        <Button type="submit" isLoading={isPending} loadingText="Resetting password..." className="w-full">
           Reset Password
         </Button>
       </form>

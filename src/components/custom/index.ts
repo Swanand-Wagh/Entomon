@@ -9,4 +9,17 @@ import { FormSuccess } from './FormSuccess';
 import { SearchInput } from './SearchInput';
 import { CustomBreadcrumbs } from './CustomBreadcrumbs';
 
-export { BugIcon, UserNav, Footer, Navbar, FormSuccess, FormError, SearchInput, Spotlight, CustomBreadcrumbs, Loading, CardGridLoading, TableLoading };
+export {
+  BugIcon,
+  UserNav,
+  Footer,
+  Navbar,
+  FormSuccess,
+  FormError,
+  SearchInput,
+  Spotlight,
+  CustomBreadcrumbs,
+  Loading,
+  CardGridLoading,
+  TableLoading,
+};

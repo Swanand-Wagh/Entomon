@@ -54,11 +54,11 @@ export const RegisterForm = () => {
               <FormItem>
                 <FormLabel>First name</FormLabel>
                 <FormControl>
-                  <Input 
-                    placeholder="Max" 
-                    {...field} 
+                  <Input
+                    placeholder="Max"
+                    {...field}
                     className={fieldState.invalid ? 'border-red-500' : ''}
-                    disabled={isPending} 
+                    disabled={isPending}
                   />
                 </FormControl>
                 <FormMessage />
@@ -73,11 +73,11 @@ export const RegisterForm = () => {
               <FormItem>
                 <FormLabel>Last name</FormLabel>
                 <FormControl>
-                  <Input 
-                    placeholder="Robinson" 
-                    {...field} 
+                  <Input
+                    placeholder="Robinson"
+                    {...field}
                     className={fieldState.invalid ? 'border-red-500' : ''}
-                    disabled={isPending} 
+                    disabled={isPending}
                   />
                 </FormControl>
                 <FormMessage />
@@ -128,12 +128,7 @@ export const RegisterForm = () => {
 
         {!isPending && hasErrored && <FormError message={result.serverError?.toString()} />}
         {!isPending && hasSucceeded && <FormSuccess message={result?.data?.success} />}
-        <Button 
-          type="submit" 
-          isLoading={isPending}
-          loadingText="Creating account..." 
-          className="w-full"
-        >
+        <Button type="submit" isLoading={isPending} loadingText="Creating account..." className="w-full">
           Create an account
         </Button>
       </form>

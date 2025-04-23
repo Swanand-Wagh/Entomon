@@ -49,7 +49,7 @@ export const EventForm = ({
     },
     [form, setCoverImagePreview]
   );
-  
+
   const handleReset = useCallback(() => {
     setIsResetting(true);
     handleResetEvent();
@@ -268,10 +268,7 @@ export const EventForm = ({
           <div className="space-y-4">
             <h2 className="text-lg font-semibold text-gray-700">Event Description</h2>
             <div className="min-w-0 overflow-hidden">
-              <RichTextEditor 
-                editor={editor} 
-                error={form.formState.errors.description?.message || null}
-              />
+              <RichTextEditor editor={editor} error={form.formState.errors.description?.message || null} />
             </div>
           </div>
         </form>
@@ -279,10 +276,10 @@ export const EventForm = ({
         {/* Sticky Form Actions */}
         <div className="fixed bottom-0 left-0 right-0 border-t bg-white py-4 shadow-lg">
           <div className="mx-auto flex max-w-[1400px] items-center justify-end gap-4 px-6">
-            <Button 
-              type="button" 
-              variant="ghost" 
-              onClick={handleReset} 
+            <Button
+              type="button"
+              variant="ghost"
+              onClick={handleReset}
               className="flex items-center gap-2"
               isLoading={isResetting}
               loadingText="Resetting..."
@@ -291,12 +288,12 @@ export const EventForm = ({
               <Icon name="reset" className="h-4 w-4" />
               Reset
             </Button>
-            <Button 
-              type="submit" 
-              form="eventForm" 
+            <Button
+              type="submit"
+              form="eventForm"
               className="px-6"
               isLoading={isPending}
-              loadingText={isEditing ? "Updating..." : "Creating..."}
+              loadingText={isEditing ? 'Updating...' : 'Creating...'}
               disabled={isPending || isResetting}
             >
               {isEditing ? 'Update Event' : 'Create Event'}

@@ -100,4 +100,4 @@ export const useRazorpayPayment = ({
     paymentStatus,
     handlePayment,
   };
-}; 
+};

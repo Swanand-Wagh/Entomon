@@ -42,10 +42,10 @@ export const ContactForm = () => {
             <FormItem>
               <FormLabel>Name</FormLabel>
               <FormControl>
-                <Input 
-                  placeholder="Your name" 
-                  {...field} 
-                  className={fieldState.invalid ? 'border-red-500' : ''} 
+                <Input
+                  placeholder="Your name"
+                  {...field}
+                  className={fieldState.invalid ? 'border-red-500' : ''}
                   disabled={isPending}
                 />
               </FormControl>
@@ -112,9 +112,9 @@ export const ContactForm = () => {
 
         <FormError message={result.serverError?.toString()} />
         <FormSuccess message={result?.data?.success} />
-        <Button 
-          type="submit" 
-          className="w-full bg-black text-white hover:bg-gray-800" 
+        <Button
+          type="submit"
+          className="w-full bg-black text-white hover:bg-gray-800"
           isLoading={isPending}
           loadingText="Sending message..."
         >

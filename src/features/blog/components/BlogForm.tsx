@@ -198,11 +198,7 @@ export const BlogForm = ({
                         <FormLabel className="text-sm font-medium text-gray-600">Access Type</FormLabel>
                         <div className="flex items-center gap-3">
                           <FormControl>
-                            <CustomSwitch 
-                              checked={field.value} 
-                              onCheckedChange={field.onChange} 
-                              disabled={isPending}
-                            />
+                            <CustomSwitch checked={field.value} onCheckedChange={field.onChange} disabled={isPending} />
                           </FormControl>
                           <div className="flex flex-col">
                             <span className="text-sm font-medium text-gray-700">
@@ -230,10 +226,10 @@ export const BlogForm = ({
           {/* Form Actions */}
           <div className="fixed bottom-0 left-0 right-0 border-t bg-white py-4 shadow-lg">
             <div className="mx-auto flex max-w-[1400px] items-center justify-end gap-4 px-6">
-              <Button 
-                type="button" 
-                variant="ghost" 
-                onClick={handleReset} 
+              <Button
+                type="button"
+                variant="ghost"
+                onClick={handleReset}
                 className="flex items-center gap-2"
                 isLoading={isResetting}
                 loadingText="Resetting..."
@@ -242,12 +238,12 @@ export const BlogForm = ({
                 <Icon name="reset" className="h-4 w-4" />
                 Reset
               </Button>
-              <Button 
-                type="submit" 
-                form="blogForm" 
+              <Button
+                type="submit"
+                form="blogForm"
                 className="px-6"
                 isLoading={isPending}
-                loadingText={isEditing ? "Updating..." : "Creating..."}
+                loadingText={isEditing ? 'Updating...' : 'Creating...'}
               >
                 {isEditing ? 'Update Blog' : 'Create Blog'}
               </Button>

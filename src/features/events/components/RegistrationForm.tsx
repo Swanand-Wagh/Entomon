@@ -86,12 +86,7 @@ export const RegistrationForm = ({
       <>
         <FormError message={unregisterResult.serverError?.toString()} />
         {/* <FormSuccess message={unregisterResult?.data?.success} /> */}
-        <Button 
-          onClick={onUnregisterSubmit} 
-          className="w-full" 
-          isLoading={isUnregistering}
-          loadingText="Processing..."
-        >
+        <Button onClick={onUnregisterSubmit} className="w-full" isLoading={isUnregistering} loadingText="Processing...">
           Unregister from Event
         </Button>
       </>
@@ -123,11 +118,11 @@ export const RegistrationForm = ({
 
           <FormError message={registerResult.serverError?.toString()} />
           <FormSuccess message={registerResult?.data?.success} />
-          <Button 
-            type="submit" 
-            className="w-full" 
+          <Button
+            type="submit"
+            className="w-full"
             isLoading={isRegistering || isProcessing}
-            loadingText={isPaid ? "Processing payment..." : "Registering..."}
+            loadingText={isPaid ? 'Processing payment...' : 'Registering...'}
             disabled={!isAuthenticated || isRegistering || isProcessing || status === 'PAUSED'}
           >
             Attend Event

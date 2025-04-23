@@ -54,12 +54,7 @@ export const ResetForm = () => {
 
         {!isPending && hasErrored && <FormError message={result.serverError?.toString()} />}
         {!isPending && hasSucceeded && <FormSuccess message={result?.data?.success} />}
-        <Button 
-          type="submit" 
-          isLoading={isPending} 
-          loadingText="Sending..." 
-          className="w-full"
-        >
+        <Button type="submit" isLoading={isPending} loadingText="Sending..." className="w-full">
           Send reset email
         </Button>
       </form>

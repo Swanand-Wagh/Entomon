@@ -83,7 +83,13 @@ const PaymentButton = ({ eventSlug, eventId, userId, amount }: PaymentButtonProp
   return (
     <Suspense fallback={<Loading />}>
       <div>
-        <Button className={cn(buttonVariants({ size: 'lg' }))} disabled={isProcessing} onClick={handlePayment}>
+        <Button
+          className={cn(buttonVariants({ size: 'lg' }))}
+          disabled={isProcessing}
+          onClick={handlePayment}
+          isLoading={isProcessing}
+          loadingText="Processing..."
+        >
           {isProcessing ? 'Processing...' : 'Pay Now'}
         </Button>
       </div>
