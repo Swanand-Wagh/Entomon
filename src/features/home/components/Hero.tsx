@@ -7,7 +7,15 @@ export const Hero = () => {
     <section className="relative w-full py-24 md:py-32 lg:py-40">
       {/* Background Image */}
       <div className="absolute inset-0 -z-10">
-        <Image src={heroBg} alt="Beetle background" fill style={{ objectFit: 'cover' }} priority />
+        <Image
+          src={heroBg}
+          alt="Beetle background"
+          fill
+          priority
+          placeholder="blur"
+          quality={85}
+          style={{ objectFit: 'cover' }}
+        />
       </div>
 
       <div className="container px-4 md:px-6">

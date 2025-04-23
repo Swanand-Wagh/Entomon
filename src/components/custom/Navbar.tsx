@@ -21,11 +21,14 @@ import { DropdownNavItem } from './DropdownNavItem';
 import { NavigationMenu, NavigationMenuItem, NavigationMenuList } from '../ui/navigation-menu';
 import logo from '@/assets/entomon-logo.webp';
 
+// Prefetchable routes that are most commonly accessed
+const PREFETCH_ROUTES = ['/events', '/blogs', '/about'];
+
 const DropdownLink = ({ url, name, description }: NavbarOption) => (
   <Link
     href={url}
     className="group grid h-auto w-full items-center justify-start gap-1 rounded-md bg-background p-4 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50"
-    prefetch={false}
+    prefetch={PREFETCH_ROUTES.includes(url) ? true : false}
   >
     <div className="text-sm font-medium leading-none group-hover:underline">{name}</div>
     {description && <div className="line-clamp-2 text-sm leading-snug text-muted-foreground">{description}</div>}
@@ -38,7 +41,7 @@ export const Navbar = async () => {
   return (
     <header className="sticky top-0 z-50 w-full bg-background">
       <div className="container flex h-16 items-center justify-between px-4 md:px-6">
-        <Link href="/" className="flex items-center gap-2" prefetch={false}>
+        <Link href="/" className="flex items-center gap-2" prefetch={true}>
           <Image src={logo} height={47} width={47} alt="Entomon Logo" />
           <span className="text-lg font-semibold">Entomon Institute</span>
         </Link>
@@ -50,7 +53,7 @@ export const Navbar = async () => {
                 return (
                   <NavigationMenuItem key={crypto.randomUUID()}>
                     <Link
-                      prefetch={false}
+                      prefetch={PREFETCH_ROUTES.includes(item.url ?? '') ? true : false}
                       href={item.url ?? ''}
                       className="text-sm font-medium transition-colors hover:text-primary"
                     >
@@ -96,7 +99,7 @@ export const Navbar = async () => {
                   item.type === 'Link' ? (
                     <Link
                       key={item.name}
-                      prefetch={false}
+                      prefetch={PREFETCH_ROUTES.includes(item.url ?? '') ? true : false}
                       href={item.url ?? ''}
                       className="text-lg font-medium transition-colors hover:text-primary"
                     >

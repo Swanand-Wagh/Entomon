@@ -1,16 +1,22 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { getBlogsWithoutContent } from '@/features/blog/server/actions';
 import { BlogListLayout } from '@/features/blog/components/BlogListLayout';
+import { Loading } from '@/components/custom';
 
 export const revalidate = 300;
 
-const BlogsPage = async () => {
+const BlogsContent = async () => {
   const blogs = await getBlogsWithoutContent();
+  return <BlogListLayout data={blogs?.data ?? []} />;
+};
 
+const BlogsPage = () => {
   return (
     <section className="w-full py-10">
       <div className="container gap-8 px-4 md:px-6">
-        <BlogListLayout data={blogs?.data ?? []} />
+        <Suspense fallback={<Loading />}>
+          <BlogsContent />
+        </Suspense>
       </div>
     </section>
   );
