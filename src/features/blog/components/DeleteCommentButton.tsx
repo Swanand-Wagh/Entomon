@@ -33,10 +33,15 @@ interface DeleteButtonProps {
 
 export const DeleteCommentButton: React.FC<Readonly<DeleteButtonProps>> = ({ comment, role }) => {
   const [deleteDialogOpen, setDeleteDialogOpen] = useState<boolean>(false);
-  const { execute } = useAction(role === 'ADMIN' ? deleteBlogCommentAdmin : deleteBlogComment);
+  const { execute, isPending } = useAction(role === 'ADMIN' ? deleteBlogCommentAdmin : deleteBlogComment);
 
   const handleDelete = (id: string): void => {
+    setDeleteDialogOpen(true);
     execute({ blogCommentId: id });
+    // Don't close the dialog immediately so user can see loading state
+    if (!isPending) {
+      setDeleteDialogOpen(false);
+    }
   };
 
   return (
@@ -52,15 +57,24 @@ export const DeleteCommentButton: React.FC<Readonly<DeleteButtonProps>> = ({ com
             </DialogHeader>
             <DialogFooter className="mt-8 grid gap-3 xs:flex xs:flex-row xs:justify-end">
               <DialogClose asChild>
-                <Button onClick={() => setDeleteDialogOpen(false)}>Cancel</Button>
+                <Button onClick={() => setDeleteDialogOpen(false)} disabled={isPending}>
+                  Cancel
+                </Button>
               </DialogClose>
-              <Button variant="destructive" onClick={() => handleDelete(comment.id)}>
+              <Button
+                variant="destructive"
+                onClick={() => handleDelete(comment.id)}
+                isLoading={isPending}
+                loadingText="Deleting..."
+                disabled={isPending}
+              >
                 Delete
               </Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>
       )}
+
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <button>

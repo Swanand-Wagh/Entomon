@@ -38,7 +38,7 @@ export const Comments = ({
   isAuthenticated: boolean;
 }) => {
   const [showMore, setShowMore] = useState(false);
-  const { execute } = useAction(createBlogComment);
+  const { execute, isPending } = useAction(createBlogComment);
 
   const form = useForm<z.infer<typeof createCommentSchema>>({
     resolver: zodResolver(createCommentSchema),
@@ -80,7 +80,13 @@ export const Comments = ({
             )}
           />
 
-          <Button type="submit" className="mt-2" disabled={!isAuthenticated}>
+          <Button
+            type="submit"
+            className="mt-2"
+            isLoading={isPending}
+            disabled={!isAuthenticated || isPending}
+            loadingText="Commenting..."
+          >
             Post Comment
           </Button>
         </form>
