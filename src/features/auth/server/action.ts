@@ -82,11 +82,10 @@ export const loginUser = actionClient.schema(loginSchema).action(async (data) =>
 
 // Apply the same pattern to other auth actions
 export const verifyEmail = actionClient.schema(z.object({ token: z.string() })).action(async (data) => {
-  await withAuthRateLimit(async () => {
+  return await withAuthRateLimit(async () => {
     await authService.verifyEmailVerificationToken(data.parsedInput.token);
     return { success: 'Email verified!' };
   });
-  return { success: 'Email verified!' };
 });
 
 export const sendResetPasswordEmail = actionClient.schema(z.object({ email: emailSchema })).action(async (data) => {
@@ -97,7 +96,7 @@ export const sendResetPasswordEmail = actionClient.schema(z.object({ email: emai
 });
 
 export const resetPassword = actionClient.schema(newPasswordSchema).action(async (data) => {
-  await withAuthRateLimit(async () => {
+  return await withAuthRateLimit(async () => {
     await authService.resetPassword(data.parsedInput);
     return { success: 'Password reset!' };
   });
