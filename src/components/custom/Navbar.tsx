@@ -73,7 +73,7 @@ export const Navbar = async () => {
             })}
           </NavigationMenuList>
 
-          <SearchInput />
+          {/* <SearchInput /> */}
           {user ? <UserNav user={user as User} /> : <ButtonLink url="/auth/login" name="Login/Register" />}
         </NavigationMenu>
 
@@ -128,7 +128,7 @@ export const Navbar = async () => {
                     <ButtonLink key={item.name} name={item.name} url={item.url ?? ''} />
                   ) : null
                 )}
-                <SearchInput />
+                {/* <SearchInput /> */}
               </nav>
             </div>
           </SheetContent>

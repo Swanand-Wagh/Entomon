@@ -123,9 +123,15 @@ export const RegistrationForm = ({
             className="w-full"
             isLoading={isRegistering || isProcessing}
             loadingText={isPaid ? 'Processing payment...' : 'Registering...'}
-            disabled={!isAuthenticated || isRegistering || isProcessing || status === 'PAUSED'}
+            disabled={
+              !isAuthenticated || isRegistering || isProcessing || status === 'PAUSED' || status === 'COMPLETED'
+            }
           >
-            Attend Event
+            {status === 'COMPLETED'
+              ? 'Event Completed'
+              : status === 'PAUSED'
+                ? 'Registrations are Paused'
+                : 'Register for Event'}
           </Button>
         </form>
       </Form>
