@@ -18,7 +18,7 @@ export async function sendContactEmail(data: ContactFormType) {
 
   await resend.emails.send({
     from: domain_email as string,
-    to: "swanandwagh7@gmail.com" as string,
+    to: process.env.ADMIN_EMAIL as string,
     subject: `Contact Form: ${data.name}`,
     html: EmailLayout({
       title: 'New Contact Form Submission',
