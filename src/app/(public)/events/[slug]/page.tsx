@@ -5,6 +5,7 @@ import { Loading } from '@/components/custom';
 import { eventRepo } from '@/features/events/server/repo';
 import { getEventBySlug } from '@/features/events/server/actions';
 import { SingleEvent } from '@/features/events/components/SingleEvent';
+import Script from 'next/script';
 
 export const revalidate = 3600;
 export const dynamicParams = true;
@@ -24,6 +25,8 @@ const ViewEventPage = async ({ params }: { params: Promise<{ slug: string }> }) 
 
   return (
     <>
+      <Script src="https://checkout.razorpay.com/v1/checkout.js" strategy="afterInteractive" />
+
       <Suspense fallback={<Loading />}>
         <SingleEvent data={event.data} />
       </Suspense>

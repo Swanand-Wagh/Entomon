@@ -5,7 +5,6 @@ import { SpeedInsights } from '@vercel/speed-insights/next';
 import { auth } from '@/features/auth/server/next-auth-config';
 import { SessionProvider } from 'next-auth/react';
 
-import Script from 'next/script';
 import { Toaster } from '@/components/ui/toaster';
 import { ToastProvider } from '@/components/ui/toast';
 
@@ -103,7 +102,6 @@ export default async function RootLayout({
           </body>
         </ToastProvider>
       </html>
-      <Script src="https://checkout.razorpay.com/v1/checkout.js" strategy="afterInteractive" />
     </SessionProvider>
   );
 }
