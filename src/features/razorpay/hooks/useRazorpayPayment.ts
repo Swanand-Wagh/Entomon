@@ -38,7 +38,6 @@ export const useRazorpayPayment = ({
       });
 
       const orderData = await res.json();
-      console.log(orderData);
 
       if (res.ok) {
         // Step 2: Initialize Razorpay Checkout
@@ -80,8 +79,6 @@ export const useRazorpayPayment = ({
             eventRegistrationData: JSON.stringify(eventRegistration),
           },
         };
-
-        console.log(options);
 
         const razorpay = new (window as any).Razorpay(options);
         razorpay.open();

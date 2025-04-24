@@ -57,8 +57,6 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    console.log(JSON.stringify(order, null, 2));
-
     return NextResponse.json(order);
   } catch (error: any) {
     return NextResponse.json(
