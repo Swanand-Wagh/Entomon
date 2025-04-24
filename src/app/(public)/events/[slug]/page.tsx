@@ -14,8 +14,8 @@ export async function generateStaticParams() {
   return eventSlugs.map((slug) => ({ slug }));
 }
 
-const ViewEventPage = async ({ params }: { params: { slug: string } }) => {
-  const slug = params.slug;
+const ViewEventPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
+  const slug = (await params).slug;
   const event = await getEventBySlug({ slug });
 
   if (!event?.data) {

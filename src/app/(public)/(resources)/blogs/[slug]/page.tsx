@@ -13,8 +13,8 @@ export async function generateStaticParams() {
   return slugs.map((slug) => ({ slug }));
 }
 
-const ViewBlogPage = async ({ params }: { params: { slug: string } }) => {
-  const slug = params.slug;
+const ViewBlogPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
+  const slug = (await params).slug;
   const blog = await getBlogBySlug({ slug });
 
   if (!blog?.data) {
