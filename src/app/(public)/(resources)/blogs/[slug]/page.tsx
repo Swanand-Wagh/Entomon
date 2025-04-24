@@ -5,7 +5,7 @@ import { blogRepo } from '@/features/blog/server/repo';
 import { SingleBlog } from '@/features/blog/components';
 import { getBlogBySlug } from '@/features/blog/server/actions';
 
-export const revalidate = 300;
+export const revalidate = 3600;
 export const dynamicParams = true;
 
 export async function generateStaticParams() {
@@ -13,8 +13,8 @@ export async function generateStaticParams() {
   return slugs.map((slug) => ({ slug }));
 }
 
-const ViewBlogPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
-  const slug = (await params).slug;
+const ViewBlogPage = async ({ params }: { params: { slug: string } }) => {
+  const slug = params.slug;
   const blog = await getBlogBySlug({ slug });
 
   if (!blog?.data) {

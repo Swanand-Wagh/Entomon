@@ -7,6 +7,10 @@ const nextConfig = {
     optimizePackageImports: ['lucide-react', '@radix-ui/react-icons'],
   },
   reactStrictMode: true,
+  poweredByHeader: false, // Remove the X-Powered-By header for security and reduced response size
+  compress: true, // Enable gzip compression for all HTTP responses
+  // Configure output for better performance
+  output: 'standalone',
   headers: async () => {
     return [
       {
@@ -24,6 +28,25 @@ const nextConfig = {
             key: 'Access-Control-Allow-Headers',
             value: '*',
           },
+        ],
+      },
+      // Add cache control headers for static assets
+      {
+        source: '/assets/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          }
+        ],
+      },
+      {
+        source: '/images/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          }
         ],
       },
     ];

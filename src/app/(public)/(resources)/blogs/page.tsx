@@ -3,7 +3,7 @@ import { getBlogsWithoutContent } from '@/features/blog/server/actions';
 import { BlogListLayout } from '@/features/blog/components/BlogListLayout';
 import { Loading } from '@/components/custom';
 
-export const revalidate = 300;
+export const revalidate = 3600;
 
 const BlogsContent = async () => {
   const blogs = await getBlogsWithoutContent();

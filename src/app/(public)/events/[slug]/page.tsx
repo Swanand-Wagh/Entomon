@@ -6,7 +6,7 @@ import { eventRepo } from '@/features/events/server/repo';
 import { getEventBySlug } from '@/features/events/server/actions';
 import { SingleEvent } from '@/features/events/components/SingleEvent';
 
-export const revalidate = 300;
+export const revalidate = 3600;
 export const dynamicParams = true;
 
 export async function generateStaticParams() {
@@ -14,8 +14,8 @@ export async function generateStaticParams() {
   return eventSlugs.map((slug) => ({ slug }));
 }
 
-const ViewEventPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
-  const slug = (await params).slug;
+const ViewEventPage = async ({ params }: { params: { slug: string } }) => {
+  const slug = params.slug;
   const event = await getEventBySlug({ slug });
 
   if (!event?.data) {

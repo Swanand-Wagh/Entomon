@@ -3,7 +3,7 @@ import { EventListLayout } from '@/features/events/components/EventListLayout';
 import { getEventsByStatus } from '@/features/events/server/actions';
 import { Loading } from '@/components/custom';
 
-export const revalidate = 300;
+export const revalidate = 3600;
 
 const EventsContent = async () => {
   const events = await getEventsByStatus({ status: ['UPCOMING', 'PAUSED'] });

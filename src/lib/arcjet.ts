@@ -13,7 +13,7 @@ const createRateLimitRules = (type: 'auth' | 'email' | 'general') => {
     }),
     detectBot({
       mode: 'LIVE',
-      allow: ['CATEGORY:SEARCH_ENGINE', 'CURL'],
+      allow: ['CATEGORY:SEARCH_ENGINE'],
     }),
   ];
 
