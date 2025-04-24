@@ -1,8 +1,32 @@
 import Image from 'next/image';
+import type { Metadata } from 'next';
 
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { BugIcon } from '@/components/custom';
 import bugImage from '@/assets/hero-img.webp';
+
+export const metadata: Metadata = {
+  title: 'About Us',
+  description:
+    'Learn about the Entomon Institute, our mission, team, and commitment to invertebrate zoology and entomology research.',
+  keywords: ['About Entomon', 'Entomology Research', 'Invertebrate Specialists', 'Entomon Team', 'Entomon Mission'],
+  alternates: {
+    canonical: '/about',
+  },
+  openGraph: {
+    title: 'About Entomon Institute',
+    description:
+      'Dedicated to advancing the understanding of invertebrate life through research, education, and conservation.',
+    url: '/about',
+    type: 'website',
+    images: [
+      {
+        url: '/images/entomon-logo.webp',
+        alt: 'About Entomon Institute',
+      },
+    ],
+  },
+};
 
 export default function AboutPage() {
   const teamMembers = [

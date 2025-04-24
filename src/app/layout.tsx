@@ -15,24 +15,76 @@ import '@/styles/globals.css';
 const plus_jakarta_sans = Plus_Jakarta_Sans({
   subsets: ['latin'],
   preload: true,
-  display: 'swap', // Optimize font loading strategy
+  display: 'swap',
   variable: '--jakartaSans-font',
 });
 
 const inter = Inter({
   subsets: ['latin'],
   preload: true,
-  display: 'swap', // Optimize font loading strategy
+  display: 'swap',
   variable: '--inter-font',
 });
 
 export const metadata: Metadata = {
-  title: 'Entomon Institute of Invertebrates Zoology',
-  description: 'Welcome to Entomon Institute - Igniting Curiosity, Empowering Minds!!!',
-  // Add more metadata to improve SEO
-  metadataBase: new URL('https://entomon-institute.com'),
-  verification: {
-    google: 'google-site-verification=your-code-here', // Add your verification code when you have it
+  title: {
+    default: 'Entomon Institute of Invertebrates Zoology',
+    template: '%s | Entomon Institute',
+  },
+  description:
+    'Welcome to Entomon Institute - Igniting Curiosity, Empowering Minds in the field of Invertebrate Zoology and Entomology',
+  keywords: [
+    'Entomon',
+    'Entomology',
+    'Invertebrate Zoology',
+    'Insects',
+    'Entomon Institute',
+    'Zoology',
+    'Eshaan Pahade',
+  ],
+  authors: [{ name: 'Entomon Institute' }],
+  creator: 'Entomon Institute',
+  metadataBase: new URL('https://www.entomoninstitute.com'),
+  alternates: {
+    canonical: '/',
+  },
+  openGraph: {
+    title: 'Entomon Institute of Invertebrates Zoology',
+    description:
+      'Welcome to Entomon Institute - Igniting Curiosity, Empowering Minds in the field of Invertebrate Zoology and Entomology',
+    url: 'https://www.entomoninstitute.com',
+    siteName: 'Entomon Institute',
+    locale: 'en_US',
+    type: 'website',
+    images: [
+      {
+        url: '/images/entomon-logo.webp',
+        width: 512,
+        height: 512,
+        alt: 'Entomon Institute Logo',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Entomon Institute of Invertebrates Zoology',
+    description: 'Igniting Curiosity, Empowering Minds in the field of Invertebrate Zoology and Entomology',
+    images: ['/images/entomon-logo.webp'],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  viewport: {
+    width: 'device-width',
+    initialScale: 1,
   },
 };
 

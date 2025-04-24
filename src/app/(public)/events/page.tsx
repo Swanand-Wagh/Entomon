@@ -1,7 +1,36 @@
 import React, { Suspense } from 'react';
+import type { Metadata } from 'next';
 import { EventListLayout } from '@/features/events/components/EventListLayout';
 import { getEventsByStatus } from '@/features/events/server/actions';
 import { Loading } from '@/components/custom';
+
+export const metadata: Metadata = {
+  title: 'Events',
+  description: 'Discover upcoming workshops, seminars, field expeditions, and educational events at Entomon Institute.',
+  keywords: [
+    'Entomon Events',
+    'Entomology Workshops',
+    'Invertebrate Zoology Events',
+    'Entomon Seminars',
+    'Entomon Field Expeditions',
+    'Insect Walks',
+  ],
+  alternates: {
+    canonical: '/events',
+  },
+  openGraph: {
+    title: 'Entomon Institute Events',
+    description: 'Workshops, seminars and educational events focused on invertebrate zoology and entomology.',
+    url: '/events',
+    type: 'website',
+    images: [
+      {
+        url: '/images/entomon-logo.webp',
+        alt: 'Entomon Institute Events',
+      },
+    ],
+  },
+};
 
 export const revalidate = 3600;
 

@@ -1,5 +1,31 @@
 import React from 'react';
+import type { Metadata } from 'next';
 import { Navbar, Footer } from '@/components/custom';
+
+export const metadata: Metadata = {
+  title: 'Privacy Policy',
+  description: 'Learn about how Entomon Institute collects, uses, and protects your personal information.',
+  keywords: ['Privacy Policy', 'Entomon Privacy', 'Data Protection', 'Personal Information', 'Cookie Policy'],
+  alternates: {
+    canonical: '/privacy-policy',
+  },
+  openGraph: {
+    title: 'Entomon Institute Privacy Policy',
+    description: 'Our commitment to protecting your personal information and data privacy practices.',
+    url: '/privacy-policy',
+    type: 'website',
+    images: [
+      {
+        url: '/images/entomon-logo.webp',
+        alt: 'Entomon Institute Privacy Policy',
+      },
+    ],
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+};
 
 const PrivacyPolicyPage = () => {
   return (

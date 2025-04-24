@@ -1,7 +1,30 @@
 import React, { Suspense } from 'react';
+import type { Metadata } from 'next';
 import { getBlogsWithoutContent } from '@/features/blog/server/actions';
 import { BlogListLayout } from '@/features/blog/components/BlogListLayout';
 import { Loading } from '@/components/custom';
+
+export const metadata: Metadata = {
+  title: 'Blogs',
+  description:
+    'Explore the latest articles, insights, and research on invertebrate zoology and entomology from Entomon Institute experts.',
+  keywords: ['Entomon Blogs', 'Entomology Articles', 'Invertebrate Research', 'Insect Studies', 'Entomon Publications'],
+  alternates: {
+    canonical: '/blogs',
+  },
+  openGraph: {
+    title: 'Entomon Institute Blogs',
+    description: 'Latest articles and research on invertebrate zoology and entomology from Entomon Institute experts.',
+    url: '/blogs',
+    type: 'website',
+    images: [
+      {
+        url: '/images/entomon-logo.webp',
+        alt: 'Entomon Institute Blogs',
+      },
+    ],
+  },
+};
 
 export const revalidate = 3600;
 
