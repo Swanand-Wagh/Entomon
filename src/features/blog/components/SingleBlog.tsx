@@ -81,7 +81,8 @@ export const SingleBlog = async ({ data }: SingleBlogProps) => {
       <Comments
         blogSlug={data.slug}
         isAuthenticated={!!user}
-        userId={user?.id ?? null}
+        userId={user?.id ?? ''}
+        username={user?.name ?? ''}
         role={user?.role ?? 'USER'}
         comments={comments?.data ?? []}
       />

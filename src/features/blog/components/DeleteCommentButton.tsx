@@ -1,5 +1,4 @@
 'use client';
-
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -29,23 +28,23 @@ import { Comment } from './Comments';
 interface DeleteButtonProps {
   comment: Comment;
   role: 'ADMIN' | 'USER';
+  onDelete?: (id: string) => void; 
 }
 
-export const DeleteCommentButton: React.FC<Readonly<DeleteButtonProps>> = ({ comment, role }) => {
+export const DeleteCommentButton: React.FC<DeleteButtonProps> = ({ comment, role, onDelete }) => {
   const [deleteDialogOpen, setDeleteDialogOpen] = useState<boolean>(false);
-  const { execute, isPending } = useAction(role === 'ADMIN' ? deleteBlogCommentAdmin : deleteBlogComment);
+  const { execute } = useAction(
+    role === 'ADMIN' ? deleteBlogCommentAdmin : deleteBlogComment
+  );
 
   const handleDelete = (id: string): void => {
-    setDeleteDialogOpen(true);
+    onDelete?.(id);
+    setDeleteDialogOpen(false);
     execute({ blogCommentId: id });
-    // Don't close the dialog immediately so user can see loading state
-    if (!isPending) {
-      setDeleteDialogOpen(false);
-    }
   };
 
   return (
-    <React.Fragment>
+    <>
       {deleteDialogOpen && (
         <Dialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
           <DialogContent className="sm:max-w-[425px]">
@@ -57,16 +56,13 @@ export const DeleteCommentButton: React.FC<Readonly<DeleteButtonProps>> = ({ com
             </DialogHeader>
             <DialogFooter className="mt-8 grid gap-3 xs:flex xs:flex-row xs:justify-end">
               <DialogClose asChild>
-                <Button onClick={() => setDeleteDialogOpen(false)} disabled={isPending}>
+                <Button onClick={() => setDeleteDialogOpen(false)}>
                   Cancel
                 </Button>
               </DialogClose>
               <Button
                 variant="destructive"
                 onClick={() => handleDelete(comment.id)}
-                isLoading={isPending}
-                loadingText="Deleting..."
-                disabled={isPending}
               >
                 Delete
               </Button>
@@ -97,6 +93,6 @@ export const DeleteCommentButton: React.FC<Readonly<DeleteButtonProps>> = ({ com
           </DropdownMenuGroup>
         </DropdownMenuContent>
       </DropdownMenu>
-    </React.Fragment>
+    </>
   );
 };
