@@ -27,9 +27,11 @@ const ViewEventPage = async ({ params }: { params: Promise<{ slug: string }> }) 
     <>
       <Script src="https://checkout.razorpay.com/v1/checkout.js" strategy="afterInteractive" />
 
-      <Suspense fallback={<Loading />}>
-        <SingleEvent data={event.data} />
-      </Suspense>
+      <div className="container gap-8 px-4 md:px-6">
+        <Suspense fallback={<Loading />}>
+          <SingleEvent data={event.data} />
+        </Suspense>
+      </div>
     </>
   );
 };
