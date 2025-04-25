@@ -2,7 +2,7 @@ import React, { Suspense } from 'react';
 import type { Metadata } from 'next';
 import { EventListLayout } from '@/features/events/components/EventListLayout';
 import { getEventsByStatus } from '@/features/events/server/actions';
-import { Loading } from '@/components/custom';
+import { CardGridLoading } from '@/components/custom/loading';
 
 export const metadata: Metadata = {
   title: 'Events',
@@ -43,7 +43,7 @@ const EventsPage = () => {
   return (
     <section className="w-full py-10">
       <div className="container gap-8 px-4 md:px-6">
-        <Suspense fallback={<Loading />}>
+        <Suspense fallback={<CardGridLoading />}>
           <EventsContent />
         </Suspense>
       </div>

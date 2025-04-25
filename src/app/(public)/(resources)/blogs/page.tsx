@@ -2,7 +2,7 @@ import React, { Suspense } from 'react';
 import type { Metadata } from 'next';
 import { getBlogsWithoutContent } from '@/features/blog/server/actions';
 import { BlogListLayout } from '@/features/blog/components/BlogListLayout';
-import { Loading } from '@/components/custom';
+import { CardGridLoading } from '@/components/custom/loading';
 
 export const metadata: Metadata = {
   title: 'Blogs',
@@ -37,7 +37,7 @@ const BlogsPage = () => {
   return (
     <section className="w-full py-10">
       <div className="container gap-8 px-4 md:px-6">
-        <Suspense fallback={<Loading />}>
+        <Suspense fallback={<CardGridLoading />}>
           <BlogsContent />
         </Suspense>
       </div>
