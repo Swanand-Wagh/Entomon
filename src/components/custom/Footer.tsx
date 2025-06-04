@@ -8,6 +8,7 @@ export const FOOTER_LINKS = [
   { id: 2, href: '/events', label: 'Events' },
   { id: 3, href: '/blogs', label: 'Resources' },
   { id: 4, href: '/contact', label: 'Contact' },
+  { id: 5, href: '/privacy-policy', label: 'Privacy Policy' },
 ];
 
 export const SOCIAL_LINKS = [
