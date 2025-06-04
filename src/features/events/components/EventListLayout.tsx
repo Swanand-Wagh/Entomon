@@ -1,12 +1,12 @@
 'use client';
 
-import React, { useMemo } from 'react';
-import { EventWithoutDescriptionType } from '../types/event';
-import { useSearchParams } from 'next/navigation';
+import { RenderPagination } from '@/components/custom/RenderPagination';
 import { categoryFilterList, priceFilterList } from '@/constants/filterLists';
 import { FilterList } from '@/features/blog/components/FilterList';
 import { CategoriesFilterList, PriceFilterList } from '@/features/blog/types/blog';
-import { RenderPagination } from '@/components/custom/RenderPagination';
+import { useSearchParams } from 'next/navigation';
+import React, { useMemo } from 'react';
+import { EventWithoutDescriptionType } from '../types/event';
 import { EventList } from './EventList';
 
 type EventListProps = {
@@ -38,23 +38,29 @@ export const EventListLayout = ({ events }: EventListProps) => {
 
   return (
     <React.Fragment>
-      <div className="mb-6 flex items-center justify-between">
-        <h2 className="p-2 text-3xl font-bold tracking-tight">Events</h2>
-        <div className="flex items-center gap-4">
-          <FilterList<Omit<PriceFilterList, 'checked'>>
-            allSelectionText="All Prices"
-            queryKey={PRICE_QUERY_KEY}
-            filterListItems={priceFilterList}
-          />
-          <FilterList<Omit<CategoriesFilterList, 'checked'>>
-            allSelectionText="All Categories"
-            queryKey={CATEGORY_QUERY_KEY}
-            filterListItems={categoryFilterList}
-          />
+      {/* Header with filters */}
+      <div className="mb-8 space-y-4">
+        <div className="flex flex-col space-y-4 lg:flex-row lg:items-center lg:justify-between lg:space-y-0">
+          <h2 className="text-3xl font-bold tracking-tight text-gray-900">Events</h2>
+
+          {/* Filters - responsive layout */}
+          <div className="flex flex-col space-y-3 sm:flex-row sm:space-y-0 sm:space-x-4 lg:space-x-6">
+            <FilterList<Omit<PriceFilterList, 'checked'>>
+              allSelectionText="All Prices"
+              queryKey={PRICE_QUERY_KEY}
+              filterListItems={priceFilterList}
+            />
+            <FilterList<Omit<CategoriesFilterList, 'checked'>>
+              allSelectionText="All Categories"
+              queryKey={CATEGORY_QUERY_KEY}
+              filterListItems={categoryFilterList}
+            />
+          </div>
         </div>
       </div>
+
       <EventList events={filteredEvents ?? []} />
-      <div className="">
+      <div className="mt-8">
         <RenderPagination totalItems={filteredEvents.length} itemsPerPage={ITEMS_PER_PAGE} />
       </div>
     </React.Fragment>

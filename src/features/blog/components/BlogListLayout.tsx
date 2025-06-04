@@ -1,12 +1,12 @@
 'use client';
 
-import React, { useMemo } from 'react';
-import { categoryFilterList, priceFilterList } from '@/constants/filterLists';
-import { BlogDataType, CategoriesFilterList, PriceFilterList } from '../types/blog';
-import { FilterList } from './FilterList';
-import { BlogList } from './BlogList';
-import { useSearchParams } from 'next/navigation';
 import { RenderPagination } from '@/components/custom/RenderPagination';
+import { categoryFilterList, priceFilterList } from '@/constants/filterLists';
+import { useSearchParams } from 'next/navigation';
+import React, { useMemo } from 'react';
+import { BlogDataType, CategoriesFilterList, PriceFilterList } from '../types/blog';
+import { BlogList } from './BlogList';
+import { FilterList } from './FilterList';
 
 type BlogListLayoutProps = {
   data: Array<BlogDataType>;
@@ -31,21 +31,31 @@ export const BlogListLayout: React.FC<Readonly<BlogListLayoutProps>> = ({ data }
 
   return (
     <React.Fragment>
-      <div className="mb-6 flex items-center justify-between">
-        <h2 className="p-2 text-3xl font-bold tracking-tight">Blogs</h2>
-        <div className="flex items-center gap-4">
-          <FilterList<Omit<PriceFilterList, 'checked'>>
-            allSelectionText="All Prices"
-            queryKey={PRICE_QUERY_KEY}
-            filterListItems={priceFilterList}
-          />
-          <FilterList<Omit<CategoriesFilterList, 'checked'>>
-            allSelectionText="All Categories"
-            queryKey={CATEGORY_QUERY_KEY}
-            filterListItems={categoryFilterList}
-          />
+      {/* Mobile responsive header */}
+      <div className="mb-6 space-y-4">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <h2 className="text-3xl font-bold tracking-tight">Blogs</h2>
+
+          {/* Mobile: Stack filters vertically, Desktop: Side by side */}
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4">
+            <div className="w-full sm:w-auto">
+              <FilterList<Omit<PriceFilterList, 'checked'>>
+                allSelectionText="All Prices"
+                queryKey={PRICE_QUERY_KEY}
+                filterListItems={priceFilterList}
+              />
+            </div>
+            <div className="w-full sm:w-auto">
+              <FilterList<Omit<CategoriesFilterList, 'checked'>>
+                allSelectionText="All Categories"
+                queryKey={CATEGORY_QUERY_KEY}
+                filterListItems={categoryFilterList}
+              />
+            </div>
+          </div>
         </div>
       </div>
+
       <BlogList blogs={filteredBlogs ?? []} />
       <div className="">
         <RenderPagination totalItems={filteredBlogs.length} itemsPerPage={ITEMS_PER_PAGE} />
