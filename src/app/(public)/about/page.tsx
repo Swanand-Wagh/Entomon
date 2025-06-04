@@ -44,19 +44,39 @@ export default function AboutPage() {
 
   const faqs = [
     {
-      question: 'What is invertebrate zoology?',
+      question: 'What is entomology, and why is it important?',
       answer:
-        'Invertebrate zoology is the study of animals without backbones, which make up about 97% of all animal species. This includes insects, mollusks, crustaceans, worms, and many other diverse groups.',
+        'Entomology is the scientific study of insects and their relationships to humans, other organisms, and the environment. Insects are vital to ecosystems as pollinators, decomposers, and as a food source for many species. They also play an essential role in agricultural systems, disease transmission, and biodiversity conservation. Understanding insects is key to solving environmental, health, and agricultural challenges.',
     },
     {
-      question: 'Why are invertebrates important?',
+      question: 'What kind of research does the Entomon Institute conduct?',
       answer:
-        'Invertebrates play crucial roles in ecosystems as pollinators, decomposers, and food sources for other animals. They also contribute to soil health, water filtration, and many other ecological processes essential for life on Earth.',
+        'The Entomon Institute specializes in advanced entomological research across various fields, including insect behavior, biodiversity, pest management, and conservation. Our research projects also explore the impact of climate change on insect populations, vector-borne diseases, and the role of insects in ecosystems.',
     },
     {
-      question: 'How can I get involved with the Entomon Institute?',
+      question: 'Do you offer educational programs or workshops?',
       answer:
-        'We offer various opportunities for involvement, including internships, volunteer programs, and citizen science projects. You can also support our work through donations or by attending our public lectures and events.',
+        'Yes! We offer a range of educational programs, including workshops, short courses, and online seminars on various aspects of entomology. These programs are designed for students, researchers, and professionals looking to deepen their understanding of insect science, biodiversity, and sustainable pest management practices.',
+    },
+    {
+      question: 'Can I participate in entomological experiments at the Entomon Institute?',
+      answer:
+        'Yes, we invite collaboration and participation in various entomological experimentation projects. Depending on the nature of the project, we offer opportunities for students, researchers, and industry professionals to get involved, either as volunteers, research assistants, or in partnership with us on applied projects',
+    },
+    {
+      question: 'What types of entomological experiments do you conduct?',
+      answer:
+        'Our experiments cover a wide range of entomological topics, including insect life cycles, behavior studies, genetic research, ecological surveys, pest control methods, and conservation efforts. We also conduct trials on new agricultural treatments to protect crops from pests while minimizing environmental impact.',
+    },
+    {
+      question: 'How can I collaborate with the Entomon Institute on a research project?',
+      answer:
+        'We welcome collaboration with institutions, universities, and industry professionals. If you\'re interested in partnering on research, please reach out through our contact page with your proposal, including a brief description of the project, objectives, and any specific areas where you\'d like to collaborate. Our team will get back to you to discuss the potential for joint research',
+    },
+    {
+      question: 'How can I support the work of the Entomon Institute?',
+      answer:
+        'Your support helps us further our mission in advancing entomological research and education. You can support the Entomon Institute by donating, sponsoring educational programs, or volunteering your time or expertise. Please visit our "Contact Us" page and contact the admin for more information on how you can contribute to our work.',
     },
   ];
 
