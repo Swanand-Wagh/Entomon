@@ -1,8 +1,8 @@
-import React, { Suspense } from 'react';
-import type { Metadata } from 'next';
+import { CardGridLoading } from '@/components/custom/loading';
 import { EventListLayout } from '@/features/events/components/EventListLayout';
 import { getEventsByStatus } from '@/features/events/server/actions';
-import { CardGridLoading } from '@/components/custom/loading';
+import type { Metadata } from 'next';
+import { Suspense } from 'react';
 
 export const metadata: Metadata = {
   title: 'Events',

@@ -1,6 +1,5 @@
-import React from 'react';
+import { Footer, Navbar } from '@/components/custom';
 import type { Metadata } from 'next';
-import { Navbar, Footer } from '@/components/custom';
 
 export const metadata: Metadata = {
   title: 'Privacy Policy',

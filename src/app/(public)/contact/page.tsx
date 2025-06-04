@@ -1,7 +1,6 @@
-import React from 'react';
 import type { Metadata } from 'next';
 
-import { Navbar, Footer } from '@/components/custom';
+import { Footer, Navbar } from '@/components/custom';
 import { Contact } from '@/features/contact/components';
 
 export const metadata: Metadata = {

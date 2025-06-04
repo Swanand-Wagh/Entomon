@@ -1,9 +1,9 @@
-import Image from 'next/image';
 import type { Metadata } from 'next';
+import Image from 'next/image';
 
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import { BugIcon } from '@/components/custom';
 import bugImage from '@/assets/hero-img.webp';
+import { BugIcon } from '@/components/custom';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 
 export const metadata: Metadata = {
   title: 'About Us',

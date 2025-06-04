@@ -1,11 +1,11 @@
-import React, { Suspense } from 'react';
 import type { Metadata } from 'next';
+import { Suspense } from 'react';
 
+import { Footer, Loading, Navbar } from '@/components/custom';
 import { Home } from '@/features/home/components';
-import { Navbar, Footer, Loading } from '@/components/custom';
 
 export const metadata: Metadata = {
-  title: 'Home',
+  title: 'Home | Entomon Institute',
   description: 'Entomon Institute - Discover the Fascinating World of Invertebrate Zoology and Entomology',
   keywords: ['Entomon', 'Home', 'Entomology', 'Invertebrate Zoology', 'Insect Studies'],
   alternates: {

@@ -1,8 +1,8 @@
-import React, { Suspense } from 'react';
-import type { Metadata } from 'next';
-import { getBlogsWithoutContent } from '@/features/blog/server/actions';
-import { BlogListLayout } from '@/features/blog/components/BlogListLayout';
 import { CardGridLoading } from '@/components/custom/loading';
+import { BlogListLayout } from '@/features/blog/components/BlogListLayout';
+import { getBlogsWithoutContent } from '@/features/blog/server/actions';
+import type { Metadata } from 'next';
+import { Suspense } from 'react';
 
 export const metadata: Metadata = {
   title: 'Blogs',
