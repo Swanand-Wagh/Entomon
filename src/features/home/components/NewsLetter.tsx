@@ -1,5 +1,4 @@
 import { Check, Mail } from 'lucide-react';
-import Link from 'next/link';
 import { NewsLetterForm } from './NewsLetterForm';
 
 export const Newsletter = () => {
@@ -13,7 +12,7 @@ export const Newsletter = () => {
       </div>
 
       <div className="container px-4 md:px-6 relative">
-        <div className="mx-auto max-w-4xl">
+        <div className="mx-auto max-w-7xl">
           <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-16 items-center">
 
             {/* Content Side */}
