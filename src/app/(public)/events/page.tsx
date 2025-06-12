@@ -35,7 +35,7 @@ export const metadata: Metadata = {
 export const revalidate = 3600;
 
 const EventsContent = async () => {
-  const events = await getEventsByStatus({ status: ['UPCOMING', 'PAUSED'] });
+  const events = await getEventsByStatus({ status: ['UPCOMING', 'PAUSED', 'COMPLETED'] });
   return <EventListLayout events={events?.data || []} />;
 };
 
