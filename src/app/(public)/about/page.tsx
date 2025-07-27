@@ -166,7 +166,7 @@ export default function AboutPage() {
                   more charismatic vertebrate species.
                 </p>
                 <p>
-                  Dr. Eshaan Pahade, while pursuing his Master's in Entomology, witnessed firsthand the lack
+                  Eshaan Pahade, while pursuing his Master's in Entomology, witnessed firsthand the lack
                   of comprehensive educational resources and field-based learning opportunities in invertebrate
                   zoology. Traditional academic programs, while thorough in theory, often failed to provide
                   the immersive, hands-on experiences that truly ignite passion for these remarkable organisms.
@@ -176,9 +176,9 @@ export default function AboutPage() {
               <div className="space-y-6">
                 <h3 className="text-2xl font-bold text-gray-900">How We Began</h3>
                 <p>
-                  In 2009, what started as informal field trips and workshops among university colleagues
-                  gradually evolved into something much larger. Dr. Pahade, along with his research partner
-                  Mrs. Shreya Pahade, began organizing systematic field expeditions to biodiversity hotspots
+                  In 2014, what started as informal field trips and workshops among university colleagues
+                  gradually evolved into something much larger. Eshaan Pahade, along with his professor
+                  Peeyush Pahade, began organizing systematic field expeditions to biodiversity hotspots
                   across India. These expeditions combined rigorous scientific methodology with educational
                   outreach, creating a unique learning environment that bridged academic research and
                   practical application.
@@ -194,28 +194,36 @@ export default function AboutPage() {
               <div className="space-y-6">
                 <h3 className="text-2xl font-bold text-gray-900">Our Evolution</h3>
                 <p>
-                  Recognizing the growing demand for specialized invertebrate education and research,
-                  the founders formally established the Entomon Institute in 2012. The institute's
-                  mission was clear: to create a comprehensive platform that would advance invertebrate
-                  zoology through innovative research, immersive education, and meaningful conservation efforts.
+                  Recognizing the growing demand for specialized invertebrate education, fieldwork, and
+                  biodiversity services, Eshaan Pahade formally established the Entomon Institute in 2023.
+                  The institute's mission was clear: to create a comprehensive platform that would advance
+                  invertebrate zoology through innovative research, immersive education, biodiversity surveys,
+                  and meaningful conservation efforts.
                 </p>
                 <p>
-                  Over the years, we have evolved from a small group of passionate researchers to a
-                  recognized institution that has trained over 500 students, conducted more than 50
-                  research projects, and contributed significantly to invertebrate conservation efforts
-                  across multiple ecosystems. Our unique approach combining forensic science applications
-                  with traditional entomology has opened new avenues for research and practical applications.
+                  Today, Entomon Institute plays a pivotal role in conducting biodiversity assessments and
+                  ecological surveys for a wide range of clients – from academic institutions and government
+                  bodies to private firms and NGOs. Our work informs conservation planning, environmental
+                  impact assessments, and scientific documentation across varied ecosystems.
+                </p>
+                <p>
+                  We have evolved from a small group of passionate researchers into a recognized institution
+                  that has trained over 500 students, conducted more than 50 research projects, and contributed
+                  significantly to invertebrate conservation efforts. Our unique approach, combining forensic
+                  science applications with traditional entomology, continues to open new avenues for research
+                  and practical implementation.
                 </p>
               </div>
 
               <div className="space-y-6">
                 <h3 className="text-2xl font-bold text-gray-900">Looking Forward</h3>
                 <p>
-                  Today, the Entomon Institute stands as a testament to the power of passionate, dedicated
-                  research and education. We continue to push boundaries, exploring new frontiers in
-                  invertebrate science while maintaining our core commitment to hands-on, experiential
-                  learning. Our story is far from over – it's a continuing journey of discovery, education,
-                  and conservation that grows stronger with each new researcher who joins our mission.
+                  The Entomon Institute stands as a testament to the power of passionate, dedicated research
+                  and education. We continue to push boundaries, exploring new frontiers in invertebrate
+                  science while maintaining our core commitment to hands-on, experiential learning and
+                  field-based biodiversity services. Our story is far from over – it's a continuing journey
+                  of discovery, education, and conservation that grows stronger with each new researcher,
+                  student, and collaborator who joins our mission.
                 </p>
               </div>
             </div>

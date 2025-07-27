@@ -7,7 +7,7 @@ const EVENTS = [
 		title: 'Dnyan Prabodhini Outdoor Excursion',
 		description:
 			'A successful full-day outing for Science Club students exploring Entomology, Botany, and Earth Sciences through nature trails and interactive discussions.',
-		image: 'https://bijlmakers.com/wp-content/uploads/2018/10/potato-beetle-2766872_1920-700x554.jpg',
+		image: '/images/dynaanprabhodini.png',
 		date: '29 Aug 2024',
 		location: 'Chalkewadi, Satara',
 		participants: 'Science Club, Dnyan Prabodhini Pimpri School',
@@ -16,7 +16,7 @@ const EVENTS = [
 		highlights: [
 			'Nature Trails',
 			'Interactive Discussions',
-			'Q&A Sessions',
+			'Fun Q&A Sessions',
 		],
 	},
 	{
@@ -24,7 +24,7 @@ const EVENTS = [
 		title: 'Eco March 2024/25',
 		description:
 			'Nature walks promoting wildlife conservation and sustainable development, bringing together diverse participants from various backgrounds.',
-		image: 'https://bijlmakers.com/wp-content/uploads/2018/10/potato-beetle-2766872_1920-700x554.jpg',
+		image: '/images/ecomarch.png',
 		date: 'Throughout 2024/25',
 		location: 'Pune',
 		participants: 'Kids, IT Professionals, Naturalists, Environmental Enthusiasts',
@@ -42,7 +42,7 @@ const EVENTS = [
 		title: 'Children Special with Green Panther',
 		description:
 			'An exciting insect walk for Green Panther Club members, featuring hands-on learning about insects and wildlife conservation.',
-		image: 'https://bijlmakers.com/wp-content/uploads/2018/10/potato-beetle-2766872_1920-700x554.jpg',
+		image: '/images/greenpanther.png',
 		date: '06 April 2025',
 		location: 'Pune',
 		participants: 'Children with High Curiosity and Interest in Nature',
