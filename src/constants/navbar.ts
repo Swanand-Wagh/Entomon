@@ -8,7 +8,7 @@ export const NAVBAR: NavbarProps[] = [
   },
   {
     name: 'Events',
-    url: '/events',
+    url: '/events?status=all',
     type: 'Link',
   },
   {
