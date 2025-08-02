@@ -7,6 +7,7 @@ import { SessionProvider } from 'next-auth/react';
 
 import { Toaster } from '@/components/ui/toaster';
 import { ToastProvider } from '@/components/ui/toast';
+import { ProgressBar } from '@/components/custom/ProgressBar';
 
 import { Plus_Jakarta_Sans, Inter } from 'next/font/google';
 import '@/styles/globals.css';
@@ -98,6 +99,7 @@ export default async function RootLayout({
             <Analytics />
             <SpeedInsights />
             <Toaster />
+            <ProgressBar />
             {children}
           </body>
         </ToastProvider>
