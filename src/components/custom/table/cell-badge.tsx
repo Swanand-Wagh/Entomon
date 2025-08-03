@@ -24,9 +24,6 @@ const getStatusColor = (status: string) => {
   }
 };
 
-
-
-
   return (
     <div className="flex flex-wrap gap-2">
       <span className={`inline-block rounded-full px-2 py-1 text-xs font-semibold ${getStatusColor(data)}`}>
