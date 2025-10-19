@@ -33,7 +33,7 @@ export default function AboutPage() {
     {
       name: 'Dr. Eshaan Pahade',
       role: 'Director & CEO',
-      image: 'https://api.dicebear.com/9.x/pixel-art/png?seed=EshaanPahade',
+      image: '/images/eshaan.jpg',
       story: 'With a Master\'s degree in Entomology and a Master\'s diploma in Forensic Science, Eshaan combines expertise in insect studies and forensic science. Under his leadership, Entomon Institute fosters innovative research and engages the public in the wonders of insects. Eshaan is also the recipient of the prestigious Davis Peace Project award, recognizing his dedication to science and creating positive societal impact.'
     },
     {
