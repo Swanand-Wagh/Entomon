@@ -96,7 +96,7 @@ export const About = () => {
                   <div className="text-sm text-gray-600">Years Experience</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-3xl font-bold text-gray-900">500+</div>
+                  <div className="text-3xl font-bold text-gray-900">5000+</div>
                   <div className="text-sm text-gray-600">Students Taught</div>
                 </div>
               </div>
