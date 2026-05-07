@@ -39,7 +39,7 @@ export default function AboutPage() {
     {
       name: 'Mrs. Shreya Pahade',
       role: 'Head of Research',
-      image: 'https://api.dicebear.com/9.x/pixel-art/png?seed=ShreyaPahade',
+      image: '/images/shreya-pahade.png',
       story: 'With over a decade of experience in invertebrate research, Shreya brings a wealth of knowledge in field methodology and species identification. Her passion for education and mentorship has shaped countless researchers in the field. She specializes in biodiversity studies and has published extensively on conservation strategies for endangered invertebrate species.'
     },
   ];
