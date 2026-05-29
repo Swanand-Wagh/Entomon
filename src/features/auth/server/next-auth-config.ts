@@ -67,8 +67,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     // Add Role to JWT
     async jwt({ token }) {
       if (!token.sub) return token;
-      const user = await userService.getUserById(token.sub);
-      token.role = user.role;
+      try {
+        const user = await userService.getUserById(token.sub);
+        token.role = user.role;
+      } catch (error) {
+        console.warn('[auth] Could not refresh user role from database:', error);
+      }
       return token;
     },
 

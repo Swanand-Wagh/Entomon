@@ -6,18 +6,26 @@ const globalForPrisma = globalThis as unknown as { prisma: PrismaClient };
 
 export const prisma = globalForPrisma.prisma || new PrismaClient();
 
-await prisma.$runCommandRaw({
-  createIndexes: 'Token',
-  indexes: [
-    {
-      key: {
-        expiresAt: 1,
-      },
-      name: 'expiresAt_ttl_index',
-      expireAfterSeconds: 0,
-    },
-  ],
-});
+async function ensureTokenTTLIndex() {
+  try {
+    await prisma.$runCommandRaw({
+      createIndexes: 'Token',
+      indexes: [
+        {
+          key: {
+            expiresAt: 1,
+          },
+          name: 'expiresAt_ttl_index',
+          expireAfterSeconds: 0,
+        },
+      ],
+    });
+  } catch (error) {
+    console.warn('[prisma] Could not ensure Token TTL index (database may be unavailable):', error);
+  }
+}
+
+void ensureTokenTTLIndex();
 
 // prisma.$extends({
 //   query: {

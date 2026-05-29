@@ -1,9 +1,9 @@
 'use client';
 
 import { RenderPagination } from '@/components/custom/RenderPagination';
-import { categoryFilterList, priceFilterList, statusFilterList } from '@/constants/filterLists';
+import { priceFilterList, statusFilterList } from '@/constants/filterLists';
+import { eventCategories } from '@/constants/event';
 import { FilterList } from '@/features/blog/components/FilterList';
-import { CategoriesFilterList, PriceFilterList } from '@/features/blog/types/blog';
 import { useSearchParams } from 'next/navigation';
 import React, { useMemo } from 'react';
 import { EventWithoutDescriptionType } from '../types/event';
@@ -51,20 +51,20 @@ export const EventListLayout = ({ events }: EventListProps) => {
 
           {/* Filters - responsive layout */}
           <div className="flex flex-col space-y-3 sm:flex-row sm:space-y-0 sm:space-x-4 lg:space-x-6">
-            <FilterList<Omit<CategoriesFilterList, 'checked'>>
+            <FilterList<Omit<(typeof statusFilterList)[number], 'checked'>>
               allSelectionText="All Status"
               queryKey={STATUS_QUERY_KEY}
               filterListItems={statusFilterList}
             />
-            <FilterList<Omit<PriceFilterList, 'checked'>>
+            <FilterList<Omit<(typeof priceFilterList)[number], 'checked'>>
               allSelectionText="All Prices"
               queryKey={PRICE_QUERY_KEY}
               filterListItems={priceFilterList}
             />
-            <FilterList<Omit<CategoriesFilterList, 'checked'>>
+            <FilterList<Omit<(typeof eventCategories)[number], 'checked'>>
               allSelectionText="All Categories"
               queryKey={CATEGORY_QUERY_KEY}
-              filterListItems={categoryFilterList}
+              filterListItems={eventCategories}
             />
           </div>
         </div>

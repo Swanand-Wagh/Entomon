@@ -1,6 +1,9 @@
 import { z } from 'zod';
 import { EventStatus } from '@prisma/client';
 import { phoneSchema } from '@/schema/phone';
+import { eventCategoryValues } from '@/constants/event';
+
+const eventCategorySchema = z.enum(eventCategoryValues);
 
 const getEventByStatusSchema = z.object({
   status: z.array(z.nativeEnum(EventStatus)).min(1, 'At least one status is required'),
@@ -14,7 +17,7 @@ const createEventSchema = z.object({
     .string()
     .min(1)
     .regex(/^\d+(\.\d{1,2})?$/, 'Invalid price format'),
-  categories: z.array(z.string().min(1, { message: 'Category must not be empty.' })),
+  categories: z.array(eventCategorySchema).min(1, { message: 'At least one category is required.' }),
   location: z.string().min(1, 'Location is required'),
   startDate: z.date(),
   endDate: z.date(),
@@ -25,7 +28,7 @@ const updateEventSchema = z.object({
   id: z.string(),
   title: z.string().min(1, 'Title is required').optional(),
   coverImage: z.string().min(1, { message: 'Cover image is required.' }).optional(),
-  categories: z.array(z.string().min(1, { message: 'Category must not be empty.' })).optional(),
+  categories: z.array(eventCategorySchema).min(1, { message: 'At least one category is required.' }).optional(),
   description: z.string().min(10, { message: 'Description is required.' }).optional(),
   price: z
     .string()
