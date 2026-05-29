@@ -40,7 +40,7 @@ export default function AboutPage() {
       name: 'Mrs. Shreya Pahade',
       role: 'Head of Research',
       image: '/images/shreya-pahade.png',
-      story: 'With over a decade of experience in invertebrate research, Shreya brings a wealth of knowledge in field methodology and species identification. Her passion for education and mentorship has shaped countless researchers in the field. She specializes in biodiversity studies and has published extensively on conservation strategies for endangered invertebrate species.'
+      story: 'Having a Master\'s degree in Biochemistry, Shreya contributes to Entomon Institute of Invertebrate Zoology by bringing a scientific perspective to content and outreach initiatives. She manages social media content, supports the coordination of institute activities and events, and contributes to lead generation efforts to strengthen the institute\'s reach and engagement.'
     },
   ];
 
