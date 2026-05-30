@@ -14,6 +14,8 @@ import { createEventSchema } from '../schema/event';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { extensions } from '@/components/custom/editor/extensions';
 
+type CreateEventValues = z.infer<typeof createEventSchema>;
+
 export const EditEvent = ({ data }: { data: EventDataType }) => {
   const router = useRouter();
 
@@ -21,10 +23,11 @@ export const EditEvent = ({ data }: { data: EventDataType }) => {
   const [coverImagePreview, setCoverImagePreview] = useState<string | null>(data.coverImage ?? '');
   const { execute, result, isPending, hasSucceeded } = useAction(updateEvent);
 
-  const form = useForm<z.infer<typeof createEventSchema>>({
+  const form = useForm<CreateEventValues>({
     resolver: zodResolver(createEventSchema),
     defaultValues: {
       ...data,
+      categories: data.categories as CreateEventValues['categories'],
       status: data.status || 'UPCOMING',
     },
   });
@@ -38,7 +41,10 @@ export const EditEvent = ({ data }: { data: EventDataType }) => {
   const handleResetEvent = () => {
     form.clearErrors();
 
-    form.reset(data);
+    form.reset({
+      ...data,
+      categories: data.categories as CreateEventValues['categories'],
+    });
     editor?.commands.setContent(data.description);
     setCoverImagePreview(data.coverImage || null);
   };
