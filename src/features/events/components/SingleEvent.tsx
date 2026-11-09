@@ -3,13 +3,11 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { format } from 'date-fns';
-import { currentUser } from '@/lib/auth';
 import DOMPurify from 'isomorphic-dompurify';
 import { Badge } from '@/components/ui/badge';
 import { EventDataType } from '../types/event';
 import { RegistrationForm } from './RegistrationForm';
 import { CalendarIcon, MapPinIcon, TagIcon, UserIcon } from 'lucide-react';
-import { getEventRegistrationByUserId } from '../server/actions';
 
 type SingleEventProps = {
   data: EventDataType;
@@ -39,11 +37,7 @@ const getPriceTextColor = (price: string) => {
   return 'text-yellow-700';
 };
 
-export const SingleEvent = async ({ data }: SingleEventProps) => {
-  const user = await currentUser();
-  const userRegistrations = user ? await getEventRegistrationByUserId({ userId: user.id }) : null;
-  const isRegistered = userRegistrations?.data?.some((registration) => registration.eventId === data.id);
-
+export const SingleEvent = ({ data }: SingleEventProps) => {
   if (!data) {
     return (
       <div className="mx-auto max-w-3xl px-4 py-8 text-center">
@@ -141,12 +135,7 @@ export const SingleEvent = async ({ data }: SingleEventProps) => {
                 Attend This Event
               </div>
               <div className="my-4 h-[1px] w-full bg-gray-100"></div>
-              <RegistrationForm
-                userId={user?.id ?? ''}
-                isAuthenticated={!!user}
-                isRegistered={!!isRegistered}
-                eventData={data}
-              />
+              <RegistrationForm eventData={{ id: data.id, slug: data.slug, price: data.price, status: data.status }} />
             </div>
           </div>
         </div>

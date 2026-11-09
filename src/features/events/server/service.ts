@@ -128,8 +128,8 @@ async function getEventRegistrationsByEventId(slug: string): Promise<EventRegist
   return await eventRepo.getEventRegistrationsByEventId(event.id);
 }
 
-async function getEventRegistrationByUserId(userId: string): Promise<EventRegistration[]> {
-  return await eventRepo.getEventRegistrationByUserId(userId);
+async function getCurrentEventRegistration(userId: string, eventId: string): Promise<boolean> {
+  return (await eventRepo.getEventRegistrationByEventIdAndUserId(eventId, userId)) !== null;
 }
 
 async function getEntireEventRegistrationByUserId(userId: string): Promise<EventDetails[]> {
@@ -160,6 +160,6 @@ export const eventService = {
   registerUserForEvent,
   deleteEventRegistration,
   getEventRegistrationsByEventId,
-  getEventRegistrationByUserId,
+  getCurrentEventRegistration,
   getEntireEventRegistrationByUserId,
 };

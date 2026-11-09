@@ -1,6 +1,7 @@
 import { CardGridLoading } from '@/components/custom/loading';
 import { BlogListLayout } from '@/features/blog/components/BlogListLayout';
 import { getBlogsWithoutContent } from '@/features/blog/server/actions';
+import { publicBlogMedia } from '@/lib/public-media';
 import type { Metadata } from 'next';
 import { Suspense } from 'react';
 
@@ -30,7 +31,7 @@ export const revalidate = 3600;
 
 const BlogsContent = async () => {
   const blogs = await getBlogsWithoutContent();
-  return <BlogListLayout data={blogs?.data ?? []} />;
+  return <BlogListLayout data={(blogs?.data ?? []).map(publicBlogMedia)} />;
 };
 
 const BlogsPage = () => {

@@ -2,7 +2,6 @@ import React from 'react';
 
 import Image from 'next/image';
 import { Comments } from './Comments';
-import { currentUser } from '@/lib/auth';
 import DOMPurify from 'isomorphic-dompurify';
 import { Badge } from '@/components/ui/badge';
 import { getAllBlogComments } from '../server/actions';
@@ -15,7 +14,6 @@ type SingleBlogProps = {
 };
 
 export const SingleBlog = async ({ data }: SingleBlogProps) => {
-  const user = await currentUser();
   const comments = await getAllBlogComments({ slug: data.slug });
 
   if (!data) {
@@ -80,10 +78,6 @@ export const SingleBlog = async ({ data }: SingleBlogProps) => {
       <div className="prose mb-12 max-w-none" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(data.content) }} />
       <Comments
         blogSlug={data.slug}
-        isAuthenticated={!!user}
-        userId={user?.id ?? ''}
-        username={user?.name ?? ''}
-        role={user?.role ?? 'USER'}
         comments={comments?.data ?? []}
       />
     </article>

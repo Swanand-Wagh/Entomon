@@ -4,6 +4,7 @@ import { Loading } from '@/components/custom';
 import { blogRepo } from '@/features/blog/server/repo';
 import { SingleBlog } from '@/features/blog/components';
 import { getBlogBySlug } from '@/features/blog/server/actions';
+import { publicBlogMedia } from '@/lib/public-media';
 
 export const revalidate = 3600;
 export const dynamicParams = true;
@@ -24,7 +25,7 @@ const ViewBlogPage = async ({ params }: { params: Promise<{ slug: string }> }) =
   return (
     <div className="container gap-8 px-4 md:px-6">
       <Suspense fallback={<Loading />}>
-        <SingleBlog data={blog?.data} />
+        <SingleBlog data={publicBlogMedia(blog.data)} />
       </Suspense>
     </div>
   );

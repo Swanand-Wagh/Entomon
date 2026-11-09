@@ -2,6 +2,7 @@ import { ChevronLeft } from 'lucide-react';
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
+import { Suspense } from 'react';
 
 export const metadata: Metadata = {
   title: 'Auth',
@@ -55,7 +56,9 @@ export default function AuthLayout({ children }: { readonly children: React.Reac
         </span>
         <span>Home</span>
       </Link>
-      {children}
+      <Suspense fallback={<div className="flex items-center justify-center" role="status">Loading authentication...</div>}>
+        {children}
+      </Suspense>
       <div className="hidden bg-muted lg:block">
         <Image
           alt="Image"

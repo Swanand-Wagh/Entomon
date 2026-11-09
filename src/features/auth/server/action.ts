@@ -2,15 +2,14 @@
 
 import { z } from 'zod';
 import { authService } from './service';
-import { revalidatePath } from 'next/cache';
 import { ErrorResponse } from '@/types/errors';
 import { emailSchema } from '@/constants/email';
-import { signIn, signOut } from './next-auth-config';
+import { signIn } from './next-auth-config';
 import { DEFAULT_LOGIN_REDIRECT } from '@/lib/routes';
 import { userRepo } from '@/features/users/server/repo';
 import { userService } from '@/features/users/server/service';
 import { sendTwoFactorEmail, sendVerificationEmail } from './mail';
-import { actionClient, authActionClient } from '@/lib/action-clients';
+import { actionClient } from '@/lib/action-clients';
 import { loginSchema, newPasswordSchema, registerSchema } from '../schema/auth';
 import { withAuthRateLimit, withEmailRateLimit } from '@/lib/arcjet';
 
@@ -100,10 +99,4 @@ export const resetPassword = actionClient.schema(newPasswordSchema).action(async
     await authService.resetPassword(data.parsedInput);
     return { success: 'Password reset!' };
   });
-});
-
-export const logout = authActionClient.action(async () => {
-  await signOut();
-  revalidatePath('/', 'layout');
-  return { success: 'Password reset!' };
 });
