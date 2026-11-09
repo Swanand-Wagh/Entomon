@@ -1,7 +1,7 @@
 import Link from 'next/link';
 
 import { LogoutButton } from '@/features/auth/components/LogoutButton';
-import { User } from '@prisma/client';
+import type { Session } from 'next-auth';
 import initials from 'initials';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -17,7 +17,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
-export const UserNav = ({ user }: { user: User }) => {
+export const UserNav = ({ user }: { user: Pick<Session['user'], 'name' | 'email' | 'image' | 'role'> }) => {
   const userNavItems = [
     { href: `/${user.role.toLowerCase()}/dashboard`, label: 'Dashboard', shortcut: '⌘P' },
     { href: `/${user.role.toLowerCase()}/settings`, label: 'Settings', shortcut: '⌘S' },

@@ -6,6 +6,9 @@ import { revalidatePath } from 'next/cache';
 import { actionClient, authActionClient } from '@/lib/action-clients';
 import { blogSchema, updateBlogSchema, createCommentSchema } from '../schema/blog';
 
+// Layout cache tags use the filesystem route, including route groups.
+const PUBLIC_BLOG_LAYOUT = '/(public)/(resources)/blogs';
+
 export const getBlogsWithoutContent = actionClient.action(async () => {
   return await blogService.getBlogsWithoutContent();
 });
@@ -37,6 +40,7 @@ export const createBlog = authActionClient
   .action(async (data) => {
     let sessionUser = data.ctx.session.user;
     await blogService.createBlog(sessionUser.id, sessionUser.name, data.parsedInput);
+    revalidatePath(PUBLIC_BLOG_LAYOUT, 'layout');
     return { success: 'Blog created successfully' };
   });
 
@@ -48,6 +52,7 @@ export const updateBlog = authActionClient
   .action(async (data) => {
     let sessionUser = data.ctx.session.user;
     await blogService.updateBlog(sessionUser.id, data.parsedInput);
+    revalidatePath(PUBLIC_BLOG_LAYOUT, 'layout');
     return { success: 'Blog updated successfully' };
   });
 
@@ -64,6 +69,7 @@ export const deleteBlog = authActionClient
     let sessionUser = data.ctx.session.user;
     await blogService.deleteBlog(sessionUser.id, data.parsedInput.slug);
     revalidatePath('/user/blogs');
+    revalidatePath(PUBLIC_BLOG_LAYOUT, 'layout');
     return { success: 'Blog deleted successfully' };
   });
 
@@ -79,6 +85,7 @@ export const deleteBlogAdmin = authActionClient
   .action(async (data) => {
     await blogService.deleteBlogAdmin(data.parsedInput.slug);
     revalidatePath('/admin/blogs');
+    revalidatePath(PUBLIC_BLOG_LAYOUT, 'layout');
     return { success: 'Blog deleted successfully' };
   });
 
@@ -102,7 +109,7 @@ export const createBlogComment = authActionClient
   .action(async (data) => {
     let sessionUser = data.ctx.session.user;
     await blogService.createBlogComment(sessionUser.id, data.parsedInput);
-    revalidatePath('/blogs/[slug]');
+    revalidatePath(`/blogs/${data.parsedInput.blogSlug}`);
     return { success: 'Blog comment created successfully' };
   });
 
@@ -118,7 +125,7 @@ export const deleteBlogComment = authActionClient
   .action(async (data) => {
     let sessionUser = data.ctx.session.user;
     await blogService.deleteBlogComment(sessionUser.id, data.parsedInput.blogCommentId);
-    revalidatePath('/blogs/[slug]');
+    revalidatePath(PUBLIC_BLOG_LAYOUT, 'layout');
     return { success: 'Blog comment deleted successfully' };
   });
 
@@ -133,6 +140,6 @@ export const deleteBlogCommentAdmin = authActionClient
   )
   .action(async (data) => {
     await blogService.deleteBlogCommentAdmin(data.parsedInput.blogCommentId);
-    revalidatePath('/blogs/[slug]');
+    revalidatePath(PUBLIC_BLOG_LAYOUT, 'layout');
     return { success: 'Blog comment deleted successfully' };
   });

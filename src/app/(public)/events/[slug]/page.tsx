@@ -6,6 +6,7 @@ import { eventRepo } from '@/features/events/server/repo';
 import { getEventBySlug } from '@/features/events/server/actions';
 import { SingleEvent } from '@/features/events/components/SingleEvent';
 import Script from 'next/script';
+import { publicEventMedia } from '@/lib/public-media';
 
 export const revalidate = 3600;
 export const dynamicParams = true;
@@ -29,7 +30,7 @@ const ViewEventPage = async ({ params }: { params: Promise<{ slug: string }> }) 
 
       <div className="container gap-8 px-4 md:px-6">
         <Suspense fallback={<Loading />}>
-          <SingleEvent data={event.data} />
+          <SingleEvent data={publicEventMedia(event.data)} />
         </Suspense>
       </div>
     </>

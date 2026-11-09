@@ -1,6 +1,7 @@
 import { CardGridLoading } from '@/components/custom/loading';
 import { EventListLayout } from '@/features/events/components/EventListLayout';
 import { getEventsByStatus } from '@/features/events/server/actions';
+import { publicEventMedia } from '@/lib/public-media';
 import type { Metadata } from 'next';
 import { Suspense } from 'react';
 
@@ -36,7 +37,7 @@ export const revalidate = 3600;
 
 const EventsContent = async () => {
   const events = await getEventsByStatus({ status: ['UPCOMING', 'PAUSED', 'COMPLETED'] });
-  return <EventListLayout events={events?.data || []} />;
+  return <EventListLayout events={(events?.data ?? []).map(publicEventMedia)} />;
 };
 
 const EventsPage = () => {

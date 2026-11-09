@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { z } from 'zod';
 import { format } from 'date-fns';
+import { useSession } from 'next-auth/react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import initials from 'initials';
@@ -24,20 +25,17 @@ export type Comment = {
 };
 
 export const Comments = ({
-  role,
-  userId,
   comments,
   blogSlug,
-  username,
-  isAuthenticated,
 }: {
-  userId: string;
-  username: string;
   blogSlug: string;
-  role: 'USER' | 'ADMIN';
   comments: Comment[];
-  isAuthenticated: boolean;
 }) => {
+  const { data: session, status } = useSession();
+  const user = session?.user;
+  const isAuthenticated = status === 'authenticated';
+  const userId = user?.id;
+  const role = user?.role ?? 'USER';
   const [localComments, setLocalComments] = useState<Comment[]>(comments);
   const { execute: createExecute, isPending: isCreating } = useAction(createBlogComment);
   
@@ -51,16 +49,17 @@ export const Comments = ({
   });
 
   const onSubmit = async (values: z.infer<typeof createCommentSchema>) => {
+    if (!isAuthenticated || !user) return;
     form.clearErrors();
     setIsPosting(true);
     
     const tempId = `temp-${Date.now()}`;
     const optimisticComment: Comment = {
       id: tempId,
-      author: username,       
+      author: user.name,
       content: values.content,
       createdAt: new Date(),
-      userId: userId!,
+      userId: user.id,
     };
 
     setLocalComments(prev => [optimisticComment, ...prev]);
@@ -104,9 +103,9 @@ export const Comments = ({
           <Button
             type="submit"
             className="mt-2"
-            isLoading={isPosting}
-            disabled={!isAuthenticated || isPosting}
-            loadingText="Commenting..."
+            isLoading={status === 'loading' || isPosting || isCreating}
+            disabled={!isAuthenticated || isPosting || isCreating}
+            loadingText={status === 'loading' ? 'Loading account...' : 'Commenting...'}
           >
             Post Comment
           </Button>
@@ -128,7 +127,7 @@ export const Comments = ({
                       {format(comment.createdAt, 'dd MMM yyyy')}
                     </span>
                   </div>
-                  {(comment.userId === userId || role === 'ADMIN') && (
+                  {isAuthenticated && (comment.userId === userId || role === 'ADMIN') && (
                     <DeleteCommentButton comment={comment} role={role} onDelete={handleDeleteOptimistic} />
                   )}
                 </div>

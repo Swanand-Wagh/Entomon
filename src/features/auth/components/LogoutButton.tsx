@@ -1,17 +1,14 @@
 'use client';
 
-import { useAction } from 'next-safe-action/hooks';
-import { logout } from '../server/action';
+import { signOut } from 'next-auth/react';
 
 type LoginButtonProps = {
   children?: React.ReactNode;
 };
 
 export const LogoutButton = ({ children }: LoginButtonProps) => {
-  const { execute } = useAction(logout);
-
   const onClicked = () => {
-    execute();
+    void signOut({ callbackUrl: '/' });
   };
 
   return (

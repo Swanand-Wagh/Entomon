@@ -1,19 +1,15 @@
-'use server';
-
 import Image from 'next/image';
 import Link from 'next/link';
 
 import { Icon } from '@/constants/icons';
 import { NAVBAR } from '@/constants/navbar';
 import { NavbarOption } from '@/types/navbar';
-import { User } from '@prisma/client';
-import { UserNav } from './UserNav';
+import { NavbarAuth } from './NavbarAuth';
 
 import logo from '@/assets/entomon-logo.webp';
 import { Button } from '@/components/ui/button';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { Sheet, SheetContent, SheetDescription, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
-import { currentUser } from '@/lib/auth';
 import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
 import { NavigationMenu, NavigationMenuItem, NavigationMenuList } from '../ui/navigation-menu';
 import { DropdownNavItem } from './DropdownNavItem';
@@ -32,9 +28,7 @@ const DropdownLink = ({ url, name, description }: NavbarOption) => (
   </Link>
 );
 
-export const Navbar = async () => {
-  const user = await currentUser();
-
+export const Navbar = () => {
   return (
     <header className="sticky top-0 z-50 w-full bg-white border-b border-gray-200 shadow-sm backdrop-blur-sm">
       <div className="container flex h-20 items-center justify-between px-4 md:px-6">
@@ -80,16 +74,7 @@ export const Navbar = async () => {
             })}
           </NavigationMenuList>
 
-          {user ? (
-            <UserNav user={user as User} />
-          ) : (
-            <Link
-              href="/auth/login"
-              className="inline-flex items-center justify-center rounded-lg bg-gray-900 px-6 py-2.5 text-sm font-semibold text-white shadow-lg transition-all duration-200 hover:bg-gray-800 hover:shadow-xl hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-500 focus-visible:ring-offset-2"
-            >
-              Login / Register
-            </Link>
-          )}
+          <NavbarAuth />
         </NavigationMenu>
 
         {/* Mobile Menu Button */}
@@ -168,16 +153,7 @@ export const Navbar = async () => {
 
               {/* Mobile Auth Section */}
               <div className="border-t border-gray-200 pt-6">
-                {user ? (
-                  <UserNav user={user as User} />
-                ) : (
-                  <Link
-                    href="/auth/login"
-                    className="block rounded-lg bg-gray-900 p-3 text-center text-base font-semibold text-white transition-all duration-200 hover:bg-gray-800"
-                  >
-                    Login / Register
-                  </Link>
-                )}
+                <NavbarAuth mobile />
               </div>
             </div>
           </SheetContent>

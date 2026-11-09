@@ -61,7 +61,7 @@ const providersConfig = {
   ],
 } satisfies NextAuthConfig;
 
-export const { handlers, signIn, signOut, auth } = NextAuth({
+export const { handlers, signIn, auth } = NextAuth({
   session: { strategy: 'jwt' },
   callbacks: {
     // Add Role to JWT

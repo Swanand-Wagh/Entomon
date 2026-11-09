@@ -129,13 +129,6 @@ async function getEventRegistrationsByEventId(eventId: string): Promise<EventReg
   });
 }
 
-async function getEventRegistrationByUserId(userId: string): Promise<EventRegistration[]> {
-  return await prisma.eventRegistration.findMany({
-    where: {
-      userId,
-    },
-  });
-}
 
 async function getEventRegistrationByEventIdAndUserId(
   eventId: string,
@@ -214,7 +207,6 @@ export const eventRepo = {
   registerUserForEvent,
   deleteEventRegistration,
   getEventRegistrationsByEventId,
-  getEventRegistrationByUserId,
-  getEntireEventRegistrationByUserId,
   getEventRegistrationByEventIdAndUserId,
+  getEntireEventRegistrationByUserId,
 };
