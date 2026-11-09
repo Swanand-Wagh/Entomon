@@ -2,7 +2,7 @@
 
 ## Local development
 
-Use Node.js 22.6+ and Yarn Classic. MongoDB must run as a replica set.
+Use Node.js 22.x (22.6 or newer) and Yarn Classic. Select Node 22 before running Yarn if your global Node version is newer. MongoDB must run as a replica set.
 
 ```sh
 yarn install --frozen-lockfile
@@ -60,6 +60,36 @@ Verification included:
 - Session-scoped registration lookup rejects guests and ignores a supplied different user identity.
 
 Native screen capture was unavailable; UI evidence came from the actual Brave DOM, interactions, image loading, and database/HTTP outcomes. Live CDN behavior, external sign-in/email providers, and paid checkout were not exercised. Existing payment-endpoint trust in client identity/amount is outside this transfer fix.
+
+## Critical dependency remediation
+
+The security update covers all ten critical Dependabot alerts reported on the default branch:
+
+| Alerts | Patched dependency |
+| --- | --- |
+| #229, #211, #210, #209, #208, #29 | Next.js 15.5.29 |
+| #169, #165 | NextAuth 5.0.0-beta.32 |
+| #166 | Auth.js core 0.41.3, shared by NextAuth and Prisma adapter 2.11.3 |
+| #16 | form-data 4.0.6 |
+
+Sharp is explicitly pinned to 0.35.5: Next's optional dependency range still permits an older Sharp line, while the SVG image advisory requires at least 0.35.5. The lockfile includes patched Linux/glibc and musl binaries. `eslint-config-next` matches Next 15.5.29.
+
+The `form-data` resolution updates both Razorpay/Axios and jsdom's transitive copies without upgrading those unrelated parent APIs. Both copies resolve to the same patched version. The Node 22 engine requirement is aligned with `Dockerfile`'s `node:22-alpine` base.
+
+Verification:
+
+- Every resolved affected version was compared against all ten advisory ranges; none matched.
+- `yarn audit --json` reported **zero critical findings**. Its exit status remains nonzero for remaining high/moderate/low findings; this is not a full dependency-security clearance.
+- Six native tests and a full production build passed.
+- The new multipart regression reproduced an injected `admin` field on form-data 4.0.1. With 4.0.6, the real multipart parser preserves the submitted value and creates no injected field.
+- The Auth.js wrapper with an intentionally invalid provider configuration did not authenticate the request. Real credential callbacks, user/admin session roles, wrong-password rejection, and sign-out passed against disposable local MongoDB.
+- Public HTML/RSC caching, authenticated route isolation, server-action cache invalidation, and the existing Brave session/registration/logout flows passed.
+- Next's image optimizer processed PNG and AVIF inputs and retained its default SVG prohibition.
+- A clean frozen-lockfile install in Linux x64/glibc passed native Sharp AVIF decoding, JWT encryption/decryption, and the multipart-injection smoke. The pinned Alpine image's Node/Yarn versions were checked; the full application Docker image was not built.
+
+Jose can emit Edge compression API warnings, but those APIs require compressed `zip: DEF` tokens; ordinary Auth.js session tokens do not use compression. Middleware remains on Edge, and its normal JWT routing was exercised. The existing lint warnings and external-provider/paid-checkout limits above remain.
+
+Dependabot tracks `main`: pushing a feature-branch fix does not close those default-branch alerts until the fixes are merged. Alerts were not dismissed, and production remains unchanged.
 
 ## Review and deployment safety
 
