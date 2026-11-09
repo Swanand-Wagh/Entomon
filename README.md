@@ -97,4 +97,31 @@ Independent media/cache and authentication-lifecycle code reviews found no block
 
 `vercel.json` disables automatic Git deployments only for `fix/origin-transfer-caching`. Other branches, including `main`, keep their normal deployment behavior. Pushing the feature branch is separate from merging or deploying production.
 
-The personal Vercel quota pause is unchanged. No production merge/deployment, billing change, production data write, or cache purge was performed.
+The transfer and security fixes were pushed directly to `main` with explicit authorization. At the November 8, 2026 audit, Vercel still reported `Account is blocked.` and the last successful production deployment remained on `3a21bdb`. No new production deployment, billing change, production data write, or cache purge was performed.
+
+## India-first Vercel settings audit
+
+Verified in the existing authenticated personal workspace on November 8, 2026:
+
+| Setting | Decision |
+| --- | --- |
+| Function region | Keep the existing Mumbai (`bom1`) region. Hobby supports one function region. |
+| Compute/runtime | Keep Fluid Compute enabled, standard CPU, and Node 22.x. |
+| Preview protection | Keep Vercel authentication for previews and generated production deployment URLs. |
+| Bot Protection | Enabled in **Log** mode, not Challenge. It does not block requests or reduce transfer by itself. |
+| AI bots | Log AI Crawlers; leave the AI Assistants category disabled/allowed. No crawler denial or country blocking. |
+| CDN | Keep caches intact; no dashboard routing overrides or external rewrite caching are needed by this app. |
+
+The live firewall configuration was read back as version 2 with no pending draft, custom rules, or IP blocks. The UI confirmed crawler logging and allowed assistants. Browser/training/search user-agent probes still returned the account's existing `402 DEPLOYMENT_DISABLED`, with no mitigation header. These probes do not simulate verified bot source IPs or establish live page performance.
+
+Crawler denial was not enabled: Vercel warns it can reduce AI search/citation visibility. Observe logs before considering stronger rules. Blanket non-browser challenges also need payment-webhook and external-provider verification first. No paid WAF ruleset, drain, or analytics upgrade was enabled.
+
+Vercel's CDN already serves cached assets near visitors; changing function geography does not reduce the number of bytes counted toward Fast Origin Transfer. The database region is not exposed by this project's Vercel storage/integration settings and was not changed.
+
+After the pause ends on December 4, deploy the current `main` and verify real public HTML/RSC cache hits, immutable media caching, and private-route isolation before attributing production savings to the local measurements above. Current cache-hit and real-user performance views have no usable data in their selected time ranges. Monitor **Fast Origin Transfer for the whole workspace**, not just visitor-facing Fast Data Transfer. An Entomon target around 250 MB/day leaves headroom within a 10 GB, 30-day allowance; traffic growth can still exceed it.
+
+Hobby usage notifications are automatic. Custom notification thresholds and project alerts require Pro and were not purchased. Cache purges cannot reverse already-consumed transfer and create new cold misses.
+
+The existing apex-to-`www` 308 redirect is correct. Vercel additionally recommends updating the Squarespace-managed DNS zone to `A @ 216.198.79.1` and `CNAME www 437fad1136826e7c.vercel-dns-017.com.`. Its UI explicitly says the current legacy records still work. DNS was not changed; this recommendation is separate from the origin-transfer quota.
+
+References: [function regions](https://vercel.com/docs/functions/configuring-functions/region), [CDN usage](https://vercel.com/docs/manage-cdn-usage), [bot management](https://vercel.com/docs/bot-management), and [usage notifications](https://vercel.com/docs/notifications).
